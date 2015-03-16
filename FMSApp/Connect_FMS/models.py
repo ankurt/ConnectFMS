@@ -7,7 +7,6 @@ class User(models.Model):
     email = models.CharField(max_length=100)
     role = models.CharField(max_length=15)
 
-
 class Post(models.Model):
     user = models.ForeignKey(User)
     location = models.ForeignKey(Location)
@@ -15,7 +14,7 @@ class Post(models.Model):
     votes = models.IntegerField(default=0)
     description = models.CharField(max_length=200)
     status = models.Boolean(default=False)
-    utility = models.CharField(default='electricty')
+    utility = models.ForeignKey(Utility)
 
 class Location(models.Model):
     name = models.CharField(max_length=100)
@@ -24,6 +23,8 @@ class Location(models.Model):
     # latitude = models.IntegerField(defaul=0)
     # latitude = models.IntegerField(default=0)
 
+class Utility(models.Model):
+    name = models.CharField(max_length=30)
 
 class Comment(models.Model):
     user = models.ForeignKey(User)
@@ -34,5 +35,6 @@ class Comment(models.Model):
 class Building(models.Model):
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=300)
+
 
 
