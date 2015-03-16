@@ -32,5 +32,7 @@ class Comment(models.Model):
 
 
 class Building(models.Model):
+    name = models.CharField(max_length=50)
+    address = models.CharField(max_length=300)
 
 
