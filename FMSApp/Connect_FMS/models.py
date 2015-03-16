@@ -13,7 +13,6 @@ class Post(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     votes = models.IntegerField(default=0)
     description = models.CharField(max_length=200)
-    status = models.Boolean(default=False)
     utility = models.ForeignKey(Utility)
 
 class Location(models.Model):
@@ -30,11 +29,36 @@ class Comment(models.Model):
     user = models.ForeignKey(User)
     description = models.CharField(max_length=600)
     datetime = models.DateTimeField(auto_now_add=True)
-
+    type_of_post = models.CharField(max_length=50)
+    id_of_post = models.
 
 class Building(models.Model):
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=300)
 
+class Response(models.Model):
+    post = models.ForeignKey(Post)
+    status = models.ForeignKey(Status)
+    status_level = models.IntegerField(default=0)
+    datetime = models.DateTimeField(auto_now_add=True)
+
+class Status(models.Model):
+    user = models.ForeignKey(User)
+    description = models.CharField(max_length=600)
+    image = models.CharField(max_length=900)
+    datetime = models.DateTimeField(auto_now_add=True)
 
 
+def up_vote(post):
+    post.votes+= 1
+    return
+
+def down_vote(post):
+    if(post.votes > 0):
+        post.votes-= 5
+    return
+
+def determine_status(post):
+    if(post.votes > 50)
+        
+    return
