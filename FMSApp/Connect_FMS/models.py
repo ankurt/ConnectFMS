@@ -1,14 +1,17 @@
 from django.db import models
 
 class User(models.Model):
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published')
+    andrewid = models.CharField(max_length=20)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.CharField(max_length=100)
+    role = models.CharField(max_length=15)
 
 
 class Post(models.Model):
-    user_id = models.ForeignKey(User)
-    location_id = models.ForeignKey(Location)
-    datetime = models.DateTimeField('date published')
+    user = models.ForeignKey(User)
+    location = models.ForeignKey(Location)
+    datetime = models.DateTimeField(auto_now_add=True)
     votes = models.IntegerField(default=0)
     description = models.CharField(max_length=200)
     status = models.Boolean(default=False)
@@ -23,6 +26,10 @@ class Location(models.Model):
 
 
 class Comment(models.Model):
+    user = models.ForeignKey(User)
+    description = models.CharField(max_length=600)
+    datetime = models.DateTimeField(auto_now_add=True)
+
 
 class Building(models.Model):
 
