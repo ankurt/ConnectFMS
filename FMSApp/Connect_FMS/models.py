@@ -1,4 +1,6 @@
 from django.db import models
+from datetime import datetime
+from datetime import timedelta
 
 class User(models.Model):
     andrewid = models.CharField(max_length=20)
@@ -14,6 +16,8 @@ class Post(models.Model):
     votes = models.IntegerField(default=0)
     description = models.CharField(max_length=200)
     utility = models.ForeignKey(Utility)
+    image = models.CharField(max_length=200)
+    title = models.CharField(max_length=50)
 
 class Location(models.Model):
     name = models.CharField(max_length=100)
@@ -29,8 +33,8 @@ class Comment(models.Model):
     user = models.ForeignKey(User)
     description = models.CharField(max_length=600)
     datetime = models.DateTimeField(auto_now_add=True)
-    type_of_post = models.CharField(max_length=50)
-    id_of_post = models.
+    # type_of_post = models.CharField(max_length=50)
+    # type_of_post = models.ForeignKey
 
 class Building(models.Model):
     name = models.CharField(max_length=50)
@@ -47,6 +51,7 @@ class Status(models.Model):
     description = models.CharField(max_length=600)
     image = models.CharField(max_length=900)
     datetime = models.DateTimeField(auto_now_add=True)
+    utility = models.ForeignKey(Utility)
 
 
 def up_vote(post):
@@ -60,5 +65,5 @@ def down_vote(post):
 
 def determine_status(post):
     if(post.votes > 50)
-        
+
     return
