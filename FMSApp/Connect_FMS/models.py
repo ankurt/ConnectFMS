@@ -1,6 +1,5 @@
 from django.db import models
-from datetime import datetime
-from datetime import timedelta
+from 
 
 class User(models.Model):
     andrewid = models.CharField(max_length=20)
@@ -54,16 +53,16 @@ class Status(models.Model):
     utility = models.ForeignKey(Utility)
 
 
-def up_vote(post):
-    post.votes+= 1
-    return
+# def up_vote(post):
+#     post.votes+= 1
+#     return
 
-def down_vote(post):
-    if(post.votes > 0):
-        post.votes-= 5
-    return
+# def down_vote(post):
+#     if(post.votes > 0):
+#         post.votes-= 5
+#     return
 
-def determine_status(post):
-    if(post.votes > 50)
+# def determine_status(post):
+#     if(post.votes > 50)
 
-    return
+#     return
