@@ -63,8 +63,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, '../Connect_FMS/fms_db.sql'),
         'USERNAME': 'admin',
         'PASSWORD': 'admin',
-        'HOST': '127.0.0.1',
-        'PORT' : '5000',
+        #'HOST': '127.0.0.1',
+        #'PORT' : '5000',
     }
 }
 

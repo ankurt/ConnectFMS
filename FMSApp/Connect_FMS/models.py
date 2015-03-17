@@ -1,5 +1,4 @@
 from django.db import models
-from 
 
 class User(models.Model):
     andrewid = models.CharField(max_length=20)
@@ -8,15 +7,9 @@ class User(models.Model):
     email = models.CharField(max_length=100)
     role = models.CharField(max_length=15)
 
-class Post(models.Model):
-    user = models.ForeignKey(User)
-    location = models.ForeignKey(Location)
-    datetime = models.DateTimeField(auto_now_add=True)
-    votes = models.IntegerField(default=0)
-    description = models.CharField(max_length=200)
-    utility = models.ForeignKey(Utility)
-    image = models.CharField(max_length=200)
-    title = models.CharField(max_length=50)
+class Building(models.Model):
+    name = models.CharField(max_length=50)
+    address = models.CharField(max_length=300)
 
 class Location(models.Model):
     name = models.CharField(max_length=100)
@@ -28,22 +21,15 @@ class Location(models.Model):
 class Utility(models.Model):
     name = models.CharField(max_length=30)
 
-class Comment(models.Model):
+class Post(models.Model):
     user = models.ForeignKey(User)
-    description = models.CharField(max_length=600)
+    location = models.ForeignKey(Location)
     datetime = models.DateTimeField(auto_now_add=True)
-    # type_of_post = models.CharField(max_length=50)
-    # type_of_post = models.ForeignKey
-
-class Building(models.Model):
-    name = models.CharField(max_length=50)
-    address = models.CharField(max_length=300)
-
-class Response(models.Model):
-    post = models.ForeignKey(Post)
-    status = models.ForeignKey(Status)
-    status_level = models.IntegerField(default=0)
-    datetime = models.DateTimeField(auto_now_add=True)
+    votes = models.IntegerField(default=0)
+    description = models.CharField(max_length=200)
+    utility = models.ForeignKey(Utility)
+    image = models.CharField(max_length=200)
+    title = models.CharField(max_length=50)
 
 class Status(models.Model):
     user = models.ForeignKey(User)
@@ -51,6 +37,19 @@ class Status(models.Model):
     image = models.CharField(max_length=900)
     datetime = models.DateTimeField(auto_now_add=True)
     utility = models.ForeignKey(Utility)
+
+class Response(models.Model):
+    post = models.ForeignKey(Post)
+    status = models.ForeignKey(Status)
+    status_level = models.IntegerField(default=0)
+    datetime = models.DateTimeField(auto_now_add=True)
+
+class Comment(models.Model):
+    user = models.ForeignKey(User)
+    description = models.CharField(max_length=600)
+    datetime = models.DateTimeField(auto_now_add=True)
+    # type_of_post = models.CharField(max_length=50)
+    # type_of_post = models.ForeignKey
 
 
 # def up_vote(post):
