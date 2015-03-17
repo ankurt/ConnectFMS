@@ -59,8 +59,10 @@ WSGI_APPLICATION = 'FMSApp.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.path.join(BASE_DIR, '../Connect_FMS/FMSdb.sql'),
+        # 'USERNAME': 'postgres'
+        # 'PASSWORD': ''
         # 'PASSWORD': 'wewillneedthis',
         # 'USER': 'wewillneedthis',
         # 'PORT':''
