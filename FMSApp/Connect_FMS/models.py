@@ -39,7 +39,20 @@ class User(models.Model):
         default = 'student')
 
     def __str__(self):
-        return self.first_name + self.last_name
+        return self.andrewid 
+
+    def full_name(self):
+        return '%s %s' % (self.first_name, self.last_name)
+
+    class Meta:
+        ordering = ["last_name", "first_name"]
+
+class UserQuerySet(models.QuerySet):
+    def fms(self):
+        return self.filter(role='fms')
+
+    def students(self):
+        return self.filter(role='student')
 
 
 class Building(models.Model):
@@ -53,6 +66,12 @@ class Building(models.Model):
 
     def __str__(self):
         return self.name
+
+    def full_address(self):
+        return '%s, %s, %s' % (self.street_1, self.state, self.zipcode)
+
+    class Meta:
+        ordering = ["name"]
 
 
 class Location(models.Model):
@@ -69,6 +88,10 @@ class Location(models.Model):
         if self.building != None: 
             return self.building.name + self.name
 
+    # 
+    class Meta:
+        ordering = ["building.name", "name"]
+
 
 class Utility(models.Model):
     name = models.CharField(max_length=30)
@@ -76,7 +99,8 @@ class Utility(models.Model):
     def __str__(self):
         return self.name
 
-    # def alphabetize():
+    class Meta:
+        ordering = ["name"]
 
 class Post(models.Model):
     user = models.ForeignKey(User)
@@ -87,19 +111,12 @@ class Post(models.Model):
     utility = models.ForeignKey(Utility)
     image = models.ImageField(upload_to = 'images/posts/', null = True, enctype = "multipart/form-data")
 
-    # title = models.CharField(
-    #     max_length = 50,
-    #     required = True))
+    class Meta:
+        ordering = ["-created_at", "votes"]
 
-    # def __str__(self):
-    #     return self.title
-
-    # def order_by():
-
-    # def fms_posts(post):
-    # if(post.votes > 50)
-
-    # return
+    class UserQuerySet(models.QuerySet):
+    def fmsPosts(self):
+        return self.filter(votes__gte=10).order_by('-created_at', 'votes')
 
 
 class Status(models.Model):
@@ -112,16 +129,11 @@ class Status(models.Model):
     datetime = models.DateTimeField(auto_now_add = True)
     utility = models.ForeignKey(Utility)
     likes = models.IntegerField(default = 0)
-    # title = models.CharField(
-    #     max_length = 50,
-    #     required = True))
 
-    # def __str__(self):
-    #     return self.title
+    class Meta:
+        ordering = ["-created_at", "likes"]
 
-    # def order_by():
-
-    # def up_like(status):
+    # def like(status):
     #     status.likes+= 1
     #     status.save(update_fields=["likes"])
     # return
@@ -131,7 +143,7 @@ class Response(models.Model):
     post = models.ForeignKey(Post)
     status = models.ForeignKey(Status)
     status_level = models.IntegerField(default=0)
-    datetime = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Comment(models.Model):
@@ -140,6 +152,9 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     # type_of_post = models.CharField(max_length=50)
     # type_of_post_id = models.ForeignKey
+
+    class Meta:
+        ordering = ["created_at"]
 
 
 

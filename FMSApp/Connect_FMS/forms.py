@@ -55,10 +55,3 @@ class CommentForm(forms.Form):
     class Meta:
         model = Status
         exlude('created_at', 'user')
-
-
-
-
-
-
-
