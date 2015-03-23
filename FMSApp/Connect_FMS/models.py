@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
+import datetime
+
 
 ROLE_CHOICES = (
     ('admin', 'Administrator'), 
@@ -74,6 +76,8 @@ class Utility(models.Model):
     def __str__(self):
         return self.name
 
+    # def alphabetize():
+
 class Post(models.Model):
     user = models.ForeignKey(User)
     location = models.ForeignKey(Location)
@@ -90,17 +94,9 @@ class Post(models.Model):
     # def __str__(self):
     #     return self.title
 
-    # def up_vote(post):
-    #     post.votes+= 1
-    #     post.save(update_fields=["votes"])
-    # return
+    # def order_by():
 
-    # def down_vote(post):
-    #     post.votes-= 2
-    #     post.save(update_fields=["votes"])
-    # return
-
-    # def determine_status(post):
+    # def fms_posts(post):
     # if(post.votes > 50)
 
     # return
@@ -122,6 +118,8 @@ class Status(models.Model):
 
     # def __str__(self):
     #     return self.title
+
+    # def order_by():
 
     # def up_like(status):
     #     status.likes+= 1
