@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 
 import datetime
 
@@ -23,18 +24,18 @@ STATUS_CHOICES = (
     (3, 'resolved')
     )
 
-STATE_CHOICES = (('AL', 'Alabama'), ('AK', 'Alaska'), ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'), ('CO', 'Colorado'), ('CT', 'Connectict'), ('DE', 'Delaware'), ('DC', 'District of Columbia '), ('FL', 'Florida'), ('GA', 'Georgia'), ('HI', 'Hawaii'), ('ID', 'Idaho'), ('IL', 'Illinois'), ('IN', 'Indiana'), ('IA', 'Iowa'), ('KS', 'Kansas'), ('KY', 'Kentucky'), ('LA', 'Louisiana'), ('ME', 'Maine'), ('MD', 'Maryland'), ('MA', 'Massachusetts'), ('MI', 'Michigan'), ('MN', 'Minnesota'), ('MS', 'Mississippi'), ('MO', 'Missouri'), ('MT', 'Montana'), ('NE', 'Nebraska'), ('NV', 'Nevada'), ('NH', 'New Hampshire'), ('NJ', 'New Jersey'), ('NM', 'New Mexico'), ('NY', 'New York'), ('NC', 'North Carolina'), ('ND', 'North Dakota'), ('OH', 'Ohio'), ('OK', 'Oklahoma'), ('OR', 'Oregon'), ('PA', 'Pennsylvania'), ('RI', 'Rhode Island'), ('SC', 'South Carolina'), ('SD', 'South Dakota'), ('TN', 'Tennessee'), ('TX', 'Texas'), ('UT', 'Utah'), ('VT', 'Vermont'), ('VA', 'Virginia'), ('WA', 'Washington'), ('WV', 'West Virginia'), ('WI', 'Wisconsin '), ('WY', 'Wyoming'))
+STATES_CHOICES = (('AL', 'Alabama'), ('AK', 'Alaska'), ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'), ('CO', 'Colorado'), ('CT', 'Connectict'), ('DE', 'Delaware'), ('DC', 'District of Columbia '), ('FL', 'Florida'), ('GA', 'Georgia'), ('HI', 'Hawaii'), ('ID', 'Idaho'), ('IL', 'Illinois'), ('IN', 'Indiana'), ('IA', 'Iowa'), ('KS', 'Kansas'), ('KY', 'Kentucky'), ('LA', 'Louisiana'), ('ME', 'Maine'), ('MD', 'Maryland'), ('MA', 'Massachusetts'), ('MI', 'Michigan'), ('MN', 'Minnesota'), ('MS', 'Mississippi'), ('MO', 'Missouri'), ('MT', 'Montana'), ('NE', 'Nebraska'), ('NV', 'Nevada'), ('NH', 'New Hampshire'), ('NJ', 'New Jersey'), ('NM', 'New Mexico'), ('NY', 'New York'), ('NC', 'North Carolina'), ('ND', 'North Dakota'), ('OH', 'Ohio'), ('OK', 'Oklahoma'), ('OR', 'Oregon'), ('PA', 'Pennsylvania'), ('RI', 'Rhode Island'), ('SC', 'South Carolina'), ('SD', 'South Dakota'), ('TN', 'Tennessee'), ('TX', 'Texas'), ('UT', 'Utah'), ('VT', 'Vermont'), ('VA', 'Virginia'), ('WA', 'Washington'), ('WV', 'West Virginia'), ('WI', 'Wisconsin '), ('WY', 'Wyoming'))
 
 
 class User(models.Model):
-    andrewid = models.CharField(max_length = 20, required = True)
-    first_name = models.CharField(max_length = 50, required = True)
-    last_name = models.CharField(max_length = 50, required = True)
-    email = models.emailField(max_length = 100, required = True)
+    andrewid = models.CharField(max_length = 20, blank = False)
+    first_name = models.CharField(max_length = 50, blank = False)
+    last_name = models.CharField(max_length = 50, blank = False)
+    email = models.EmailField(max_length = 100, blank = False)
 
     role = models.CharField(
         max_length = 15, 
-        required = True, 
+        blank = False, 
         choices = ROLE_CHOICES,
         default = 'student')
 
@@ -56,13 +57,13 @@ class UserQuerySet(models.QuerySet):
 
 
 class Building(models.Model):
-    name = models.CharField(max_length = 50, required = True)
+    name = models.CharField(max_length = 50, blank = False)
     street_1 = models.CharField(max_length=300, blank = True)
     zipcode = models.CharField(
         max_length = 300,
-        required = True,
+        blank = False,
         validators = [RegexValidator(r'^[0-9]{5}$', "Only digits 0-9 are allowed", "Invalid zipcode")])
-    state = models.CharField(max_length = 2, choices = states_choices, default = 'PA')
+    state = models.CharField(max_length = 2, choices = STATES_CHOICES, default = 'PA')
 
     def __str__(self):
         return self.name
@@ -75,8 +76,8 @@ class Building(models.Model):
 
 
 class Location(models.Model):
-    name = models.CharField(max_length = 100, required = True)
-    building = models.ForeignKey(Building, required = False)
+    name = models.CharField(max_length = 100, blank = False)
+    building = models.ForeignKey(Building, blank = False)
     description = models.CharField(max_length=600, blank = True)
     # latitude = models.IntegerField(default=0)
     # latitude = models.IntegerField(default=0)
@@ -88,9 +89,9 @@ class Location(models.Model):
         if self.building != None: 
             return self.building.name + self.name
 
-    # 
-    class Meta:
-        ordering = ["building.name", "name"]
+    # # 
+    # class Meta:
+    #     ordering = ["building.name", "name"]
 
 
 class Utility(models.Model):
@@ -107,9 +108,9 @@ class Post(models.Model):
     location = models.ForeignKey(Location)
     created_at = models.DateTimeField(auto_now_add = True)
     votes = models.IntegerField(default = 0)
-    description = models.CharField(max_length = 200, required = True)
+    description = models.CharField(max_length = 200, blank = False)
     utility = models.ForeignKey(Utility)
-    image = models.ImageField(upload_to = 'images/posts/', null = True, enctype = "multipart/form-data")
+    image = models.ImageField(upload_to = 'images/posts/', null = True)
 
     class Meta:
         ordering = ["-created_at", "votes"]
@@ -123,9 +124,9 @@ class Status(models.Model):
     user = models.ForeignKey(User)
     description = models.CharField(
         max_length = 600,
-        required = True)
+        blank = False)
     created_at = models.DateTimeField(auto_now_add = True)
-    image = models.ImageField(upload_to = 'images/statuses/', blank = True, enctype = "multipart/form-data")
+    image = models.ImageField(upload_to = 'images/statuses/', blank = True)
     datetime = models.DateTimeField(auto_now_add = True)
     utility = models.ForeignKey(Utility)
     likes = models.IntegerField(default = 0)
