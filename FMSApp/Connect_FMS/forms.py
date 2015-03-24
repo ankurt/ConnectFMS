@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.forms import ModelChoiceField
 
-from .models import User, Building, Location, Utility, Post
+from .models import User, Building, Location, Utility, Post, Status, Comment
 
 
 class UserForm(ModelForm):
