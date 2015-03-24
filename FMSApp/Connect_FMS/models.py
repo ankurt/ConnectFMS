@@ -107,7 +107,7 @@ class Post(models.Model):
     location = models.ForeignKey(Location)
     created_at = models.DateTimeField(auto_now_add = True)
     votes = models.IntegerField(default = 0)
-    description = models.CharField(max_length = 200, required = True))
+    description = models.CharField(max_length = 200, required = True)
     utility = models.ForeignKey(Utility)
     image = models.ImageField(upload_to = 'images/posts/', null = True, enctype = "multipart/form-data")
 
@@ -115,8 +115,8 @@ class Post(models.Model):
         ordering = ["-created_at", "votes"]
 
     class UserQuerySet(models.QuerySet):
-    def fmsPosts(self):
-        return self.filter(votes__gte=10).order_by('-created_at', 'votes')
+        def fmsPosts(self):
+            return self.filter(votes__gte=10).order_by('-created_at', 'votes')
 
 
 class Status(models.Model):
