@@ -106,7 +106,7 @@ class Utility(models.Model):
 class Post(models.Model):
     user = models.ForeignKey(User)
     location = models.ForeignKey(Location)
-    created_at = models.DateTimeField(auto_now_add = True)
+    created_at = models.DateTimeField(auto_now_add = True, editable = False)
     votes = models.IntegerField(default = 0)
     description = models.CharField(max_length = 200, blank = False)
     utility = models.ForeignKey(Utility)
@@ -125,9 +125,9 @@ class Status(models.Model):
     description = models.CharField(
         max_length = 600,
         blank = False)
-    created_at = models.DateTimeField(auto_now_add = True)
+    created_at = models.DateTimeField(auto_now_add = True, editable = False)
     image = models.ImageField(upload_to = 'images/statuses/', blank = True)
-    datetime = models.DateTimeField(auto_now_add = True)
+    datetime = models.DateTimeField(auto_now_add = True, editable = False)
     utility = models.ForeignKey(Utility)
     likes = models.IntegerField(default = 0)
 
@@ -144,13 +144,13 @@ class Response(models.Model):
     post = models.ForeignKey(Post)
     status = models.ForeignKey(Status)
     status_level = models.IntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, editable = False)
 
 
 class Comment(models.Model):
     user = models.ForeignKey(User)
     description = models.CharField(max_length=600)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, editable = False)
     # type_of_post = models.CharField(max_length=50)
     # type_of_post_id = models.ForeignKey
 
