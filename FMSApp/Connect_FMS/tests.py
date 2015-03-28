@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 
-from .models import User, Building, Location
+from .models import User, Building, Location, Utility
 
 # def create_question(question_text, days):
 # 	time = timezone.now() + datetime.timedelta(days=days)
@@ -96,8 +96,29 @@ class LocationModelTests(TestCase):
 		location = Location.objects.create(name = "222", building = building)
 		self.assertEqual(location.full_location_name(), "Porter Hall 222")
 
-# class PostModelTests(TestCase):
-# 	pass
+	def test_ordering_of_locations(self):
+		pass
+
+
+class UtilityModelTests(TestCase):
+	
+	def test_string_representation(self):
+		utility = Utility.objects.create(name = "Water")
+		self.assertEqual(str(utility), utility.name)
+
+	def test_ordering_of_utilities(self):
+		utility = Utility.objects.create(name = "Water")
+		utility = Utility.objects.create(name = "Lights")
+		utility = Utility.objects.create(name = "Heating systems")
+		utility = Utility.objects.create(name = "Cooling systems")
+		results = Utility.objects.all()
+		self.assertEqual('Cooling systems', results[0].name)
+		self.assertEqual('Heating systems', results[1].name)
+		self.assertEqual('Lights', results[2].name)
+		self.assertEqual('Water', results[3].name)
+
+
+	
 
 
 # def createUser(andrewid, firstname, lastname, email, role):

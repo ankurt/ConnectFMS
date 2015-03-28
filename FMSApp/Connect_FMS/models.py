@@ -11,13 +11,6 @@ ROLE_CHOICES = (
     ('fms', 'FMS')
     )
 
-UTILITY_CHOICES = (
-    ('water', 'Water'),
-    ('light', 'Lights'),
-    ('electricity', 'Electricity'),
-    ('other', 'Other')
-    )
-
 STATUS_CHOICES = (
     (1, 'not resolved'), 
     (2, 'in progress'),
@@ -108,6 +101,7 @@ class Utility(models.Model):
     class Meta:
         ordering = ["name"]
 
+
 class Post(models.Model):
     user = models.ForeignKey(User)
     location = models.ForeignKey(Location)
@@ -146,16 +140,19 @@ class Status(models.Model):
 
 
 class Response(models.Model):
-    post = models.ForeignKey(Post)
-    status = models.ForeignKey(Status)
-    status_level = models.IntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True, editable = False)
+    post = models.ForeignKey(Post, null = True, blank = True)
+    status = models.ForeignKey(Status, null = True, blank = True)
+    status_level = models.IntegerField(
+        blank = True,
+        choices = STATUS_CHOICES,
+        default = 1)
+    created_at = models.DateTimeField(auto_now_add = True, editable = False)
 
 
 class Comment(models.Model):
     user = models.ForeignKey(User)
-    description = models.CharField(max_length=600)
-    created_at = models.DateTimeField(auto_now_add=True, editable = False)
+    description = models.CharField(max_length = 600)
+    created_at = models.DateTimeField(auto_now_add = True, editable = False)
     # type_of_post = models.CharField(max_length=50)
     # type_of_post_id = models.ForeignKey
 
