@@ -124,7 +124,7 @@ class Post(models.Model):
     FMS_posts = FMSPostManager() # posts for FMS to view
 
     class Meta:
-        ordering = ["-created_at", "votes"]
+        ordering = ["-created_at", "-votes"]
 
 
 class Status(models.Model):

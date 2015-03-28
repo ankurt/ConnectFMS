@@ -6,11 +6,7 @@ from django.utils import timezone
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 
-from .models import User, Building, Location, Utility
-
-# def create_question(question_text, days):
-# 	time = timezone.now() + datetime.timedelta(days=days)
-# 	return Question.objects.create(question_text = question_text, pub_date=time)
+from .models import User, Building, Location, Utility, Post
 
 
 class UserModelTests(TestCase):
@@ -82,10 +78,10 @@ class BuildingModelTests(TestCase):
 		building3 = Building.objects.create(name = "Gates-Hillman Center")
 		building4 = Building.objects.create(name = "CUC")
 		results = Building.objects.all()
-		self.assertEqual('Baker Hall', results[0].name)
-		self.assertEqual('CUC', results[1].name)
-		self.assertEqual('Gates-Hillman Center', results[2].name)
-		self.assertEqual('Porter Hall', results[3].name)
+		self.assertEqual(results[0].name, 'Baker Hall')
+		self.assertEqual(results[1].name, 'CUC')
+		self.assertEqual(results[2].name, 'Gates-Hillman Center')
+		self.assertEqual(results[3].name, 'Porter Hall')
 
 
 class LocationModelTests(TestCase):
@@ -118,16 +114,48 @@ class UtilityModelTests(TestCase):
 		utility2 = Utility.objects.create(name = "Lights")
 		utility3 = Utility.objects.create(name = "Heating systems")
 		utility4 = Utility.objects.create(name = "Cooling systems")
+		utility5 = Utility.objects.create(name = "Electricity")
 		results = Utility.objects.all()
-		self.assertEqual('Cooling systems', results[0].name)
-		self.assertEqual('Heating systems', results[1].name)
-		self.assertEqual('Lights', results[2].name)
-		self.assertEqual('Water', results[3].name)
+		self.assertEqual(results[0].name, 'Cooling systems')
+		self.assertEqual(results[1].name, 'Electricity')
+		self.assertEqual(results[2].name, 'Heating systems')
+		self.assertEqual(results[3].name, 'Lights')
+		self.assertEqual(results[4].name, 'Water')
 
 
-# class PostModelTests(TestCase):
+class PostModelTests(TestCase):
 
-# 	def test_ordering_of_posts(self):
-# 		utility = Utility.objects.create(name = "Water")
+	def test_ordering_of_posts(self):
+		utility = Utility.objects.create(name = "Water")
+		building = Building.objects.create(name = "Porter Hall")
+		location = Location.objects.create(name = "222", building = building)
+		user1 = User.objects.create(andrewid = "kndu", first_name = "Katherine", last_name = "Du")
+		user2 = User.objects.create(andrewid = "slanand", first_name = "Swathi", last_name = "Anand")
+		user3 = User.objects.create(andrewid = "rdonegan", first_name = "Ryan", last_name = "Donegan")
+		post1 = Post.objects.create(user = user1, utility = utility, location = location, votes = 2)
+		post2 = Post.objects.create(user = user2, utility = utility, location = location)
+		post3 = Post.objects.create(user = user2, utility = utility, location = location, votes = 4)
+		results = Post.objects.all()
+		self.assertEqual(results[0].votes, 4)
+		self.assertEqual(results[1].votes, 0)
+		self.assertEqual(results[2].votes, 2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
