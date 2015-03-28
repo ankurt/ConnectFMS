@@ -105,6 +105,7 @@ class Utility(models.Model):
 
     class Meta:
         ordering = ["name"]
+        verbose_name_plural = "utilities"
 
 
 class FMSPostManager(models.Manager):

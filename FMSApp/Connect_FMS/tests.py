@@ -109,6 +109,9 @@ class UtilityModelTests(TestCase):
 		utility = Utility.objects.create(name = "Water")
 		self.assertEqual(str(utility), utility.name)
 
+	def test_verbose_name_plural(self):
+		self.assertEqual(str(Utility._meta.verbose_name_plural), "utilities")
+
 	def test_ordering_of_utilities(self):
 		utility1 = Utility.objects.create(name = "Water")
 		utility2 = Utility.objects.create(name = "Lights")
@@ -141,11 +144,22 @@ class PostModelTests(TestCase):
 		self.assertEqual(results[2].votes, 2)
 
 
+class FormValidation(TestCase):
 
+	def test_user_form(self):
+		pass
 
+	def test_building_form(self):
+		pass
 
+	def test_location_form(self):
+		pass
 
+	def test_utility_form(self):
+		pass
 
+	def test_post_form(self):
+		pass
 
 
 
