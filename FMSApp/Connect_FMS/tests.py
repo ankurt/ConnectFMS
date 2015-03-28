@@ -23,9 +23,9 @@ class UserModelTests(TestCase):
 		user1 = User.objects.create(andrewid = "kndu")
 		user2 = User.objects.create(andrewid = "slanand", role = "fms")
 		user3 = User.objects.create(andrewid = "rdonegan", role = "admin")
-		self.assertEqual('student', user1.role)
-		self.assertEqual('fms', user2.role)
-		self.assertEqual('admin', user3.role)
+		self.assertEqual(user1.role, 'student')
+		self.assertEqual(user2.role, 'fms')
+		self.assertEqual(user3.role, 'admin')
 
 	def test_ordering_of_users(self):
 		user1 = User.objects.create(andrewid = "kndu", first_name = "Katherine", last_name = "Du")
@@ -33,29 +33,36 @@ class UserModelTests(TestCase):
 		user3 = User.objects.create(andrewid = "rdonegan", first_name = "Ryan", last_name = "Donegan")
 		user3 = User.objects.create(andrewid = "adonegan", first_name = "Allison", last_name = "Donegan")
 		results = User.objects.all()
-		self.assertEqual('Swathi', results[0].first_name)
-		self.assertEqual('Katherine', results[3].first_name)
-		self.assertEqual('Allison', results[1].first_name)
-		self.assertEqual('Ryan', results[2].first_name)
+		self.assertEqual(results[0].first_name, 'Swathi')
+		self.assertEqual(results[3].first_name, 'Katherine')
+		self.assertEqual(results[1].first_name, 'Allison')
+		self.assertEqual(results[2].first_name, 'Ryan')
 
 	def test_full_name_function(self):
 		user1 = User.objects.create(andrewid = "kndu", first_name = "Katherine", last_name = "Du")
 		user2 = User.objects.create(andrewid = "slanand", first_name = "Swathi", last_name = "Anand")
 		user3 = User.objects.create(andrewid = "rdonegan", first_name = "Ryan", last_name = "Donegan")
 		results = User.objects.all()
-		self.assertEqual('Swathi Anand', user2.full_name())
-		self.assertEqual('Katherine Du', user1.full_name())
-		self.assertEqual('Ryan Donegan', user3.full_name())
+		self.assertEqual(user2.full_name(), 'Swathi Anand')
+		self.assertEqual(user1.full_name(), 'Katherine Du')
+		self.assertEqual(user3.full_name(), 'Ryan Donegan')
 
 	def test_filtering_by_role(self):
-		user1 = User.objects.create(andrewid = "kndu")
-		user2 = User.objects.create(andrewid = "slanand", role = "fms")
-		user3 = User.objects.create(andrewid = "rdonegan", role = "fms")
-		user4 = User.objects.create(andrewid = "hyeayouy")
+		user1 = User.objects.create(andrewid = "kndu", first_name = "Katherine", last_name = "Du")
+		user2 = User.objects.create(andrewid = "slanand", first_name = "Swathi", last_name = "Anand", role = "fms")
+		user3 = User.objects.create(andrewid = "rdonegan", first_name = "Ryan", last_name = "Donegan", role = "fms")
+		user4 = User.objects.create(andrewid = "hyeayouy", first_name = "Jenny", last_name = "Yang")
+		user4 = User.objects.create(andrewid = "ajain", first_name = "Aditi", last_name = "Jain", role = "admin")
 		fmsUsers = User.fms_users.all()
 		studentUsers = User.student_users.all()
+		adminUsers = User.admin_users.all()
 		self.assertEqual(len(fmsUsers), 2)
 		self.assertEqual(len(studentUsers), 2)
+		self.assertEqual(len(adminUsers), 1)
+		self.assertEqual(fmsUsers[0].first_name, 'Swathi')
+		self.assertEqual(fmsUsers[1].first_name, 'Ryan')
+		self.assertEqual(studentUsers[0].first_name, 'Katherine')
+		self.assertEqual(studentUsers[1].first_name, 'Jenny')
 
 
 class BuildingModelTests(TestCase):
@@ -107,10 +114,10 @@ class UtilityModelTests(TestCase):
 		self.assertEqual(str(utility), utility.name)
 
 	def test_ordering_of_utilities(self):
-		utility = Utility.objects.create(name = "Water")
-		utility = Utility.objects.create(name = "Lights")
-		utility = Utility.objects.create(name = "Heating systems")
-		utility = Utility.objects.create(name = "Cooling systems")
+		utility1 = Utility.objects.create(name = "Water")
+		utility2 = Utility.objects.create(name = "Lights")
+		utility3 = Utility.objects.create(name = "Heating systems")
+		utility4 = Utility.objects.create(name = "Cooling systems")
 		results = Utility.objects.all()
 		self.assertEqual('Cooling systems', results[0].name)
 		self.assertEqual('Heating systems', results[1].name)
@@ -118,28 +125,9 @@ class UtilityModelTests(TestCase):
 		self.assertEqual('Water', results[3].name)
 
 
-	
+# class PostModelTests(TestCase):
 
-
-# def createUser(andrewid, firstname, lastname, email, role):
-# 	return User.objects.create(
-# 		andrewid = andrewid, 
-# 		first_name = firstname, 
-# 		last_name = lastname, 
-# 		email = email,
-# 		role = role)
-
-# def createBuilding(name, street_1, zipcode, state):
-# 	return Building.objects.create(
-# 		name = name,
-# 		street_1 = street_1,
-# 		zipcode = zipcode,
-# 		state = state)
-
-# def createLocation(name, building, description):
-# 	return Location.objects.create(
-# 		name = name,
-# 		building = building,
-# 		description = description)
+# 	def test_ordering_of_posts(self):
+# 		utility = Utility.objects.create(name = "Water")
 
 

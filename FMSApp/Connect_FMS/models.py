@@ -22,11 +22,15 @@ STATES_CHOICES = (('AL', 'Alabama'), ('AK', 'Alaska'), ('AZ', 'Arizona'), ('AR',
 
 class FMSUserManager(models.Manager):
     def get_queryset(self):
-        return super(FMSUserManager, self).get_queryset().filter(role='fms')
+        return super(FMSUserManager, self).get_queryset().filter(role='fms').order_by('last_name', 'first_name')
 
 class StudentUserManager(models.Manager):
     def get_queryset(self):
-        return super(StudentUserManager, self).get_queryset().filter(role='student')
+        return super(StudentUserManager, self).get_queryset().filter(role='student').order_by('last_name', 'first_name')
+
+class AdminUserManager(models.Manager):
+    def get_queryset(self):
+        return super(AdminUserManager, self).get_queryset().filter(role='admin').order_by('last_name', 'first_name')
 
 class User(models.Model):
     andrewid = models.CharField(max_length = 20, blank = False)
@@ -42,6 +46,7 @@ class User(models.Model):
     objects = models.Manager() # default manager
     fms_users = FMSUserManager() # fms users
     student_users = StudentUserManager() # student users
+    admin_users = AdminUserManager() # student users
 
     def __str__(self):
         return self.andrewid 
@@ -102,6 +107,10 @@ class Utility(models.Model):
         ordering = ["name"]
 
 
+class FMSPostManager(models.Manager):
+    def get_queryset(self):
+        return super(FMSUserManager, self).get_queryset().filter(votes__gte=10).order_by('-created_at', 'votes')
+
 class Post(models.Model):
     user = models.ForeignKey(User)
     location = models.ForeignKey(Location)
@@ -111,12 +120,11 @@ class Post(models.Model):
     utility = models.ForeignKey(Utility)
     image = models.ImageField(upload_to = 'images/posts/', null = True)
 
+    objects = models.Manager() # default manager
+    FMS_posts = FMSPostManager() # posts for FMS to view
+
     class Meta:
         ordering = ["-created_at", "votes"]
-
-    class UserQuerySet(models.QuerySet):
-        def fmsPosts(self):
-            return self.filter(votes__gte=10).order_by('-created_at', 'votes')
 
 
 class Status(models.Model):
