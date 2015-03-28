@@ -82,7 +82,7 @@ class Building(models.Model):
 
 class Location(models.Model):
     name = models.CharField(max_length = 100, blank = False)
-    building = models.ForeignKey(Building, blank = False)
+    building = models.ForeignKey(Building, null = True, blank = True)
     description = models.CharField(max_length=600, blank = True)
     # latitude = models.IntegerField(default=0)
     # latitude = models.IntegerField(default=0)
@@ -92,7 +92,7 @@ class Location(models.Model):
 
     def full_location_name(self):
         if self.building != None: 
-            return self.building.name + self.name
+            return self.building.name + " " + self.name
 
     # # 
     # class Meta:

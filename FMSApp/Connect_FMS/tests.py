@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 
-from .models import User, Building
+from .models import User, Building, Location
 
 # def create_question(question_text, days):
 # 	time = timezone.now() + datetime.timedelta(days=days)
@@ -80,8 +80,21 @@ class BuildingModelTests(TestCase):
 		self.assertEqual('Gates-Hillman Center', results[2].name)
 		self.assertEqual('Porter Hall', results[3].name)
 
-# class LocationModelTests(TestCase):
-# 	pass
+
+class LocationModelTests(TestCase):
+	def test_string_representation(self):
+		location = Location.objects.create(name = "Danforth")
+		self.assertEqual(str(location), location.name)
+
+	def test_foreign_key_building(self):
+		building = Building.objects.create(name = "Porter Hall")
+		location = Location.objects.create(name = "222", building = building)
+		self.assertEqual(location.building.name, "Porter Hall")
+
+	def test_full_location_name_function(self):
+		building = Building.objects.create(name = "Porter Hall")
+		location = Location.objects.create(name = "222", building = building)
+		self.assertEqual(location.full_location_name(), "Porter Hall 222")
 
 # class PostModelTests(TestCase):
 # 	pass
