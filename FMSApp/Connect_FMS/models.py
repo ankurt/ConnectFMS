@@ -27,17 +27,28 @@ STATUS_CHOICES = (
 STATES_CHOICES = (('AL', 'Alabama'), ('AK', 'Alaska'), ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'), ('CO', 'Colorado'), ('CT', 'Connectict'), ('DE', 'Delaware'), ('DC', 'District of Columbia '), ('FL', 'Florida'), ('GA', 'Georgia'), ('HI', 'Hawaii'), ('ID', 'Idaho'), ('IL', 'Illinois'), ('IN', 'Indiana'), ('IA', 'Iowa'), ('KS', 'Kansas'), ('KY', 'Kentucky'), ('LA', 'Louisiana'), ('ME', 'Maine'), ('MD', 'Maryland'), ('MA', 'Massachusetts'), ('MI', 'Michigan'), ('MN', 'Minnesota'), ('MS', 'Mississippi'), ('MO', 'Missouri'), ('MT', 'Montana'), ('NE', 'Nebraska'), ('NV', 'Nevada'), ('NH', 'New Hampshire'), ('NJ', 'New Jersey'), ('NM', 'New Mexico'), ('NY', 'New York'), ('NC', 'North Carolina'), ('ND', 'North Dakota'), ('OH', 'Ohio'), ('OK', 'Oklahoma'), ('OR', 'Oregon'), ('PA', 'Pennsylvania'), ('RI', 'Rhode Island'), ('SC', 'South Carolina'), ('SD', 'South Dakota'), ('TN', 'Tennessee'), ('TX', 'Texas'), ('UT', 'Utah'), ('VT', 'Vermont'), ('VA', 'Virginia'), ('WA', 'Washington'), ('WV', 'West Virginia'), ('WI', 'Wisconsin '), ('WY', 'Wyoming'))
 
 
+class FMSUserManager(models.Manager):
+    def get_queryset(self):
+        return super(FMSUserManager, self).get_queryset().filter(role='fms')
+
+class StudentUserManager(models.Manager):
+    def get_queryset(self):
+        return super(StudentUserManager, self).get_queryset().filter(role='student')
+
 class User(models.Model):
     andrewid = models.CharField(max_length = 20, blank = False)
     first_name = models.CharField(max_length = 50, blank = False)
     last_name = models.CharField(max_length = 50, blank = False)
     email = models.EmailField(max_length = 100, blank = False)
-
     role = models.CharField(
         max_length = 15, 
         blank = False, 
         choices = ROLE_CHOICES,
         default = 'student')
+
+    objects = models.Manager() # default manager
+    fms_users = FMSUserManager() # fms users
+    student_users = StudentUserManager() # student users
 
     def __str__(self):
         return self.andrewid 
@@ -48,13 +59,6 @@ class User(models.Model):
     class Meta:
         ordering = ["last_name", "first_name"]
 
-class UserQuerySet(models.QuerySet):
-    def fms(self):
-        return self.filter(role='fms')
-
-    def students(self):
-        return self.filter(role='student')
-
 
 class Building(models.Model):
     name = models.CharField(max_length = 50, blank = False)
@@ -63,13 +67,14 @@ class Building(models.Model):
         max_length = 300,
         blank = False,
         validators = [RegexValidator(r'^[0-9]{5}$', "Only digits 0-9 are allowed", "Invalid zipcode")])
-    state = models.CharField(max_length = 2, choices = STATES_CHOICES, default = 'PA')
+    city = models.CharField(max_length=100, blank = True)
+    state = models.CharField(max_length = 2, choices = STATES_CHOICES, default = 'PA', blank = False)
 
     def __str__(self):
         return self.name
 
     def full_address(self):
-        return '%s, %s, %s' % (self.street_1, self.state, self.zipcode)
+        return '%s, %s, %s, %s' % (self.street_1, self.city, self.state, self.zipcode)
 
     class Meta:
         ordering = ["name"]
