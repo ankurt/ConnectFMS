@@ -7,7 +7,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 
 from .models import User, Building, Location, Utility, Post
-from .forms import UserForm, BuildingForm, LocationForm
+from .forms import UserForm, BuildingForm, LocationForm, UtilityForm
 
 
 class UserModelTests(TestCase):
@@ -199,7 +199,7 @@ class BuildingFormTest(TestCase):
 		form = BuildingForm({
 			'name': "CUC",
 			'street': "5032 Forbes Ave",
-			'city': "Pittsburgh",
+			'city': "pittsburgh",
 			'state': 'PA',
 			'zipcode': "15289",
 			})
@@ -218,6 +218,7 @@ class BuildingFormTest(TestCase):
 			'name': ['This field is required.'],
 			'zipcode': ['This field is required.'],
 			})
+
 
 class LocationFormTest(TestCase):
 	def test_valid_data(self):
@@ -241,6 +242,44 @@ class LocationFormTest(TestCase):
 			'name': ['This field is required.'],
 			'zipcode': ['This field is required.'],
 			})
+
+
+class UtilityFormTest(TestCase):
+	def test_valid_data(self):
+		form = UtilityForm({
+			'name': "water",
+			})
+		self.assertTrue(form.is_valid())
+		utility = form.save()
+		self.assertEqual(utility.name, "Water")
+
+	def test_blank_form(self):
+		form = UtilityForm({})
+		self.assertFalse(form.is_valid())
+		self.assertEqual(form.errors, {
+			'name': ['This field is required.'],
+			})
+
+
+# class PostFormTest(TestCase):
+# 	def test_valid_data(self):
+# 		utility = Utility.objects.create(name = "Water")
+# 		building = Building.objects.create(name = "Porter Hall")
+# 		location = Location.objects.create(name = "222", building = building)
+# 		user1 = User.objects.create(andrewid = "kndu", first_name = "Katherine", last_name = "Du")
+# 		user2 = User.objects.create(andrewid = "slanand", first_name = "Swathi", last_name = "Anand")
+# 		user3 = User.objects.create(andrewid = "rdonegan", first_name = "Ryan", last_name = "Donegan")
+# 		form = PostForm({
+# 			'name': "222",
+# 			'building': building,
+# 			'description': "IS Suite"
+# 			})
+# 		self.assertTrue(form.is_valid())
+# 		location = form.save()
+# 		self.assertEqual(location.name, "222")
+# 		self.assertEqual(location.building.name, "Porter Hall")
+# 		self.assertEqual(location.description, "IS Suite")
+
 
 
 # class CommentFormTest(TestCase):

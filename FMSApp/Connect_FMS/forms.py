@@ -37,6 +37,7 @@ class BuildingForm(forms.ModelForm):
 
 class LocationForm(forms.ModelForm):
     building = forms.ModelChoiceField(queryset = Building.objects.all())
+
     class Meta:
         model = Location
         fields = ('name', 'description', 'building')
@@ -44,13 +45,18 @@ class LocationForm(forms.ModelForm):
             'description' : forms.Textarea(attrs={'cols': 80, 'rows': 20}),
         }
 
-        def  clean_name(self):
-            return self.cleaned_data['name'].title()
+    def clean_name(self):
+        return self.cleaned_data['name'].title()
+
 
 class UtilityForm(forms.ModelForm):
     class Meta:
         model = Utility
         fields = '__all__'
+
+    def clean_name(self):
+        return self.cleaned_data['name'].title()
+
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -61,6 +67,7 @@ class PostForm(forms.ModelForm):
             'location': forms.ModelChoiceField(queryset = Location.objects.all()),
             'utility': forms.ModelChoiceField(queryset = Utility.objects.all())
         }
+        
 
 class StatusForm(forms.ModelForm):
     class Meta:
