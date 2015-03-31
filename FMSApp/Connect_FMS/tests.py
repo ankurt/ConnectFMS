@@ -7,6 +7,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 
 from .models import User, Building, Location, Utility, Post
+from .forms import UserForm, BuildingForm, LocationForm, UtilityForm
 
 
 class UserModelTests(TestCase):
@@ -68,7 +69,7 @@ class BuildingModelTests(TestCase):
 		self.assertEqual(str(building), building.name)
 
 	def test_full_address_function(self):
-		building = Building.objects.create(name = "Baker Hall", street_1 = '1098 Morewood Avenue', 
+		building = Building.objects.create(name = "Baker Hall", street = '1098 Morewood Avenue', 
 											city = "Pittsburgh", state = "PA", zipcode = "15213")
 		self.assertEqual(building.full_address(), "1098 Morewood Avenue, Pittsburgh, PA, 15213")
 
@@ -144,25 +145,167 @@ class PostModelTests(TestCase):
 		self.assertEqual(results[2].votes, 2)
 
 
-class FormValidation(TestCase):
+class UserFormTest(TestCase):
+	def test_valid_data(self):
+		form = UserForm({
+			'andrewid': "slanand",
+			'first_name': "swathi",
+			'last_name': "Anand",
+			'email': "SLANAND@andrew.cmu.edu",
+			'role': "admin",
+			})
+		self.assertTrue(form.is_valid())
+		user = form.save()
+		self.assertEqual(user.andrewid, "slanand")
+		self.assertEqual(user.first_name, "Swathi")
+		self.assertEqual(user.last_name, "Anand")
+		self.assertEqual(user.email, "slanand@andrew.cmu.edu")
+		self.assertEqual(user.role, "admin")
 
-	def test_user_form(self):
-		pass
+	def test_blank_data(self):
+		form = UserForm({})
+		self.assertFalse(form.is_valid())
+		self.assertEqual(form.errors, {
+			'andrewid': ['This field is required.'],
+			'first_name': ['This field is required.'],
+			'last_name': ['This field is required.'],
+			'email': ['This field is required.'],
+			'role': ['This field is required.'],
+			})
 
-	def test_building_form(self):
-		pass
+	def test_invalid_role(self):
+		form = UserForm({
+			'andrewid': "slanand",
+			'first_name': "swathi",
+			'last_name': "Anand",
+			'email': "SLANAND@andrew.cmu.edu",
+			'role': "lkjsdfsd",
+			})
+		self.assertFalse(form.is_valid())
 
-	def test_location_form(self):
-		pass
+	def test_invalid_email(self):
+		form = UserForm({
+			'andrewid': "slanand",
+			'first_name': "swathi",
+			'last_name': "Anand",
+			'email': "SLANAND",
+			'role': "lkjsdfsd",
+			})
+		self.assertFalse(form.is_valid())
 
-	def test_utility_form(self):
-		pass
 
-	def test_post_form(self):
-		pass
+class BuildingFormTest(TestCase):
+	def test_valid_data(self):
+		form = BuildingForm({
+			'name': "CUC",
+			'street': "5032 Forbes Ave",
+			'city': "pittsburgh",
+			'state': 'PA',
+			'zipcode': "15289",
+			})
+		self.assertTrue(form.is_valid())
+		building = form.save()
+		self.assertEqual(building.name, "CUC")
+		self.assertEqual(building.street, "5032 Forbes Ave")
+		self.assertEqual(building.city, "Pittsburgh")
+		self.assertEqual(building.state, "PA")
+		self.assertEqual(building.zipcode, "15289")
+
+	def test_blank_data(self):
+		form = BuildingForm({})
+		self.assertFalse(form.is_valid())
+		self.assertEqual(form.errors, {
+			'name': ['This field is required.'],
+			'zipcode': ['This field is required.'],
+			})
+
+
+class LocationFormTest(TestCase):
+	def test_valid_data(self):
+		building1 = Building.objects.create(name = "Porter Hall", zipcode = "15289")
+		building = Building.objects.first().id
+		form = LocationForm({
+			'name': "222",
+			'building': building,
+			'description': "IS Suite"
+			})
+		self.assertTrue(form.is_valid())
+		location = form.save()
+		self.assertEqual(location.name, "222")
+		self.assertEqual(location.building.name, "Porter Hall")
+		self.assertEqual(location.description, "IS Suite")
+
+	def test_blank_data(self):
+		form = BuildingForm({})
+		self.assertFalse(form.is_valid())
+		self.assertEqual(form.errors, {
+			'name': ['This field is required.'],
+			'zipcode': ['This field is required.'],
+			})
+
+
+class UtilityFormTest(TestCase):
+	def test_valid_data(self):
+		form = UtilityForm({
+			'name': "water",
+			})
+		self.assertTrue(form.is_valid())
+		utility = form.save()
+		self.assertEqual(utility.name, "Water")
+
+	def test_blank_form(self):
+		form = UtilityForm({})
+		self.assertFalse(form.is_valid())
+		self.assertEqual(form.errors, {
+			'name': ['This field is required.'],
+			})
+
+
+class PostFormTest(TestCase):
+	def test_valid_data(self):
+		utility1 = Utility.objects.create(name = "Water")
+		utility = Utility.objects.first().id
+		building1 = Building.objects.create(name = "Porter Hall")
+		location1 = Location.objects.create(name = "222", building = building)
+		location = Location.objects.first().id
+		user1 = User.objects.create(andrewid = "kndu", first_name = "Katherine", last_name = "Du")
+		form = PostForm({
+			'name': "222",
+			'building': building,
+			'description': "IS Suite"
+			})
+		self.assertTrue(form.is_valid())
+		location = form.save()
+		self.assertEqual(location.name, "222")
+		self.assertEqual(location.building.name, "Porter Hall")
+		self.assertEqual(location.description, "IS Suite")
 
 
 
+# class CommentFormTest(TestCase):
+
+# 	def test_init(self):
+# 		CommentForm(post = self.type_of_post_id)
+
+# 	def test_init_without_entry(self):
+# 		self.assertRaises(KeyError):
+# 	    	CommentForm()
+
+# 	def test_valid_data(self):
+# 		form = CommentForm({
+# 			'description': "",
+# 			}, entry=self.entry)
+# 		self.assertTrue(form.is_valid())
+# 		comment = form.save()
+# 		self.assertEqual(comment.description, "")
+# 		self.assertEqual(comment.type_of_post_id, self.type_of_post_id)
+
+# 	def test_blank_data(self):
+# 		form = CommentForm({}, entry=self.entry)
+# 		self.assertFalse(form.is_valid())
+# 		self.assertEqual(form.errors, {
+# 			'description': ['This field is required.'],
+# 			})
 
 
 

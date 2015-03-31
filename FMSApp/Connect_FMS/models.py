@@ -61,26 +61,26 @@ class User(models.Model):
 
 class Building(models.Model):
     name = models.CharField(max_length = 50, blank = False)
-    street_1 = models.CharField(max_length=300, blank = True)
+    street = models.CharField(max_length=300, blank = True)
     zipcode = models.CharField(
         max_length = 300,
         blank = False,
         validators = [RegexValidator(r'^[0-9]{5}$', "Only digits 0-9 are allowed", "Invalid zipcode")])
     city = models.CharField(max_length=100, blank = True)
-    state = models.CharField(max_length = 2, choices = STATES_CHOICES, default = 'PA', blank = False)
+    state = models.CharField(max_length = 2, choices = STATES_CHOICES, default = 'PA', blank = True)
 
     def __str__(self):
         return self.name
 
     def full_address(self):
-        return '%s, %s, %s, %s' % (self.street_1, self.city, self.state, self.zipcode)
+        return '%s, %s, %s, %s' % (self.street, self.city, self.state, self.zipcode)
 
     class Meta:
         ordering = ["name"]
 
 
 class Location(models.Model):
-    name = models.CharField(max_length = 100, blank = False)
+    name = models.CharField(max_length = 50, blank = False)
     building = models.ForeignKey(Building, null = True, blank = True)
     description = models.CharField(max_length=600, blank = True)
     # latitude = models.IntegerField(default=0)
@@ -99,7 +99,7 @@ class Location(models.Model):
 
 
 class Utility(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length = 30, blank = False)
 
     def __str__(self):
         return self.name
