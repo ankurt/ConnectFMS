@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
+from polymorphic import PolymorphicModel
 
 import datetime
 
@@ -158,16 +159,18 @@ class Response(models.Model):
     created_at = models.DateTimeField(auto_now_add = True, editable = False)
 
 
-class Comment(models.Model):
+class Comment(PolymorphicModel):
     user = models.ForeignKey(User)
     description = models.CharField(max_length = 600)
     created_at = models.DateTimeField(auto_now_add = True, editable = False)
-    # type_of_post = models.CharField(max_length=50)
-    # type_of_post_id = models.ForeignKey
 
     class Meta:
         ordering = ["created_at"]
 
 
+class StatusComment(Comment):
+    status = models.ForeignKey(Status)
 
+class PostComment(Comment):
+    post = models.ForeignKey(Post)
 

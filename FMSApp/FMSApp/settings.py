@@ -70,6 +70,13 @@ DATABASES = {
     }
 }
 
+# Apps for polymorphic assocications
+
+INSTALLED_APPS += (
+    'polymorphic',
+    'django.contrib.contenttypes',
+)
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
