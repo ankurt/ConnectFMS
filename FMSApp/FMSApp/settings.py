@@ -74,7 +74,6 @@ DATABASES = {
 
 INSTALLED_APPS += (
     'polymorphic',
-    'django.contrib.contenttypes',
 )
 
 # Internationalization
