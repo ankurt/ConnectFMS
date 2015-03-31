@@ -1,52 +1,7 @@
+{% extends 'Connect_FMS/base.html' %}
 
-<!DOCTYPE html>
-<!--
-Created using JS Bin
-http://jsbin.com
-
-Copyright (c) 2015 by carasmo (http://jsbin.com/seqola/2/edit)
-
-Released under the MIT license: http://jsbin.mit-license.org
--->
-<meta name="robots" content="noindex">
-<html>
-  <head>
-    <script src="http://code.jquery.com/jquery.min.js"></script>
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="../static/css/navbar.css" rel="stylesheet" type="text/css" />
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    <script src="../static/js/nvbar.js"></script>
-     <meta charset=utf-8 />
-     <title>Connect FMS</title>
-  </head>
-<body>
-  
-
-<!-- Responsive Navbar -->
-  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="slide-nav">
-    <div class="container">
-      <div class="navbar-header">
-        <a class="navbar-toggle"> 
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </a>
-        <a class="navbar-brand" href="#">Connect FMS</a>
-      </div>
-      <div id="slidemenu">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>     
-      </div>
-    </div>
-  </div>
-  
-  
-  <!--wrap the page content do not style this-->
- <div id="page-content">
+<!--wrap the page content do not style this-->
+<div id="page-content">
    
 <div class="container" >
 <div class="row">
@@ -84,6 +39,7 @@ Released under the MIT license: http://jsbin.mit-license.org
                 <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-comment"></span> Message</a>
                 <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-heart"></span> Favorite</a>
               </p>
+              <button href="{% url 'like' }"/>
             </div>
           </div>
         </div>
@@ -116,9 +72,3 @@ Released under the MIT license: http://jsbin.mit-license.org
   
  </div>
  <!-- /#page-content -->
-
-
-</body>
-</html>
-
-

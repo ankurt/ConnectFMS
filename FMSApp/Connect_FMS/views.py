@@ -8,4 +8,12 @@ from django.views import generic
 from django.template import RequestContext, loader
 
 def index(request):
-    return render(request, 'base.html')
+    return render(request, 'index.html')
+
+def view(request):
+    return render(request, 'view.html')
+
+def vote(request, post_id):
+    p = get_object_or_404(Post, id=post_id)
+    p.upvote
+    return render(request, 'views.html')
