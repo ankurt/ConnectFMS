@@ -59,15 +59,19 @@ class UtilityForm(forms.ModelForm):
 
 
 class PostForm(forms.ModelForm):
+    user = forms.Model(required=False, max_length=50, widget = forms.HiddenInput())
+    created_at = models.DateTimeField(auto_now_add = True, editable = False, widget = forms.HiddenInput())
+    votes = models.IntegerField(default = 0, widget= forms.HiddenInput())
+    location = forms.ModelChoiceField(queryset = Location.objects.all())
+    utility = forms.ModelChoiceField(queryset = Utility.objects.all())
+
     class Meta:
         model = Post
-        exclude = ('votes', 'created_at', 'user')
+        fields = ('user', 'created_at', 'location', 'description', 'utility', 'image')
         widgets = {
             'description': forms.Textarea(attrs={'cols': 80, 'rows': 20}),
-            'location': forms.ModelChoiceField(queryset = Location.objects.all()),
-            'utility': forms.ModelChoiceField(queryset = Utility.objects.all())
         }
-        
+
 
 class StatusForm(forms.ModelForm):
     class Meta:

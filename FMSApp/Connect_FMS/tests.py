@@ -261,24 +261,24 @@ class UtilityFormTest(TestCase):
 			})
 
 
-# class PostFormTest(TestCase):
-# 	def test_valid_data(self):
-# 		utility = Utility.objects.create(name = "Water")
-# 		building = Building.objects.create(name = "Porter Hall")
-# 		location = Location.objects.create(name = "222", building = building)
-# 		user1 = User.objects.create(andrewid = "kndu", first_name = "Katherine", last_name = "Du")
-# 		user2 = User.objects.create(andrewid = "slanand", first_name = "Swathi", last_name = "Anand")
-# 		user3 = User.objects.create(andrewid = "rdonegan", first_name = "Ryan", last_name = "Donegan")
-# 		form = PostForm({
-# 			'name': "222",
-# 			'building': building,
-# 			'description': "IS Suite"
-# 			})
-# 		self.assertTrue(form.is_valid())
-# 		location = form.save()
-# 		self.assertEqual(location.name, "222")
-# 		self.assertEqual(location.building.name, "Porter Hall")
-# 		self.assertEqual(location.description, "IS Suite")
+class PostFormTest(TestCase):
+	def test_valid_data(self):
+		utility1 = Utility.objects.create(name = "Water")
+		utility = Utility.objects.first().id
+		building1 = Building.objects.create(name = "Porter Hall")
+		location1 = Location.objects.create(name = "222", building = building)
+		location = Location.objects.first().id
+		user1 = User.objects.create(andrewid = "kndu", first_name = "Katherine", last_name = "Du")
+		form = PostForm({
+			'name': "222",
+			'building': building,
+			'description': "IS Suite"
+			})
+		self.assertTrue(form.is_valid())
+		location = form.save()
+		self.assertEqual(location.name, "222")
+		self.assertEqual(location.building.name, "Porter Hall")
+		self.assertEqual(location.description, "IS Suite")
 
 
 
