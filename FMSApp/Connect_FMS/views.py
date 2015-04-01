@@ -8,7 +8,7 @@ from django.views import generic
 from django.template import RequestContext, loader
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'Connect_FMS/index.html')
 
 def view(request):
     return render(request, 'view.html')
