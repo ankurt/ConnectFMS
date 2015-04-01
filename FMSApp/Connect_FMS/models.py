@@ -66,7 +66,7 @@ class Building(models.Model):
     zipcode = models.CharField(
         max_length = 300,
         blank = False,
-        validators = [RegexValidator(r'^[0-9]{5}$', "Only digits 0-9 are allowed", "Invalid zipcode")])
+        validators = [RegexValidator(r'^[0-9]{5}$', "Only digits 0-9 are allowed.", "Invalid zipcode")])
     city = models.CharField(max_length=100, blank = True)
     state = models.CharField(max_length = 2, choices = STATES_CHOICES, default = 'PA', blank = True)
 
@@ -121,7 +121,7 @@ class Post(models.Model):
     votes = models.IntegerField(default = 0)
     description = models.CharField(max_length = 200, blank = False)
     utility = models.ForeignKey(Utility)
-    image = models.ImageField(upload_to = 'images/posts/', null = True)
+    image = models.ImageField(upload_to = 'images/posts/', blank = True, null = True)
 
     objects = models.Manager() # default manager
     FMS_posts = FMSPostManager() # posts for FMS to view
@@ -132,12 +132,9 @@ class Post(models.Model):
 
 class Status(models.Model):
     user = models.ForeignKey(User)
-    description = models.CharField(
-        max_length = 600,
-        blank = False)
+    description = models.CharField(max_length = 600, blank = False)
     created_at = models.DateTimeField(auto_now_add = True, editable = False)
-    image = models.ImageField(upload_to = 'images/statuses/', blank = True)
-    datetime = models.DateTimeField(auto_now_add = True, editable = False)
+    image = models.ImageField(upload_to = 'images/statuses/', blank = True, null = True)
     utility = models.ForeignKey(Utility)
     likes = models.IntegerField(default = 0)
 
@@ -174,4 +171,6 @@ class StatusComment(Comment):
 
 class PostComment(Comment):
     post = models.ForeignKey(Post)
+
+
 
