@@ -7,12 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Connect_FMS', '0013_auto_20150331_1733'),
+        ('Connect_FMS', '0003_auto_20150401_1259'),
     ]
 
     operations = [
-        migrations.RemoveField(
+        migrations.AlterField(
             model_name='status',
-            name='datetime',
+            name='image',
+            field=models.ImageField(blank=True, null=True, upload_to=b'images/statuses/'),
         ),
     ]

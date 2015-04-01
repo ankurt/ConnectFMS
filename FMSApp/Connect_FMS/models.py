@@ -119,7 +119,7 @@ class Post(models.Model):
     votes = models.IntegerField(default = 0)
     description = models.CharField(max_length = 200, blank = False)
     utility = models.ForeignKey(Utility)
-    image = models.ImageField(upload_to = 'images/posts/', null = True)
+    image = models.ImageField(upload_to = 'images/posts/', blank = True, null = True)
 
     objects = models.Manager() # default manager
     FMS_posts = FMSPostManager() # posts for FMS to view
@@ -132,7 +132,7 @@ class Status(models.Model):
     user = models.ForeignKey(User)
     description = models.CharField(max_length = 600, blank = False)
     created_at = models.DateTimeField(auto_now_add = True, editable = False)
-    image = models.ImageField(upload_to = 'images/statuses/', blank = True)
+    image = models.ImageField(upload_to = 'images/statuses/', blank = True, null = True)
     utility = models.ForeignKey(Utility)
     likes = models.IntegerField(default = 0)
 
@@ -164,6 +164,8 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ["created_at"]
+
+
 
 
 

@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Connect_FMS', '0003_building_city'),
+        ('Connect_FMS', '0002_auto_20150401_1252'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='location',
-            name='building',
-            field=models.ForeignKey(blank=True, to='Connect_FMS.Building'),
+            model_name='post',
+            name='image',
+            field=models.ImageField(blank=True, null=True, upload_to=b'images/posts/'),
         ),
     ]

@@ -68,7 +68,7 @@ class PostForm(forms.ModelForm):
         model = Post
         # get hidden id from current user - 
         # http://stackoverflow.com/questions/9269945/how-do-i-pass-the-current-user-id-as-a-hidden-field-in-a-django-form
-        fields = ('user', 'created_at', 'description', 'utility', 'image')
+        fields = ('user', 'created_at', 'location', 'description', 'utility', 'image')
         widgets = {
             'description': forms.Textarea(attrs={'cols': 80, 'rows': 20}),
         }

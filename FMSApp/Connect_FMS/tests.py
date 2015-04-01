@@ -273,31 +273,41 @@ class UtilityFormTest(TestCase):
 			})
 
 
-# class PostFormTest(TestCase):
-# 	def test_valid_data(self):
-# 		user1 = User.objects.create(first_name = 'Swathi', last_name = 'Anand', andrewid = 'slanand', email = 'slanand@andrew.cmu.edu', role = 'student')
-# 		user = User.objects.first().id
-# 		utility1 = Utility.objects.create(name = "Lights")
-# 		utility = Utility.objects.first().id
-# 		# building1 = Building.objects.create(name = "Porter Hall", zipcode = "15289")
-# 		# location1 = Location.objects.create(name = "222", description = "IS Suite", building = building1)
-# 		# location = Location.objects.first().id
-# 		image = SimpleUploadedFile(name='test_image.jpg', content=open('/Users/swatcat209/Desktop/jibbyjr.jpg', 'rb').read(), content_type='image/jpg')
-# 		time = timezone.now()
-# 		form = PostForm({
-# 			'user' : user,
-# 			'created_at': time,
-# 			# 'location' : location,
-# 			'description': "The lights are on in the IS suite even at night, when it's locked and no one is there.",
-# 			'utility' : utility,
-# 			'image' : image
-# 			})
-# 		self.assertTrue(form.is_valid())
-# 		post = form.save()
-# 		self.assertEqual(post.description, "The lights are on in the IS suite even at night, when it's locked and no one is there.")
-# 		self.assertEqual(post.utility.name, "Lights")
-# 		self.assertEqual(post.location.name, "222")
+class PostFormTest(TestCase):
+	def test_valid_data(self):
+		user1 = User.objects.create(first_name = 'Swathi', last_name = 'Anand', andrewid = 'slanand', email = 'slanand@andrew.cmu.edu', role = 'student')
+		user = User.objects.first().id
+		utility1 = Utility.objects.create(name = "Lights")
+		utility = Utility.objects.first().id
+		building1 = Building.objects.create(name = "Porter Hall", zipcode = "15289")
+		location1 = Location.objects.create(name = "222", description = "IS Suite", building = building1)
+		location = Location.objects.first().id
+		image = SimpleUploadedFile(name='test_image.jpg', content=open('/Users/swatcat209/Desktop/pay.jpg', 'rb').read(), content_type='image/jpg')
+		time = timezone.now()
+		form = PostForm({
+			'user' : user,
+			'created_at': time,
+			'location' : location,
+			'description': "The lights are on in the IS suite even at night, when it's locked and no one is there.",
+			'utility' : utility,
+			'image' : image
+			})
+		self.assertTrue(form.is_valid())
+		post = form.save()
+		self.assertEqual(post.description, "The lights are on in the IS suite even at night, when it's locked and no one is there.")
+		self.assertEqual(post.utility.name, "Lights")
+		self.assertEqual(post.location.name, "222")
 
+	def test_blank_form(self):
+		form = PostForm({})
+		self.assertFalse(form.is_valid())
+		self.assertEqual(form.errors, {
+			'user': ['This field is required.'],
+			'created_at': ['This field is required.'],
+			'description': ['This field is required.'],
+			'location': ['This field is required.'],
+			'utility': ['This field is required.'],
+			})
 
 class StatusFormTest(TestCase):
 	def test_valid_data(self):
@@ -306,7 +316,7 @@ class StatusFormTest(TestCase):
 		utility1 = Utility.objects.create(name = "Lights")
 		utility = Utility.objects.first().id
 		time = timezone.now()
-		image = SimpleUploadedFile(name='test_image.jpg', content=open('/Users/swatcat209/Desktop/jibbyjr.jpg', 'rb').read(), content_type='image/jpg')
+		image = SimpleUploadedFile(name='test_image.jpg', content=open('/Users/swatcat209/Desktop/pay.jpg', 'rb').read(), content_type='image/jpg')
 		form = StatusForm({
 			'user' : user,
 			'created_at': time,
