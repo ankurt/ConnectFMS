@@ -13,8 +13,10 @@ def index(request):
     context['post'] = Post.objects.all()
     return render(request,'Connect_FMS/index.html', context)
 
-def view(request):
-    return render(request, 'view.html')
+def details(request, post_id):
+    p = get_object_or_404(Post, id=post_id)
+    context['singlepost'] = p
+    return render(request, 'details.html', context)
 
 def vote(request, post_id):
     p = get_object_or_404(Post, id=post_id)
