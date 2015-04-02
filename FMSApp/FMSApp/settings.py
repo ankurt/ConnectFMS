@@ -64,7 +64,7 @@ DATABASES = {
         'NAME': 'project_373',
         'USER': 'admin',
         'PASSWORD': 'admin',
-        'HOST': '',
+        'HOST': 'localhost',
         'PORT':'',
     }
 }
@@ -90,6 +90,7 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
+
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 
