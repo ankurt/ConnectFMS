@@ -1,11 +1,40 @@
 {% extends 'Connect_FMS/base.html' %}
 {% block content %}
 
-<!-- Putt all content in this Leo -->
-
-
-
-
-
+<div id="page-content">
+<div class="fluid-container" >
+    <div class="col-md-4 col-sm-6">
+    <!-- Mobile Version -->
+      {% for posts in post %}
+        <div class="panel panel-default">
+          <!-- <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>Profiles</h4></div> -->
+          <div class="panel-body">
+              <div class="w88 dib">
+                <h5 class="noborder nopadbot media-heading nomargbot">{{posts.user.first_name}} {{posts.user.last_name}}</h5>
+                <span id="datetimeofpost" class="ofh"> {{posts.created_at|date:"g:i A"}} on {{posts.created_at|date:"l, F j"}}</span>
+              </div>
+              <div class="w10 dib">
+                <p> {{posts.votes}} </p>
+              </div>
+            <hr>
+            <p class="ofh"> {{posts.description}}</p>
+            <div class="row">
+              <a class="db thumbnail w88 center-block" href="#">
+                <img class="img-responsive center-block" src="//placehold.it/200x200">
+              </a>
+            </div>
+            <div class="row">
+              <p>
+                <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-comment"></span> Comments</a>
+              </p>
+            </div>
+          </div>
+        </div> 
+      {% empty %}
+        <h2>No Posts have been made in the newsfeed</h2>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 
  {% endblock %}
