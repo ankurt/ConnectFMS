@@ -2,12 +2,8 @@
 {% block content %}
 
 <!--wrap the page content do not style this-->
-<script>
-
-</script>
-
 <div id="page-content">
-<div class="fluid-container" >
+  <div class="fluid-container" >
     <div class="col-md-4 col-sm-6">
     <!-- Mobile Version -->
       {% for posts in post %}
@@ -31,10 +27,10 @@
             <hr>
             <div class="row" style="margin-top: 15px;">
               <div class="center-block text-center visible">
-                {{posts.numcomments}} Comment{% if posts.numcomments != 1 %}s{% endif %}
+                <span id="morecomments">{{posts.numcomments}} Comment{% if posts.numcomments != 1 %}s{% endif %}</span>
               </div>
               {% for comment in posts.getcomments %}
-                <div class="row commentsrow">
+                <div class="row commentsrow hidden">
                   <h6 class="dib"> <strong>{{ comment.user.first_name}}</strong> </h6>
                   <h6 class="dib fwlighter" style="margin-bottom: 5px;"> {{ comment.description }} </h6>
                   <p id="datetimeofpost" class="ofh">{{ comment.created_at|date:"g:i A"}} on {{comment.created_at|date:"l, F j" }}</p>
@@ -51,5 +47,14 @@
 </div>
 <!-- /.container -->
 
- </div>
+ <script>
+$(document).ready(function(){
+  $("#morecomments").click(function(){
+    alert("ehllooo");
+    $(".hidden").removeClass("hidden");
+    // comment.removeClass("hidden");
+    // comment.slideDown();
+  });
+});
+</script>
 {% endblock %}
