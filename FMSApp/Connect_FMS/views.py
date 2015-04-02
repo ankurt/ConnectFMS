@@ -11,6 +11,8 @@ from Connect_FMS.models import *
 def index(request):
     context = {}
     context['post'] = Post.objects.all()
+    for post in context['post']:
+        
     return render(request,'Connect_FMS/index.html', context)
 
 def details(request, post_id):

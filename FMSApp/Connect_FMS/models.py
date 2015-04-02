@@ -126,6 +126,9 @@ class Post(models.Model):
     objects = models.Manager() # default manager
     FMS_posts = FMSPostManager() # posts for FMS to view
 
+    def numcomment(self):
+        p = self.object()
+
     class Meta:
         ordering = ["-created_at", "-votes"]
 
