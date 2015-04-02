@@ -26,8 +26,8 @@
             </div>
             <hr>
             <div class="row" style="margin-top: 15px;">
-              <div class="center-block text-center visible">
-                <span id="morecomments">{{posts.numcomments}} Comment{% if posts.numcomments != 1 %}s{% endif %}</span>
+              <div class="center-block text-center morecomments">
+                <span>{{posts.numcomments}} Comment{% if posts.numcomments != 1 %}s{% endif %}</span>
               </div>
               {% for comment in posts.getcomments %}
                 <div class="row commentsrow hidden">
@@ -49,11 +49,10 @@
 
  <script>
 $(document).ready(function(){
-  $("#morecomments").click(function(){
-    alert("ehllooo");
-    $(".hidden").removeClass("hidden");
-    // comment.removeClass("hidden");
-    // comment.slideDown();
+  $(".morecomments").click(function(){
+    var comment = $(".hidden");
+    comment.toggleClass("hidden");
+    $(this).toggleClass("hidden");
   });
 });
 </script>
