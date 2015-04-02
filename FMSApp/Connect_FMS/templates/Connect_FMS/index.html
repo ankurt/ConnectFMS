@@ -25,9 +25,12 @@
               </a>
             </div>
             <div class="row">
-              <p>
-                <a href="% url 'details' posts.id" class="btn btn-default center-block"><span class="">{{posts.numcomments}}</span> Comments</a>
-              </p>
+              <a href="{% url 'Connect_FMLS/details' posts.id}" class="commentbtn btn btn-default center-block">
+              {% if posts.numcomments == 1 %}
+                <span class="">{{posts.numcomments}}</span> Comment</a>
+              {% else %}
+                <span class="">{{posts.numcomments}}</span> Comments</a>
+              {% endif %}
             </div>
           </div>
         </div> 
