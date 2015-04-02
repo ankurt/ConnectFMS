@@ -122,12 +122,18 @@ class Post(models.Model):
     description = models.CharField(max_length = 200, blank = False)
     utility = models.ForeignKey(Utility)
     image = models.ImageField(upload_to = 'images/posts/', blank = True, null = True)
-
     objects = models.Manager() # default manager
     FMS_posts = FMSPostManager() # posts for FMS to view
 
     def numcomments(self):
         return PostComment.objects.filter(post=self.id).count()
+
+    def percentvotes(self):
+        votes_threshold = 50
+        return int((float(self.votes)/float(votes_threshold))*100)
+
+    def getcomments(self):
+        return PostComment.objects.filter(post=self.id).all()
 
     class Meta:
         ordering = ["-created_at", "-votes"]

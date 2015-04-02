@@ -16,7 +16,7 @@ def index(request):
 def details(request, post_id):
     p = get_object_or_404(Post, id=post_id)
     context['singlepost'] = p
-    return render(request, 'details.html', context)
+    return render(request, 'Connect_FMS/details.html', context)
 
 def vote(request, post_id):
     p = get_object_or_404(Post, id=post_id)

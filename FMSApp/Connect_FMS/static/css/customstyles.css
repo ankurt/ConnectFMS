@@ -32,6 +32,11 @@
     padding-bottom: 0;
 }
 
+.commentsrow {
+    margin-right: auto;
+    margin-left: 15px;
+}
+
 hr {
     margin: 5px 0px;
 }
@@ -55,4 +60,21 @@ hr {
 
 .commentbtn {
     width: 50%;
+}
+
+.torcolor {
+    color: #256F5C;
+    background-color: #256F5C;
+}
+
+.orcolor {
+    color: #FFA500 !important;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.fwlighter {
+    font-weight: lighter;
 }
