@@ -1,0 +1,76 @@
+.center-text {
+    text-align: center;
+}
+
+#footer {
+    border: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.ofh {
+    overflow: ellipsis;
+}
+
+.dib {
+    display: inline-block;
+}
+
+.db {
+    display: block;
+}
+
+.noborder{
+    border: none;
+}
+
+.nomargbot {
+    margin-bottom: 0;
+}
+
+.nopadbot {
+    padding-bottom: 0;
+}
+
+.commentsrow {
+    margin-right: auto;
+    margin-left: 15px;
+}
+
+hr {
+    margin: 5px 0px;
+}
+
+.flr {
+    float: right;
+}
+
+#datetimeofpost {
+    color: #AAA;
+    font-size: 10px;
+}
+
+.w10 {
+    width: 10%;
+}
+
+.w88 {
+    width: 88%;
+}
+
+.commentbtn {
+    width: 50%;
+}
+
+.torcolor {
+    color: #256F5C;
+    background-color: #256F5C;
+}
+
+.orcolor {
+    color: #FFA500 !important;
+}
+
+.fwlighter {
+    font-weight: lighter;
+}

@@ -5,9 +5,11 @@ import datetime
 from django.utils import timezone
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+from django.core.files.uploadedfile import SimpleUploadedFile
 
-from .models import User, Building, Location, Utility, Post
-from .forms import UserForm, BuildingForm, LocationForm, UtilityForm
+from .models import User, Building, Location, Utility, Post, Status
+from .forms import UserForm, BuildingForm, LocationForm, UtilityForm, PostForm, StatusForm
+
 
 
 class UserModelTests(TestCase):
@@ -219,6 +221,16 @@ class BuildingFormTest(TestCase):
 			'zipcode': ['This field is required.'],
 			})
 
+	def test_invalid_zipcode(self):
+		form = BuildingForm({
+			'zipcode': 'lkjlk'
+			})
+		self.assertFalse(form.is_valid())
+		self.assertEqual(form.errors, {
+			'name': ['This field is required.'],
+			'zipcode': ['Only digits 0-9 are allowed.'],
+			})
+
 
 class LocationFormTest(TestCase):
 	def test_valid_data(self):
@@ -260,26 +272,110 @@ class UtilityFormTest(TestCase):
 			'name': ['This field is required.'],
 			})
 
-
 class PostFormTest(TestCase):
 	def test_valid_data(self):
-		utility1 = Utility.objects.create(name = "Water")
+		user1 = User.objects.create(first_name = 'Swathi', last_name = 'Anand', andrewid = 'slanand', email = 'slanand@andrew.cmu.edu', role = 'student')
+		user = User.objects.first().id
+		utility1 = Utility.objects.create(name = "Lights")
 		utility = Utility.objects.first().id
-		building1 = Building.objects.create(name = "Porter Hall")
-		location1 = Location.objects.create(name = "222", building = building)
+		building1 = Building.objects.create(name = "Porter Hall", zipcode = "15289")
+		location1 = Location.objects.create(name = "222", description = "IS Suite", building = building1)
 		location = Location.objects.first().id
-		user1 = User.objects.create(andrewid = "kndu", first_name = "Katherine", last_name = "Du")
+		image = SimpleUploadedFile(name='test_image.jpg', content=open('/Users/swatcat209/Desktop/pay.jpg', 'rb').read(), content_type='image/jpg')
+		time = timezone.now()
 		form = PostForm({
-			'name': "222",
-			'building': building,
-			'description': "IS Suite"
+			'user' : user,
+			'created_at': time,
+			'location' : location,
+			'description': "The lights are on in the IS suite even at night, when it's locked and no one is there.",
+			'utility' : utility,
+			'image' : image
 			})
 		self.assertTrue(form.is_valid())
-		location = form.save()
-		self.assertEqual(location.name, "222")
-		self.assertEqual(location.building.name, "Porter Hall")
-		self.assertEqual(location.description, "IS Suite")
+		post = form.save()
+		self.assertEqual(post.description, "The lights are on in the IS suite even at night, when it's locked and no one is there.")
+		self.assertEqual(post.utility.name, "Lights")
+		self.assertEqual(post.location.name, "222")
 
+	def test_without_image(self):
+		user1 = User.objects.create(first_name = 'Swathi', last_name = 'Anand', andrewid = 'slanand', email = 'slanand@andrew.cmu.edu', role = 'student')
+		user = User.objects.first().id
+		utility1 = Utility.objects.create(name = "Lights")
+		utility = Utility.objects.first().id
+		building1 = Building.objects.create(name = "Porter Hall", zipcode = "15289")
+		location1 = Location.objects.create(name = "222", description = "IS Suite", building = building1)
+		location = Location.objects.first().id
+		time = timezone.now()
+		form = PostForm({
+			'user' : user,
+			'created_at': time,
+			'location' : location,
+			'description': "The lights are on in the IS suite even at night, when it's locked and no one is there.",
+			'utility' : utility
+			})
+		self.assertTrue(form.is_valid())
+		post = form.save()
+		self.assertEqual(post.description, "The lights are on in the IS suite even at night, when it's locked and no one is there.")
+		self.assertEqual(post.utility.name, "Lights")
+		self.assertEqual(post.location.name, "222")
+
+	def test_blank_form(self):
+		form = PostForm({})
+		self.assertFalse(form.is_valid())
+		self.assertEqual(form.errors, {
+			'user': ['This field is required.'],
+			'created_at': ['This field is required.'],
+			'description': ['This field is required.'],
+			'location': ['This field is required.'],
+			'utility': ['This field is required.'],
+			})
+
+class StatusFormTest(TestCase):
+	def test_valid_data(self):
+		user1 = User.objects.create(first_name = 'Swathi', last_name = 'Anand', andrewid = 'slanand', email = 'slanand@andrew.cmu.edu', role = 'student')
+		user = User.objects.first().id
+		utility1 = Utility.objects.create(name = "Lights")
+		utility = Utility.objects.first().id
+		time = timezone.now()
+		image = SimpleUploadedFile(name='test_image.jpg', content=open('/Users/swatcat209/Desktop/pay.jpg', 'rb').read(), content_type='image/jpg')
+		form = StatusForm({
+			'user' : user,
+			'created_at': time,
+			'description': "The lights are on in the IS suite even at night, when it's locked and no one is there.",
+			'utility' : utility,
+			'image' : image
+			})
+		self.assertTrue(form.is_valid())
+		status = form.save()
+		self.assertEqual(status.description, "The lights are on in the IS suite even at night, when it's locked and no one is there.")
+		self.assertEqual(status.utility.name, "Lights")
+
+	def test_without_image(self):
+		user1 = User.objects.create(first_name = 'Swathi', last_name = 'Anand', andrewid = 'slanand', email = 'slanand@andrew.cmu.edu', role = 'student')
+		user = User.objects.first().id
+		utility1 = Utility.objects.create(name = "Lights")
+		utility = Utility.objects.first().id
+		time = timezone.now()
+		form = StatusForm({
+			'user' : user,
+			'created_at': time,
+			'description': "The lights are on in the IS suite even at night, when it's locked and no one is there.",
+			'utility' : utility
+			})
+		self.assertTrue(form.is_valid())
+		status = form.save()
+		self.assertEqual(status.description, "The lights are on in the IS suite even at night, when it's locked and no one is there.")
+		self.assertEqual(status.utility.name, "Lights")
+
+	def test_blank_form(self):
+		form = StatusForm({})
+		self.assertFalse(form.is_valid())
+		self.assertEqual(form.errors, {
+			'user': ['This field is required.'],
+			'created_at': ['This field is required.'],
+			'description': ['This field is required.'],
+			'utility': ['This field is required.'],
+			})
 
 
 # class CommentFormTest(TestCase):

@@ -7,6 +7,8 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from django.template import RequestContext, loader
 from Connect_FMS.models import *
+from django.conf import settings
+
 
 def index(request):
     context = {}
@@ -14,9 +16,13 @@ def index(request):
     return render(request,'Connect_FMS/index.html', context)
 
 def details(request, post_id):
-    p = get_object_or_404(Post, id=post_id)
-    context['singlepost'] = p
-    return render(request, 'details.html', context)
+    try:
+        p = Post.objects.get(pk=post_id)
+        context = {}
+        context['singlepost'] = p
+    except Post.DoesNotExist:
+        raise Http404("Post does not exist")
+    return render(request, 'Connect_FMS/details.html', context)
 
 def vote(request, post_id):
     p = get_object_or_404(Post, id=post_id)

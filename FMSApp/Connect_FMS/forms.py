@@ -59,14 +59,15 @@ class UtilityForm(forms.ModelForm):
 
 
 class PostForm(forms.ModelForm):
-    user = forms.Model(required=False, max_length=50, widget = forms.HiddenInput())
-    created_at = models.DateTimeField(auto_now_add = True, editable = False, widget = forms.HiddenInput())
-    votes = models.IntegerField(default = 0, widget= forms.HiddenInput())
+    user = forms.ModelChoiceField(queryset = User.objects.all(), widget = forms.HiddenInput)
+    created_at = forms.DateTimeField(widget = forms.HiddenInput())
     location = forms.ModelChoiceField(queryset = Location.objects.all())
     utility = forms.ModelChoiceField(queryset = Utility.objects.all())
 
     class Meta:
         model = Post
+        # get hidden id from current user - 
+        # http://stackoverflow.com/questions/9269945/how-do-i-pass-the-current-user-id-as-a-hidden-field-in-a-django-form
         fields = ('user', 'created_at', 'location', 'description', 'utility', 'image')
         widgets = {
             'description': forms.Textarea(attrs={'cols': 80, 'rows': 20}),
@@ -74,15 +75,15 @@ class PostForm(forms.ModelForm):
 
 
 class StatusForm(forms.ModelForm):
+    user = forms.ModelChoiceField(queryset = User.objects.all(), widget = forms.HiddenInput())
+    created_at = forms.DateTimeField(widget = forms.HiddenInput())
+    utility = forms.ModelChoiceField(queryset = Utility.objects.all())
+
     class Meta:
         model = Status
-        exclude = ('likes', 'created_at', 'user')
-        location = forms.ModelChoiceField(queryset = Location.objects.all())
-        utility = forms.ModelChoiceField(queryset = Utility.objects.all())
+        fields = ('user', 'created_at', 'description', 'utility', 'image')
         widgets = {
             'description': forms.Textarea(attrs={'cols': 80, 'rows': 20}),
-            'location': forms.ModelChoiceField(queryset = Location.objects.all()),
-            'utility': forms.ModelChoiceField(queryset = Utility.objects.all())
         }
 
 # class CommentForm(forms.ModelForm):

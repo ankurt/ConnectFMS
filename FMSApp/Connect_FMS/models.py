@@ -21,6 +21,7 @@ STATUS_CHOICES = (
 STATES_CHOICES = (('AL', 'Alabama'), ('AK', 'Alaska'), ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'), ('CO', 'Colorado'), ('CT', 'Connectict'), ('DE', 'Delaware'), ('DC', 'District of Columbia '), ('FL', 'Florida'), ('GA', 'Georgia'), ('HI', 'Hawaii'), ('ID', 'Idaho'), ('IL', 'Illinois'), ('IN', 'Indiana'), ('IA', 'Iowa'), ('KS', 'Kansas'), ('KY', 'Kentucky'), ('LA', 'Louisiana'), ('ME', 'Maine'), ('MD', 'Maryland'), ('MA', 'Massachusetts'), ('MI', 'Michigan'), ('MN', 'Minnesota'), ('MS', 'Mississippi'), ('MO', 'Missouri'), ('MT', 'Montana'), ('NE', 'Nebraska'), ('NV', 'Nevada'), ('NH', 'New Hampshire'), ('NJ', 'New Jersey'), ('NM', 'New Mexico'), ('NY', 'New York'), ('NC', 'North Carolina'), ('ND', 'North Dakota'), ('OH', 'Ohio'), ('OK', 'Oklahoma'), ('OR', 'Oregon'), ('PA', 'Pennsylvania'), ('RI', 'Rhode Island'), ('SC', 'South Carolina'), ('SD', 'South Dakota'), ('TN', 'Tennessee'), ('TX', 'Texas'), ('UT', 'Utah'), ('VT', 'Vermont'), ('VA', 'Virginia'), ('WA', 'Washington'), ('WV', 'West Virginia'), ('WI', 'Wisconsin '), ('WY', 'Wyoming'))
 
 
+
 class FMSUserManager(models.Manager):
     def get_queryset(self):
         return super(FMSUserManager, self).get_queryset().filter(role='fms').order_by('last_name', 'first_name')
@@ -65,7 +66,7 @@ class Building(models.Model):
     zipcode = models.CharField(
         max_length = 300,
         blank = False,
-        validators = [RegexValidator(r'^[0-9]{5}$', "Only digits 0-9 are allowed", "Invalid zipcode")])
+        validators = [RegexValidator(r'^[0-9]{5}$', "Only digits 0-9 are allowed.", "Invalid zipcode")])
     city = models.CharField(max_length=100, blank = True)
     state = models.CharField(max_length = 2, choices = STATES_CHOICES, default = 'PA', blank = True)
 
@@ -120,10 +121,19 @@ class Post(models.Model):
     votes = models.IntegerField(default = 0)
     description = models.CharField(max_length = 200, blank = False)
     utility = models.ForeignKey(Utility)
-    image = models.ImageField(upload_to = 'images/posts/', null = True)
-
+    image = models.ImageField(upload_to = 'images/posts/', blank = True, null = True)
     objects = models.Manager() # default manager
     FMS_posts = FMSPostManager() # posts for FMS to view
+
+    def numcomments(self):
+        return PostComment.objects.filter(post=self.id).count()
+
+    def percentvotes(self):
+        votes_threshold = 50
+        return int((float(self.votes)/float(votes_threshold))*100)
+
+    def getcomments(self):
+        return PostComment.objects.filter(post=self.id).all()
 
     class Meta:
         ordering = ["-created_at", "-votes"]
@@ -131,12 +141,9 @@ class Post(models.Model):
 
 class Status(models.Model):
     user = models.ForeignKey(User)
-    description = models.CharField(
-        max_length = 600,
-        blank = False)
+    description = models.CharField(max_length = 600, blank = False)
     created_at = models.DateTimeField(auto_now_add = True, editable = False)
-    image = models.ImageField(upload_to = 'images/statuses/', blank = True)
-    datetime = models.DateTimeField(auto_now_add = True, editable = False)
+    image = models.ImageField(upload_to = 'images/statuses/', blank = True, null = True)
     utility = models.ForeignKey(Utility)
     likes = models.IntegerField(default = 0)
 
@@ -173,4 +180,6 @@ class StatusComment(Comment):
 
 class PostComment(Comment):
     post = models.ForeignKey(Post)
+
+
 
