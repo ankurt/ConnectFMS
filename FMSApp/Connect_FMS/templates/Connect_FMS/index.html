@@ -1,6 +1,5 @@
 {% extends 'Connect_FMS/base.html' %}
 {% block content %}
-
 <!--wrap the page content do not style this-->
 <div id="page-content">
   <div class="fluid-container" >
@@ -18,11 +17,17 @@
                 <p> {{posts.percentvotes}}% </p>
               </div>
             <hr>
-            <p class="ofh"> {{posts.description}}</p>
-            <div class="row">
-              <a class="db thumbnail w88 center-block" href="#">
-                <img class="img-responsive center-block" src="//placehold.it/200x200">
-              </a>
+            <p class="ofh"> <strong>{{posts.location.full_location_name}}</strong></p>
+            {% if posts.image == null %}
+            {% else %}
+              <div class="row">
+                <a class="db thumbnail w88 center-block" href="#">
+                  <img class="img-responsive center-block" src="//placehold.it/200x200">
+                </a>
+              </div>
+            {% endif %}
+            <div class="">
+              <p> {{posts.description}} </p>
             </div>
             <hr>
             <div class="row" style="margin-top: 15px;">
