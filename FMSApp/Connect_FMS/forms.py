@@ -59,8 +59,7 @@ class UtilityForm(forms.ModelForm):
 
 
 class PostForm(forms.ModelForm):
-    user = forms.ModelChoiceField(queryset = User.objects.all(), widget = forms.HiddenInput)
-    created_at = forms.DateTimeField(widget = forms.HiddenInput())
+    user = forms.ModelChoiceField(queryset = User.objects.all())#, widget = forms.HiddenInput)
     location = forms.ModelChoiceField(queryset = Location.objects.all())
     utility = forms.ModelChoiceField(queryset = Utility.objects.all())
 
@@ -69,8 +68,9 @@ class PostForm(forms.ModelForm):
         # get hidden id from current user - 
         # http://stackoverflow.com/questions/9269945/how-do-i-pass-the-current-user-id-as-a-hidden-field-in-a-django-form
         fields = ('user', 'created_at', 'location', 'description', 'utility', 'image')
+        exclude = ('created_at',)
         widgets = {
-            'description': forms.Textarea(attrs={'cols': 80, 'rows': 20}),
+            'description': forms.Textarea(attrs={'cols': 40, 'rows': 5}),
         }
 
 

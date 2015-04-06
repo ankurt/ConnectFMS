@@ -8,6 +8,7 @@ from django.views import generic
 from django.template import RequestContext, loader
 from Connect_FMS.models import *
 from django.conf import settings
+from Connect_FMS.forms import *
 
 
 def index(request):
@@ -28,3 +29,21 @@ def vote(request, post_id):
     p = get_object_or_404(Post, id=post_id)
     p.upvote
     return render(request, 'views.html')
+
+    from myblog.forms import PostForm
+ 
+def post_form_upload(request):
+    if request.method == 'GET':
+        form = PostForm()
+    else:
+        # A POST request: Handle Form Upload
+        form = PostForm(request.POST) 
+        # If data is valid, proceeds to create a new post and redirect the user
+        if form.is_valid():
+          new_post = form.save()
+        return HttpResponseRedirect(reverse('index'))
+
+ 
+    return render(request, 'Connect_FMS/post_form_upload.html', {
+        'form': form,
+    })
