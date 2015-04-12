@@ -61,13 +61,6 @@ def login(request):
             # return HttpResponseRedirect('/accounts/invalid')
     return render(request, 'Connect_FMS/login.html', {'form':login_form})
 
-# render Login form for homepage
-def home(request):
-    login_form = LoginForm()
-    return render(request, 'Connect_FMS/login.html', {'form': login_form})
-
-
-
 def details(request, post_id):
     try:
         p = Post.objects.get(pk=post_id)

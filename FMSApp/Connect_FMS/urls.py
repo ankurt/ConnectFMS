@@ -4,11 +4,11 @@ from Connect_FMS import views
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', views.home, name='home'),
+    url(r'^$', views.login, name='login'),
     # url(r'^blog/', include('blog.urls')),
     url(r'^feed/$', views.index, name='index'),
     url(r'^(?P<post_id>\d+)/$', views.details, name='details'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^form_upload$',views.post_form_upload, name='post_form_upload')
+    url(r'^form_upload/$',views.post_form_upload, name='post_form_upload')
     # url(r'^like(?P<post_id>\d+)$', views.vote, name='like')
 )

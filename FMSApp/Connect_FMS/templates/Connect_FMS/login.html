@@ -4,20 +4,20 @@
 
 
 
-{% if form == RegistrationForm %}
+<!-- {% if {{form}}. %} -->
 <!-- User creating an account for the first time  -->
     <div>
         {{ form.as_p }}
         <div class='btn btn-lg'>Sign In</div>
     </div>
 
-{% else %}
+<!-- {% else %} -->
 <!-- When a user already has an account and is logging in -->
     <div>
         {{ form.as_p }}
         <div class='btn btn-lg'>Sign Up</div>
     </div>
-{% endif %}
+<!-- {% endif %} -->
 
 {% endblock %}
 
