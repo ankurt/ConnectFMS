@@ -11,6 +11,7 @@ from django.conf import settings
 from Connect_FMS.forms import *
 from django.contrib.auth.models import User, UserProfile
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm
 
 
 def index(request):
@@ -48,7 +49,7 @@ def register(request):
 
 def login(request):
     if request.method == 'GET':
-        login_form = LoginForm()
+        login_form = AuthenticationForm()
     elif request.method == 'POST':
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')

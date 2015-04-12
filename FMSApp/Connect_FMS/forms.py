@@ -5,8 +5,9 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import User, Building, Location, Utility, Post, Status, Comment
 
 
-class LoginForm(AuthenticationForm):
-    return
+# class LoginForm(AuthenticationForm):
+#     class Meta:
+#         model = User
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required = True)
