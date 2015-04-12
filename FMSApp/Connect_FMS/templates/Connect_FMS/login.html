@@ -1,23 +1,30 @@
-{% extends "base.html" %}
+{% extends "Connect_FMS/base.html" %}
 
 {% block content %}
 
 
 
-<!-- {% if {{form}}. %} -->
-<!-- User creating an account for the first time  -->
-    <div>
-        {{ form.as_p }}
-        <div class='btn btn-lg'>Sign In</div>
-    </div>
 
-<!-- {% else %} -->
-<!-- When a user already has an account and is logging in -->
-    <div>
-        {{ form.as_p }}
-        <div class='btn btn-lg'>Sign Up</div>
+<!-- User creating an account for the first time  -->
+<div id="page-content">
+    <div class="container">
+        <div class="col-sm-12 col-lg-12">
+            <div class="row">
+                <form action='login' method='post'>{% csrf_token %}
+                    {{ form.as_p }}
+                    <input type='submit' value='Submit' />
+                </form>
+            </div>
+        </div>
+
+    <!-- When a user already has an account and is logging in -->
+        <div class="col-sm-12">
+            {{ form.as_p }}
+            <div class='btn btn-lg'>Sign Up</div>
+        </div>
     </div>
-<!-- {% endif %} -->
+</div>
+
 
 {% endblock %}
 

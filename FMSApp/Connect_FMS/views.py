@@ -9,9 +9,10 @@ from django.template import RequestContext, loader
 from Connect_FMS.models import *
 from django.conf import settings
 from Connect_FMS.forms import *
-from django.contrib.auth.models import User, UserProfile
+from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib import auth
 
 
 def index(request):
@@ -56,9 +57,9 @@ def login(request):
         user = auth.authenticate(username = username, password = password)
         if user is not None:
             auth.login(request, user)
-            return HttpResponseRedirect('Connect_FMS/index.html')
-        # else:
-            # return HttpResponseRedirect('/accounts/invalid')
+            return HttpResponseRedirect('feed/')
+        else:
+            return HttpResponseRedirect('form_upload')
     return render(request, 'Connect_FMS/login.html', {'form':login_form})
 
 def details(request, post_id):
