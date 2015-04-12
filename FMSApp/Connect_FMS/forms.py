@@ -10,8 +10,8 @@ class UserForm(forms.ModelForm):
         model = User
         fields = '__all__'
 
-    def clean_andrewid(self):
-        return self.cleaned_data['andrewid'].lower()
+    def clean_username(self):
+        return self.cleaned_data['username'].lower()
 
     def clean_first_name(self):
         return self.cleaned_data['first_name'].capitalize()

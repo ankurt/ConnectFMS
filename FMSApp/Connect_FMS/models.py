@@ -44,7 +44,7 @@ class UserProfile(models.Model):
         blank = False, 
         choices = ROLE_CHOICES,
         default = 'student')
-
+    image = models.ImageField(upload_to = "profilepic", blank = True)
     # objects = models.Manager() # default manager
     # fms_users = FMSUserManager() # fms users
     # student_users = StudentUserManager() # student users

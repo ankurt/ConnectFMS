@@ -9,12 +9,37 @@ from django.template import RequestContext, loader
 from Connect_FMS.models import *
 from django.conf import settings
 from Connect_FMS.forms import *
+from django.contrib.auth.models import User, UserProfile
+from django import forms
 
 
 def index(request):
     context = {}
     context['post'] = Post.objects.all()
     return render(request,'Connect_FMS/index.html', context)
+
+def register(request):
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+        # profile_form = UserProfileForm(data=request.POST)
+        context = {}
+        errors = []
+        context['errors'] = errors
+        if user_form.is_valid():
+            user = user_form.save()
+
+            user.set_password(user.password)
+            user.save()
+
+            # profile = profile_form.save(commit=False)
+            UserProfile.objects.save(user=user.id)
+            # profile.user = user
+
+            # profile.save()
+            context['user'] = user
+            return render(request, 'Connect_FMS/index.html', context)
+        else:
+            return render(request, 'login.html', context)
 
 def details(request, post_id):
     try:
