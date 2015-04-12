@@ -2,6 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from polymorphic import PolymorphicModel
+from django.contrib.auth.models import User
 from django.utils import timezone
 import datetime
 
@@ -22,43 +23,32 @@ STATES_CHOICES = (('AL', 'Alabama'), ('AK', 'Alaska'), ('AZ', 'Arizona'), ('AR',
 
 
 
-class FMSUserManager(models.Manager):
-    def get_queryset(self):
-        return super(FMSUserManager, self).get_queryset().filter(role='fms').order_by('last_name', 'first_name')
+# class FMSUserManager(models.Manager):
+#     def get_queryset(self):
+#         return super(FMSUserManager, self).get_queryset().filter(role='fms').order_by('last_name', 'first_name')
 
-class StudentUserManager(models.Manager):
-    def get_queryset(self):
-        return super(StudentUserManager, self).get_queryset().filter(role='student').order_by('last_name', 'first_name')
+# class StudentUserManager(models.Manager):
+#     def get_queryset(self):
+#         return super(StudentUserManager, self).get_queryset().filter(role='student').order_by('last_name', 'first_name')
 
-class AdminUserManager(models.Manager):
-    def get_queryset(self):
-        return super(AdminUserManager, self).get_queryset().filter(role='admin').order_by('last_name', 'first_name')
+# class AdminUserManager(models.Manager):
+#     def get_queryset(self):
+#         return super(AdminUserManager, self).get_queryset().filter(role='admin').order_by('last_name', 'first_name')
 
-class User(models.Model):
-    andrewid = models.CharField(max_length = 20, blank = False)
-    first_name = models.CharField(max_length = 50, blank = False)
-    last_name = models.CharField(max_length = 50, blank = False)
-    email = models.EmailField(max_length = 100, blank = False)
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
     role = models.CharField(
         max_length = 15, 
         blank = False, 
         choices = ROLE_CHOICES,
         default = 'student')
 
-    objects = models.Manager() # default manager
-    fms_users = FMSUserManager() # fms users
-    student_users = StudentUserManager() # student users
-    admin_users = AdminUserManager() # student users
-
-    def __str__(self):
-        return self.andrewid 
-
-    def full_name(self):
-        return '%s %s' % (self.first_name, self.last_name)
-
-    class Meta:
-        ordering = ["last_name", "first_name"]
-
+    # objects = models.Manager() # default manager
+    # fms_users = FMSUserManager() # fms users
+    # student_users = StudentUserManager() # student users
+    # admin_users = AdminUserManager() # student users
 
 class Building(models.Model):
     name = models.CharField(max_length = 50, blank = False)
