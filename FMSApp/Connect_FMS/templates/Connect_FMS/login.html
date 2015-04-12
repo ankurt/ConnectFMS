@@ -1,1 +1,21 @@
 {% extends "base.html" %}
+
+{% block content %}
+
+
+
+{% if form == RegistrationForm %}
+<!-- User creating an account for the first time  -->
+    <div>
+        {{ form.as_p }}
+        <div class='btn btn-lg'>Sign In</div>
+    </div>
+
+{% else %}
+<!-- When a user already has an account and is logging in -->
+    <div>
+        {{ form.as_p }}
+        <div class='btn btn-lg'>Sign Up</div>
+    </div>
+{% endblock %}
+

@@ -20,26 +20,28 @@ def index(request):
 
 def register(request):
     if request.method == 'POST':
-        user_form = UserForm(data=request.POST)
+        reg_form = RegistrationForm(data=request.POST)
         # profile_form = UserProfileForm(data=request.POST)
         context = {}
         errors = []
         context['errors'] = errors
-        if user_form.is_valid():
-            user = user_form.save()
+        if reg_form.is_valid():
+            user = reg_form.save()
 
+            # hash password with django default method
             user.set_password(user.password)
             user.save()
 
-            # profile = profile_form.save(commit=False)
+            # set role to student default in UserProfile subclass
             UserProfile.objects.save(user=user.id)
-            # profile.user = user
 
-            # profile.save()
             context['user'] = user
             return render(request, 'Connect_FMS/index.html', context)
         else:
-            return render(request, 'login.html', context)
+            return render(request, 'Connect_FMS/login.html', {'form': reg_form})
+
+def login(request):
+
 
 def details(request, post_id):
     try:
