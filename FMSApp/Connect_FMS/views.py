@@ -18,8 +18,13 @@ def index(request):
     context['post'] = Post.objects.all()
     return render(request,'Connect_FMS/index.html', context)
 
+# create new user and log them in
 def register(request):
-    if request.method == 'POST':
+    # render Registration form
+    if request.method == 'GET':
+        reg_form = RegistrationForm()
+    # when trying to login create and save user and redirect to feed
+    elif request.method == 'POST':
         reg_form = RegistrationForm(data=request.POST)
         # profile_form = UserProfileForm(data=request.POST)
         context = {}
@@ -39,8 +44,27 @@ def register(request):
             return render(request, 'Connect_FMS/index.html', context)
         else:
             return render(request, 'Connect_FMS/login.html', {'form': reg_form})
+    return render(request, 'Connect_FMS/login.html', {'form':reg_form})
 
 def login(request):
+    if request.method == 'GET':
+        login_form = LoginForm()
+    elif request.method == 'POST':
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+        user = auth.authenticate(username = username, password = password)
+        if user is not None:
+            auth.login(request, user)
+            return HttpResponseRedirect('Connect_FMS/index.html')
+        # else:
+            # return HttpResponseRedirect('/accounts/invalid')
+    return render(request, 'Connect_FMS/login.html', {'form':login_form})
+
+# render Login form for homepage
+def home(request):
+    login_form = LoginForm()
+    return render(request, 'Connect_FMS/login.html', {'form': login_form})
+
 
 
 def details(request, post_id):
@@ -62,14 +86,13 @@ def vote(request, post_id):
 def post_form_upload(request):
     if request.method == 'GET':
         form = PostForm()
-    else:
+    elif request.method == 'POST':
         # A POST request: Handle Form Upload
         form = PostForm(request.POST) 
         # If data is valid, proceeds to create a new post and redirect the user
         if form.is_valid():
           new_post = form.save()
         return HttpResponseRedirect(reverse('index'))
-
  
     return render(request, 'Connect_FMS/post_form_upload.html', {
         'form': form,
