@@ -46,14 +46,12 @@ def register(request):
             UserProfile.objects.create(user=user)
 
             # automatically log them in
-            user = auth.authenticate(username=user.username, password=request.POST.get('password'))
+            # user = auth.authenticate(username=user.username, password=request.POST.get('password'))
             if user is not None:
                 auth.login(request, user)
-                return HttpResponseRedirect('feed/')
+            return HttpResponseRedirect('feed/')
         else:
             return render(request, 'Connect_FMS/login.html', {'form': AuthenticationForm(), 'form1': RegistrationForm()})
-    else:
-        return
 
 def login(request):
     if request.method == 'GET':
@@ -79,6 +77,9 @@ def logout(request):
     context['form'] = login_form
     context['form1'] = reg_form
     return render(request, 'Connect_FMS/login.html', context)
+
+def about_us(request):
+    return
 
 @login_required
 def details(request, post_id):

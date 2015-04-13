@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^(?P<post_id>\d+)/$', views.details, name='details'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^form_upload',views.post_form_upload, name='post_form_upload'),
-    url(r'^register', views.register, name='register')
+    url(r'^register', views.register, name='register'),
+    url(r'^about', views.about, name='about_us')
     # url(r'^like(?P<post_id>\d+)$', views.vote, name='like')
 )
