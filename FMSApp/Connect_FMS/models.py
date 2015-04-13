@@ -108,7 +108,6 @@ class Post(models.Model):
     user = models.ForeignKey(User)
     location = models.ForeignKey(Location)
     created_at = models.DateTimeField(auto_now_add = True, editable = False)
-    votes = models.IntegerField(default = 0)
     description = models.CharField(max_length = 200, blank = False)
     utility = models.ForeignKey(Utility)
     image = models.ImageField(upload_to = 'images/posts/', blank = True, null = True)
@@ -128,6 +127,11 @@ class Post(models.Model):
     class Meta:
         ordering = ["-created_at", "-votes"]
 
+class Votes(models.Model):
+    numvotes = models.IntegerField(default=0)
+    user = models.ForeignKey(User)
+    post = models.ForeignKey(Post)
+
 
 class Status(models.Model):
     user = models.ForeignKey(User)
@@ -144,6 +148,11 @@ class Status(models.Model):
     #     status.likes+= 1
     #     status.save(update_fields=["likes"])
     # return
+
+class Likes(model.Model):
+    like = models.BooleanField()
+    user = models.ForeignKey(User)
+    status = models.ForeignKey(Status)
 
 
 class Response(models.Model):
