@@ -14,7 +14,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
 
-
+@login_required
 def index(request):
     context = {}
     context['post'] = Post.objects.all()
@@ -70,6 +70,7 @@ def logout(request):
     context['form'] = login_form
     return render(request, 'Connect_FMS/login.html', context)
 
+@login_required
 def details(request, post_id):
     try:
         p = Post.objects.get(pk=post_id)
@@ -79,6 +80,7 @@ def details(request, post_id):
         raise Http404("Post does not exist")
     return render(request, 'Connect_FMS/details.html', context)
 
+@login_required
 def vote(request, post_id):
     p = get_object_or_404(Post, id=post_id)
     p.upvote
@@ -86,6 +88,7 @@ def vote(request, post_id):
 
     from myblog.forms import PostForm
  
+@login_required
 def post_form_upload(request):
     if request.method == 'GET':
         form = PostForm()
