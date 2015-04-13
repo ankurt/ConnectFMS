@@ -2,8 +2,8 @@ from django import forms
 from django.forms import ModelForm
 from django.forms import ModelChoiceField
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import User, Building, Location, Utility, Post, Status, Comment
-
+from .models import Building, Location, Utility, Post, Status, Comment
+from django.contrib.auth.models import User
 
 # class LoginForm(AuthenticationForm):
 #     class Meta:
@@ -65,7 +65,7 @@ class UtilityForm(forms.ModelForm):
 
 
 class PostForm(forms.ModelForm):
-    user = forms.ModelChoiceField(queryset = User.objects.all())#, widget = forms.HiddenInput)
+    # user = forms.ModelChoiceField(queryset = User.objects.all())#, widget = forms.HiddenInput)
     location = forms.ModelChoiceField(queryset = Location.objects.all())
     utility = forms.ModelChoiceField(queryset = Utility.objects.all())
 
@@ -74,9 +74,10 @@ class PostForm(forms.ModelForm):
         # get hidden id from current user - 
         # http://stackoverflow.com/questions/9269945/how-do-i-pass-the-current-user-id-as-a-hidden-field-in-a-django-form
         fields = ('user', 'created_at', 'location', 'description', 'utility', 'image')
-        exclude = ('created_at',)
+        exclude = ('created_at', 'user')
         widgets = {
             'description': forms.Textarea(attrs={'cols': 40, 'rows': 5}),
+            'user': forms.HiddenInput(),
         }
 
 

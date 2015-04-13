@@ -57,10 +57,18 @@ def login(request):
         user = auth.authenticate(username = username, password = password)
         if user is not None:
             auth.login(request, user)
+            # request.user.message_set.create(message="You're logged in")
             return HttpResponseRedirect('feed/')
         else:
             return HttpResponseRedirect('form_upload')
     return render(request, 'Connect_FMS/login.html', {'form':login_form})
+
+def logout(request):
+    auth.logout(request)
+    login_form = AuthenticationForm()
+    context = {}
+    context['form'] = login_form
+    return render(request, 'Connect_FMS/login.html', context)
 
 def details(request, post_id):
     try:
@@ -86,9 +94,9 @@ def post_form_upload(request):
         form = PostForm(request.POST) 
         # If data is valid, proceeds to create a new post and redirect the user
         if form.is_valid():
-          new_post = form.save()
-        return HttpResponseRedirect(reverse('index'))
- 
-    return render(request, 'Connect_FMS/post_form_upload.html', {
-        'form': form,
-    })
+            new_post = form.save(commit=False)
+            new_post.user = request.user
+            new_post.save()
+            Votes.objects.create(user=new_post.user, post=new_post)
+            return HttpResponseRedirect(reverse('feed'))
+    return render(request, 'Connect_FMS/post_form_upload.html', {'form': form})

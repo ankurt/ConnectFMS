@@ -10,7 +10,7 @@
           <!-- <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>Profiles</h4></div> -->
           <div class="panel-body">
               <div class="w88 dib">
-                <h5 class="noborder nopadbot media-heading nomargbot">{{posts.user.first_name}} {{posts.user.last_name}}</h5>
+                <h5 class="noborder nopadbot media-heading nomargbot">{{posts.user.get_full_name}}</h5>
                 <span id="datetimeofpost" class="ofh"> {{posts.created_at|date:"g:i A"}} on {{posts.created_at|date:"l, F j"}}</span>
               </div>
               <div class="w10 dib">

@@ -119,13 +119,13 @@ class Post(models.Model):
 
     def percentvotes(self):
         votes_threshold = 50
-        return int((float(self.votes)/float(votes_threshold))*100)
+        return int((float(Votes.objects.get(post=self.id).numvotes)/float(votes_threshold))*100)
 
     def getcomments(self):
         return PostComment.objects.filter(post=self.id).all()
 
-    class Meta:
-        ordering = ["-created_at", "-votes"]
+    # class Meta:
+    #     ordering = ["-created_at", "-votes"]
 
 class Votes(models.Model):
     numvotes = models.IntegerField(default=0)
@@ -139,18 +139,18 @@ class Status(models.Model):
     created_at = models.DateTimeField(auto_now_add = True, editable = False)
     image = models.ImageField(upload_to = 'images/statuses/', blank = True, null = True)
     utility = models.ForeignKey(Utility)
-    likes = models.IntegerField(default = 0)
+    numlikes = models.IntegerField(default = 0)
 
-    class Meta:
-        ordering = ["-created_at", "likes"]
+    # class Meta:
+    #     ordering = ["-created_at", "likes"]
 
     # def like(status):
     #     status.likes+= 1
     #     status.save(update_fields=["likes"])
     # return
 
-class Likes(model.Model):
-    like = models.BooleanField()
+class Likes(models.Model):
+    like = models.BooleanField(default=True)
     user = models.ForeignKey(User)
     status = models.ForeignKey(Status)
 
