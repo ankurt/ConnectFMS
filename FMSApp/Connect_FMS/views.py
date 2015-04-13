@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 
 @login_required
 def index(request):
@@ -25,6 +26,7 @@ def register(request):
     # render Registration form
     if request.method == 'GET':
         reg_form = RegistrationForm()
+        login_form = AuthenticationForm()
     # when trying to login create and save user and redirect to feed
     elif request.method == 'POST':
         reg_form = RegistrationForm(data=request.POST)
@@ -40,17 +42,21 @@ def register(request):
             user.save()
 
             # set role to student default in UserProfile subclass
-            UserProfile.objects.save(user=user.id)
+            UserProfile.objects.create(user=user)
 
-            context['user'] = user
-            return render(request, 'Connect_FMS/index.html', context)
+            # automatically log them in
+            user = auth.authenticate(username=user.username, password=user.get_password)
+            if user is not None:
+                auth.login(request, user)
+                return HttpResponseRedirect('feed/')
         else:
-            return render(request, 'Connect_FMS/login.html', {'form': reg_form})
-    return render(request, 'Connect_FMS/login.html', {'form':reg_form})
+            return render(request, 'Connect_FMS/login.html', {'form': AuthenticationForm(), 'form1': RegistrationForm()})
+    return render(request, 'Connect_FMS/login.html', {'form':login_form, 'form1':reg_form})
 
 def login(request):
     if request.method == 'GET':
         login_form = AuthenticationForm()
+        reg_form = RegistrationForm()
     elif request.method == 'POST':
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
@@ -61,7 +67,7 @@ def login(request):
             return HttpResponseRedirect('feed/')
         else:
             return HttpResponseRedirect('form_upload')
-    return render(request, 'Connect_FMS/login.html', {'form':login_form})
+    return render(request, 'Connect_FMS/login.html', {'form':login_form, 'form1': reg_form})
 
 def logout(request):
     auth.logout(request)
