@@ -16,6 +16,8 @@ TEMPLATE_DIRS = (
     os.path.join(SITE_ROOT, 'templates/'),
 )
 LOGIN_URL = 'login'
+MEDIA_ROOT = '/images/'
+MEDIA_URL =''
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 

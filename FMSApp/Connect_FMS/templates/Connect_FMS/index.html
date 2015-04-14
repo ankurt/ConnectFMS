@@ -19,10 +19,12 @@
             <hr>
             <p class="ofh"> <strong>{{posts.location.full_location_name}}</strong></p>
             {% if posts.image == null %}
+              {{ posts.image }}
             {% else %}
               <div class="row">
                 <a class="db thumbnail w88 center-block" href="#">
-                  <img class="img-responsive center-block" src="//placehold.it/200x200">
+                  <!-- <img class="img-responsive center-block" src="//placehold.it/200x200"> -->
+                  {{ posts.image }}
                 </a>
               </div>
             {% endif %}
