@@ -78,8 +78,9 @@ def logout(request):
     context['form1'] = reg_form
     return render(request, 'Connect_FMS/login.html', context)
 
-def about_us(request):
-    return
+def about(request):
+    context = {}
+    return render(request, 'Connect_FMS/about.html', context)
 
 @login_required
 def details(request, post_id):

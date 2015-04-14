@@ -2,12 +2,14 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+from django.conf import settings
 import django.core.validators
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('contenttypes', '0001_initial'),
     ]
 
@@ -40,6 +42,16 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
+            name='Likes',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('like', models.BooleanField(default=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
             name='Location',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -56,13 +68,12 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('votes', models.IntegerField(default=0)),
                 ('description', models.CharField(max_length=200)),
-                ('image', models.ImageField(null=True, upload_to=b'images/posts/', blank=True)),
+                ('image', models.FileField(null=True, upload_to=b'images/posts/', blank=True)),
                 ('location', models.ForeignKey(to='Connect_FMS.Location')),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'ordering': ['-created_at', '-votes'],
             },
             bases=(models.Model,),
         ),
@@ -95,11 +106,11 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('description', models.CharField(max_length=600)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('image', models.ImageField(null=True, upload_to=b'images/statuses/', blank=True)),
-                ('likes', models.IntegerField(default=0)),
+                ('image', models.FileField(null=True, upload_to=b'images/statuses/', blank=True)),
+                ('numlikes', models.IntegerField(default=0)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'ordering': ['-created_at', 'likes'],
             },
             bases=(models.Model,),
         ),
@@ -115,17 +126,14 @@ class Migration(migrations.Migration):
             bases=('Connect_FMS.comment',),
         ),
         migrations.CreateModel(
-            name='User',
+            name='UserProfile',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('andrewid', models.CharField(max_length=20)),
-                ('first_name', models.CharField(max_length=50)),
-                ('last_name', models.CharField(max_length=50)),
-                ('email', models.EmailField(max_length=100)),
                 ('role', models.CharField(default=b'student', max_length=15, choices=[(b'admin', b'Administrator'), (b'student', b'Student'), (b'fms', b'FMS')])),
+                ('image', models.FileField(upload_to=b'profilepic', blank=True)),
+                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'ordering': ['last_name', 'first_name'],
             },
             bases=(models.Model,),
         ),
@@ -141,11 +149,17 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
-        migrations.AddField(
-            model_name='status',
-            name='user',
-            field=models.ForeignKey(to='Connect_FMS.User'),
-            preserve_default=True,
+        migrations.CreateModel(
+            name='Votes',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('numvotes', models.IntegerField(default=0)),
+                ('post', models.ForeignKey(to='Connect_FMS.Post')),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
         ),
         migrations.AddField(
             model_name='status',
@@ -161,14 +175,20 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='post',
-            name='user',
-            field=models.ForeignKey(to='Connect_FMS.User'),
+            name='utility',
+            field=models.ForeignKey(to='Connect_FMS.Utility'),
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='post',
-            name='utility',
-            field=models.ForeignKey(to='Connect_FMS.Utility'),
+            model_name='likes',
+            name='status',
+            field=models.ForeignKey(to='Connect_FMS.Status'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='likes',
+            name='user',
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -180,7 +200,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='comment',
             name='user',
-            field=models.ForeignKey(to='Connect_FMS.User'),
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
             preserve_default=True,
         ),
     ]
