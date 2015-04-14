@@ -74,3 +74,12 @@ hr {
 .fwlighter {
     font-weight: lighter;
 }
+
+textarea{
+    width: 100%;
+}
+
+img {
+    width:100%;
+    max-width: 500px;
+}

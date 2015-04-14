@@ -69,6 +69,7 @@ class PostForm(forms.ModelForm):
     location = forms.ModelChoiceField(queryset = Location.objects.all())
     utility = forms.ModelChoiceField(queryset = Utility.objects.all())
 
+
     class Meta:
         model = Post
         # get hidden id from current user - 
@@ -76,7 +77,7 @@ class PostForm(forms.ModelForm):
         fields = ('user', 'created_at', 'location', 'description', 'utility', 'image')
         exclude = ('created_at', 'user')
         widgets = {
-            'description': forms.Textarea(attrs={'cols': 40, 'rows': 5}),
+            'description': forms.Textarea(),
             'user': forms.HiddenInput(),
         }
 
@@ -90,7 +91,7 @@ class StatusForm(forms.ModelForm):
         model = Status
         fields = ('user', 'created_at', 'description', 'utility', 'image')
         widgets = {
-            'description': forms.Textarea(attrs={'cols': 80, 'rows': 20}),
+            'description': forms.Textarea(),
         }
 
 # class CommentForm(forms.ModelForm):

@@ -106,7 +106,7 @@ def post_form_upload(request):
         form = PostForm()
     elif request.method == 'POST':
         # A POST request: Handle Form Upload
-        form = PostForm(request.POST) 
+        form = PostForm(request.POST, request.FILES) 
         # If data is valid, proceeds to create a new post and redirect the user
         if form.is_valid():
             new_post = form.save(commit=False)
