@@ -94,9 +94,15 @@ def details(request, post_id):
 
 @login_required
 def vote(request, post_id):
-    p = get_object_or_404(Post, id=post_id)
-    p.upvote
+    p = get_object_or_404(Posts, id=post_id)
+    if(flag = 1):
+        p.addvote
+    elif(flag = 0):
+        p.novote
+    else
+        p.downvote
     return render(request, 'views.html')
+
 
     from myblog.forms import PostForm
  

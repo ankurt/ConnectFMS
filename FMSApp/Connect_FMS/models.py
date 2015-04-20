@@ -121,19 +121,32 @@ class Post(models.Model):
 
     def percentvotes(self):
         votes_threshold = 50
-        return int((float(Votes.objects.get(post=self.id).numvotes)/float(votes_threshold))*100)
+        return int((float(Votes.objects.get(post=self.id).vote)/float(votes_threshold))*100)
 
     def getcomments(self):
         return PostComment.objects.filter(post=self.id).all()
 
+    def addvote(self):
+        Votes.objects.create()
+
+    def numvotes(self):
+        return Votes.objects.filter(post=self.id).count()
+
     class Meta:
         ordering = ["-created_at"]
 
+
+
 class Votes(models.Model):
-    numvotes = models.IntegerField(default=0)
+    vote = models.IntegerField(default=0, choices=VoteChoices)
     user = models.ForeignKey(User)
     post = models.ForeignKey(Post)
 
+    VoteChoices = (
+        (1, 'upvote'),
+        (0, 'novote'),
+        (-1, 'downvote')
+        )
 
 class Status(models.Model):
     user = models.ForeignKey(User)
