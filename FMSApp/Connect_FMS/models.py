@@ -93,7 +93,6 @@ class Location(models.Model):
     # class Meta:
     #     ordering = ["building.name", "name"]
 
-
 class Utility(models.Model):
     name = models.CharField(max_length = 30, blank = False)
 
@@ -130,7 +129,11 @@ class Post(models.Model):
         return PostComment.objects.filter(post=self.id).all()
 
     def numvotes(self):
-        return Votes.objects.filter(post=self.id).count()
+        votes = Votes.objects.filter(post=self.id).all()
+        numvote = 0
+        for vote in votes:
+            numvote += votes.vote
+        return numvote
 
     class Meta:
         ordering = ["-created_at"]
