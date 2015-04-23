@@ -9,19 +9,19 @@
         <div class="panel panel-default">
           <!-- <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>Profiles</h4></div> -->
           <div class="panel-body">
-              <div class="w88 dib">
-                <h5 class="noborder nopadbot media-heading nomargbot">{{posts.user.get_full_name}}</h5>
-                <span id="datetimeofpost" class="ofh"> {{posts.created_at|date:"g:i A"}} on {{posts.created_at|date:"l, F j"}}</span>
-              </div>
-              <div class="w10 dib">
-                <p> {{posts.percentvotes}}% </p>
-              </div>
+            <div class="w88 dib">
+              <h5 class="noborder nopadbot media-heading nomargbot">{{posts.user.get_full_name}}</h5>
+              <span id="datetimeofpost" class="ofh"> {{posts.created_at|date:"g:i A"}} on {{posts.created_at|date:"l, F j"}}</span>
+            </div>
+            <div class="w10 dib">
+              <p> {{posts.percentvotes}}% </p>
+            </div>
             <hr>
             <p class="ofh"> <strong>{{posts.location.full_location_name}}</strong></p>
             {% if not posts.image %}
             {% else %}
               <div class="row">
-                <a class="db thumbnail w88 center-block" href="details">
+                <a class="db thumbnail w88 center-block" href="{% url 'detail' 'posts.id' %">
                   <img src="../{{ posts.image.url }}" alt="yolo"></img>
                 </a>
               </div>
@@ -30,10 +30,14 @@
               <p> {{posts.description}} </p>
             </div>
             <hr>
-            <div class="row" style="margin-top: 15px;">
-              <div class="center-block text-center morecomments">
-                <span>{{posts.numcomments}} Comment{% if posts.numcomments != 1 %}s{% endif %}</span>
-              </div>
+            <div style="margin-top: 15px;">
+              {% if posts.numcomments == 0 %}
+              {% else %}
+                <div class="center-block text-center morecomments">
+                  <span>{{posts.numcomments}} Comment{% if posts.numcomments != 1 %}s{% endif %}</span>
+                </div>
+                <hr>
+              {% endif %}
               {% for comment in posts.getcomments %}
                 <div class="row commentsrow hidden">
                   <h6 class="dib"> <strong>{{ comment.user.first_name}}</strong> </h6>
@@ -42,9 +46,23 @@
                     {{ comment.created_at|date:"g:i A"}} on {{comment.created_at|date:"l, F j" }}
                   </p>
                 </div>
-                <div class="row hidden center-block">
-                </div>
               {% endfor %}
+              <script type="text/javascript">
+                function submitComment(){
+                  document.commentForm.submit();
+                }
+              </script>
+              <div>
+                <form enctype="multipart/form-data" name="commentForm" action="submit_comment">
+                  <div style="margin-top: 15px;" class="center-block">
+                    <label>{{ user.first_name }}:</label><input name="description" placeholder="Write a comment..." class="w80" style="margin-left: 10px; padding-left: 5px;" type="text" onkeydown="if (event.keyCode == 13) submitComment()"/>
+                    <input style="display: none;" name="post" type="text" value="{{ posts.id }}"/>
+                  </div>
+                </form>
+              </div>
+                <div class="row center-block">
+                  <button class='btn'>Vote Up</button>
+                </div>
             </div>
           </div>
         </div> 

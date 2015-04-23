@@ -16,8 +16,8 @@ urlpatterns = patterns('',
     url(r'^form_upload',views.post_form_upload, name='post_form_upload'),
     url(r'^register', views.register, name='register'),
     url(r'^about', views.about, name='about'),
-    url(r'^signup', views.signup, name='signup')
-    # url(r'^like(?P<post_id>\d+)$', views.vote, name='like')
+    url(r'^signup', views.register, name='signup'),
+    url(r'^submit-comment', views.submit_comment, name='submit_comment'),
 )
 
 urlpatterns += staticfiles_urlpatterns()

@@ -14,6 +14,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_protect
 
 @login_required
 def index(request):
@@ -22,9 +23,12 @@ def index(request):
     return render(request,'Connect_FMS/index.html', context)
 
 # create new user and log them in
+@csrf_protect
 def register(request):
     # render Registration form
-    if request.method == 'GET':
+    if request.user.is_authenticated():
+        return HttpResponseRedirect( 'feed/')
+    elif request.method == 'GET':
         reg_form = RegistrationForm()
         return render(request, 'Connect_FMS/signup.html', {'form1':reg_form})
     # when trying to login create and save user and redirect to feed
@@ -38,22 +42,28 @@ def register(request):
             user = reg_form.save()
 
             # hash password with django default method
-            user.set_password(user.password)
             user.save()
 
             # set role to student default in UserProfile subclass
-            UserProfile.objects.create(user=user)
+            UserProfile.objects.create(user=user, role='student')
 
             # automatically log them in
-            # user = auth.authenticate(username=user.username, password=request.POST.get('password'))
+            user = auth.authenticate(username=user.username, password=request.POST.get('password', ''))
             if user is not None:
                 auth.login(request, user)
-            return HttpResponseRedirect('feed/')
+                return render(request, 'Connect_FMS/index.html', {'form': AuthenticationForm()})
+            else:
+                HttpResponse('authentication failed')
+                # return render(request, 'Connect_FMS/login.html', {'form': AuthenticationForm()})
         else:
+            print 'Form is not valid'
             return render(request, 'Connect_FMS/signup.html', {'form1': RegistrationForm()})
+    return render(request, 'Connect_FMS/signup.html', {'form1': reg_form})
 
 def login(request):
-    if request.method == 'GET':
+    if request.user.is_authenticated():
+        return HttpResponseRedirect( 'feed/')
+    elif request.method == 'GET':
         login_form = AuthenticationForm()
         reg_form = RegistrationForm()
     elif request.method == 'POST':
@@ -65,7 +75,7 @@ def login(request):
             # request.user.message_set.create(message="You're logged in")
             return HttpResponseRedirect('feed/')
         else:
-            return HttpResponseRedirect('form_upload')
+            return HttpResponseRedirect('login.html')
     return render(request, 'Connect_FMS/login.html', {'form':login_form})
 
 def logout(request):
@@ -81,9 +91,9 @@ def about(request):
     context = {}
     return render(request, 'Connect_FMS/about.html', context)
 
-def signup(request):
-    context = {}
-    return render(request, 'Connect_FMS/signup.html', context)
+# def signup(request):
+#     context = {}
+#     return render(request, 'Connect_FMS/signup.html', context)
 
 @login_required
 def details(request, post_id):
@@ -106,8 +116,14 @@ def vote(request, post_id, user_id, flag):
         v.save()
     return render(request, 'Connect_FMS/index.html')
 
-# from myblog.forms import PostForm
- 
+@login_required
+def submit_comment(request):
+    if request.method == 'POST':
+        comment = request.POST.get('description', '')
+        post_id = request.POST.get('post_id', '')
+        PostComment.objects.create(user=request.user, post=request.post_id, description=comment)
+    return render(request, 'Connect_FMS/index.html')
+
 @login_required
 def post_form_upload(request):
     if request.method == 'GET':

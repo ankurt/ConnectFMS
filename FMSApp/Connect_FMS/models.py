@@ -47,6 +47,9 @@ class UserProfile(models.Model):
         choices = ROLE_CHOICES,
         default = 'student')
     image = models.FileField(upload_to = "images/profilepics/%Y/%m/%d", blank = True)
+
+    class Meta:
+        permissions = ()
     # objects = models.Manager() # default manager
     # fms_users = FMSUserManager() # fms users
     # student_users = StudentUserManager() # student users

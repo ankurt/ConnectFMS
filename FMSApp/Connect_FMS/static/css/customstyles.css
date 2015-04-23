@@ -58,12 +58,28 @@ hr {
     font-size: 10px;
 }
 
+.fixed {
+    position: fixed;
+}
+
 .w10 {
     width: 10%;
 }
 
 .w88 {
     width: 88%;
+}
+
+.w60 {
+    width: 60%;
+}
+
+.w80 {
+    width: 80%;
+}
+
+.w100 {
+    width: 100%;
 }
 
 .commentbtn {
