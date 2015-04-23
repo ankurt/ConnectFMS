@@ -26,8 +26,7 @@ def register(request):
     # render Registration form
     if request.method == 'GET':
         reg_form = RegistrationForm()
-        login_form = AuthenticationForm()
-        return render(request, 'Connect_FMS/login.html', {'form':login_form, 'form1':reg_form})
+        return render(request, 'Connect_FMS/signup.html', {'form1':reg_form})
     # when trying to login create and save user and redirect to feed
     elif request.method == 'POST':
         reg_form = RegistrationForm(data=request.POST)
@@ -51,7 +50,7 @@ def register(request):
                 auth.login(request, user)
             return HttpResponseRedirect('feed/')
         else:
-            return render(request, 'Connect_FMS/login.html', {'form': AuthenticationForm(), 'form1': RegistrationForm()})
+            return render(request, 'Connect_FMS/signup.html', {'form1': RegistrationForm()})
 
 def login(request):
     if request.method == 'GET':
@@ -67,7 +66,7 @@ def login(request):
             return HttpResponseRedirect('feed/')
         else:
             return HttpResponseRedirect('form_upload')
-    return render(request, 'Connect_FMS/login.html', {'form':login_form, 'form1': reg_form})
+    return render(request, 'Connect_FMS/login.html', {'form':login_form})
 
 def logout(request):
     auth.logout(request)
@@ -81,6 +80,10 @@ def logout(request):
 def about(request):
     context = {}
     return render(request, 'Connect_FMS/about.html', context)
+
+def signup(request):
+    context = {}
+    return render(request, 'Connect_FMS/signup.html', context)
 
 @login_required
 def details(request, post_id):

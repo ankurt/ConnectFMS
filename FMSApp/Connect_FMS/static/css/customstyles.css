@@ -32,6 +32,14 @@
     padding-bottom: 0;
 }
 
+/*#aboutapp {
+    float:left;
+}
+
+#aboutTeam {
+    float: right;
+}*/
+
 .commentsrow {
     margin-right: auto;
     margin-left: 15px;
@@ -77,6 +85,18 @@ hr {
 
 textarea{
     width: 100%;
+}
+
+#aboutTeam img{
+    width: 75px;
+    height: auto;
+    margin-bottom: 5px;
+}
+
+#aboutTeam p {
+    text-align: center;
+    font-size: 80%;
+    text-decoration: none;
 }
 
 img {
