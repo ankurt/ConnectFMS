@@ -126,27 +126,25 @@ class Post(models.Model):
     def getcomments(self):
         return PostComment.objects.filter(post=self.id).all()
 
-    def addvote(self):
-        Votes.objects.create()
-
     def numvotes(self):
         return Votes.objects.filter(post=self.id).count()
 
     class Meta:
         ordering = ["-created_at"]
 
-
-
 class Votes(models.Model):
-    vote = models.IntegerField(default=0, choices=VoteChoices)
-    user = models.ForeignKey(User)
-    post = models.ForeignKey(Post)
-
     VoteChoices = (
         (1, 'upvote'),
         (0, 'novote'),
         (-1, 'downvote')
-        )
+    )
+
+    vote = models.IntegerField(default=0, choices=VoteChoices)
+    user = models.ForeignKey(User)
+    post = models.ForeignKey(Post)
+
+# class VotesUser(Votes):
+
 
 class Status(models.Model):
     user = models.ForeignKey(User)

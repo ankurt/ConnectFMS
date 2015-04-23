@@ -93,18 +93,17 @@ def details(request, post_id):
     return render(request, 'Connect_FMS/details.html', context)
 
 @login_required
-def vote(request, post_id):
-    p = get_object_or_404(Posts, id=post_id)
-    if(flag = 1):
-        p.addvote
-    elif(flag = 0):
-        p.novote
-    else
-        p.downvote
-    return render(request, 'views.html')
+def vote(request, post_id, user_id, flag):
+    v = Votes.objects.filter(post=post_id, user=user_id).first()
+    if(v is not None):
+        Votes.objects.create(post=post_id, user=user_id, vote=flag)
+        v.save()
+    else:
+        v.vote = flag
+        v.save()
+    return render(request, 'Connect_FMS/index.html')
 
-
-    from myblog.forms import PostForm
+# from myblog.forms import PostForm
  
 @login_required
 def post_form_upload(request):

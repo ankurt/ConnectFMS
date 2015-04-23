@@ -22,7 +22,7 @@
             {% else %}
               <div class="row">
                 <a class="db thumbnail w88 center-block" href="details">
-                  <img src="{{ posts.image.url }}" alt="yolo"></img>
+                  <img src="../{{ posts.image.url }}" alt="yolo"></img>
                 </a>
               </div>
             {% endif %}
@@ -38,7 +38,9 @@
                 <div class="row commentsrow hidden">
                   <h6 class="dib"> <strong>{{ comment.user.first_name}}</strong> </h6>
                   <h6 class="dib fwlighter" style="margin-bottom: 5px;"> {{ comment.description }} </h6>
-                  <p id="datetimeofpost" class="ofh">{{ comment.created_at|date:"g:i A"}} on {{comment.created_at|date:"l, F j" }}</p>
+                  <p id="datetimeofpost" class="ofh">
+                    {{ comment.created_at|date:"g:i A"}} on {{comment.created_at|date:"l, F j" }}
+                  </p>
                 </div>
                 <div class="row hidden center-block">
                 </div>
