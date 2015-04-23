@@ -37,19 +37,23 @@ Released under the MIT license: http://jsbin.mit-license.org
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </a>
-        <a class="navbar-brand orcolor" href="#">Connect FMS</a>
-        {% if user.is_authenticated %}
-          <a class="flr orcolor" href="{% url 'logout' %}">Logout {{ user.username }}</a>
-        {% else %}
-          <p class="flr orcolor">Please Login</p>
-        {% endif %}
+        <a class="navbar-brand orcolor" href="/Connect_FMS">Connect FMS</a>
       </div>
       <div id="slidemenu">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="{% url 'feed' %}">Newsfeed</a></li>
+          <li><a href="{% url 'feed' %}">Newsfeed</a></li>
           <li><a href="{% url 'post_form_upload' %}">Create Post</a></li>
           <li><a href="{% url 'about' %}">About</a></li>
-        </ul>     
+        </ul>  
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+          {% if user.is_authenticated %}
+          <a class="flr orcolor" href="{% url 'logout' %}">Logout {{ user.username }}</a>
+          {% else %}
+            <a class="flr orcolor" href="#">Please Login</a>
+          {% endif %}
+          </li>
+        </ul>   
       </div>
     </div>
   </div>
