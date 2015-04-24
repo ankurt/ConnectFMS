@@ -118,10 +118,12 @@ def vote(request, post_id, user_id, flag):
 
 @login_required
 def submit_comment(request):
-    if request.method == 'POST':
-        comment = request.POST.get('description', '')
-        post_id = request.POST.get('post_id', '')
-        PostComment.objects.create(user=request.user, post=request.post_id, description=comment)
+    if request.method == 'GET':
+        comment = request.GET.get('description', '')
+        post_id = request.GET.get('post', '')
+        p=Post.objects.get(pk=post_id)
+        PostComment.objects.create(user=request.user, post=p, description=comment)
+        return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/index.html')
 
 @login_required

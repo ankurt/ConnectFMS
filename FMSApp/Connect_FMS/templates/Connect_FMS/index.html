@@ -53,10 +53,11 @@
                 }
               </script>
               <div>
-                <form enctype="multipart/form-data" name="commentForm" action="submit_comment">
+                <form enctype="multipart/form-data" name="commentForm" action="submit_comment"> 
                   <div style="margin-top: 15px;" class="center-block">
-                    <label>{{ user.first_name }}:</label><input name="description" placeholder="Write a comment..." class="w80" style="margin-left: 10px; padding-left: 5px;" type="text" onkeydown="if (event.keyCode == 13) submitComment()"/>
+                    <label>{{ user.first_name }}:</label><input name="description" placeholder="Write a comment..." class="w80" style="margin-left: 10px; padding-left: 5px;" type="text" onkeydown="if (event.keyCode == 13) submit"/>
                     <input style="display: none;" name="post" type="text" value="{{ posts.id }}"/>
+                    <input type="submit" value="OK">
                   </div>
                 </form>
               </div>
