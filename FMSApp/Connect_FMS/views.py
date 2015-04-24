@@ -118,7 +118,7 @@ def post_vote(request):
             v.vote = flag
             v.save()
         except:
-            Votes.objects.create(post=p, user=u, vote=flag)
+            v = Votes.objects.create(post=p, user=u, vote=flag)
             v.save()
         return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/index.html')
