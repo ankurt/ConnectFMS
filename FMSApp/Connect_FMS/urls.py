@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     url(r'^register', views.register, name='register'),
     url(r'^about', views.about, name='about'),
     url(r'^signup', views.register, name='signup'),
-    url(r'^submit-comment', views.submit_comment, name='submit_comment'),
+    url(r'^feed/submit_comment', views.submit_comment, name='submit_comment'),
 )
 
 urlpatterns += staticfiles_urlpatterns()
