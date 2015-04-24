@@ -48,8 +48,15 @@ class UserProfile(models.Model):
         default = 'student')
     image = models.FileField(upload_to = "images/profilepics/%Y/%m/%d", blank = True)
 
-    # class Meta:
-    #     permissions = ()
+    def addStudentPermissions():
+        userobject = django.contrib.auth.get_user_model().objects.get(id=self.user)
+        permissions = [('Can vote'), ('Can PostComment'), ('Can ')]
+        userobject.user_permissions.add('Connect_FMS.can_vote')
+        return
+
+
+    class Meta:
+        permissions = ()
     # objects = models.Manager() # default manager
     # fms_users = FMSUserManager() # fms users
     # student_users = StudentUserManager() # student users
