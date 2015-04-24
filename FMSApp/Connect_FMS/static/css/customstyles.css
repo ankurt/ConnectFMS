@@ -2,6 +2,10 @@
     text-align: center;
 }
 
+body {
+    padding-top: 60px;
+}
+
 #footer {
     border: none;
     padding-bottom: 0;

@@ -19,7 +19,7 @@ from django.views.decorators.csrf import csrf_protect
 @login_required
 def index(request):
     context = {}
-    context['post'] = Post.objects.all()
+    context['posts'] = Post.objects.all()
     return render(request,'Connect_FMS/index.html', context)
 
 # create new user and log them in
@@ -106,14 +106,21 @@ def details(request, post_id):
     return render(request, 'Connect_FMS/details.html', context)
 
 @login_required
-def vote(request, post_id, user_id, flag):
-    v = Votes.objects.filter(post=post_id, user=user_id).first()
-    if(v is not None):
-        Votes.objects.create(post=post_id, user=user_id, vote=flag)
-        v.save()
-    else:
-        v.vote = flag
-        v.save()
+def post_vote(request):
+    if request.method == "POST":
+        user_id = request.POST.get('user_id', '')
+        post_id = request.POST.get('post_id', '')
+        p = Post.objects.get(pk=post_id)
+        u = User.objects.get(pk=user_id)
+        flag = request.POST.get('flag', '')
+        try: 
+            v = Votes.objects.filter(post=p, user=u)[0]
+            v.vote = flag
+            v.save()
+        except:
+            Votes.objects.create(post=p, user=u, vote=flag)
+            v.save()
+        return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/index.html')
 
 @login_required

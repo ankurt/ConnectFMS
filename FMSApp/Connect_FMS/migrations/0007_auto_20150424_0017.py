@@ -11,10 +11,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterModelOptions(
-            name='userprofile',
-            options={'permissions': ()},
-        ),
         migrations.AlterField(
             model_name='post',
             name='image',

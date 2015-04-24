@@ -5,40 +5,40 @@
   <div class="fluid-container" >
     <div class="col-md-4 col-sm-6">
     <!-- Mobile Version -->
-      {% for posts in post %}
+      {% for post in posts %}
         <div class="panel panel-default">
           <!-- <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>Profiles</h4></div> -->
           <div class="panel-body">
             <div class="w88 dib">
-              <h5 class="noborder nopadbot media-heading nomargbot">{{posts.user.get_full_name}}</h5>
-              <span id="datetimeofpost" class="ofh"> {{posts.created_at|date:"g:i A"}} on {{posts.created_at|date:"l, F j"}}</span>
+              <h5 class="noborder nopadbot media-heading nomargbot">{{post.user.get_full_name}}</h5>
+              <span id="datetimeofpost" class="ofh"> {{post.created_at|date:"g:i A"}} on {{post.created_at|date:"l, F j"}}</span>
             </div>
             <div class="w10 dib">
-              <p> {{posts.percentvotes}}% </p>
+              <p> {{post.numvotes}} </p>
             </div>
             <hr>
-            <p class="ofh"> <strong>{{posts.location.full_location_name}}</strong></p>
-            {% if not posts.image %}
+            <p class="ofh"> <strong>{{post.location.full_location_name}}</strong></p>
+            {% if not post.image %}
             {% else %}
               <div class="row">
-                <a class="db thumbnail w88 center-block" href="{% url 'detail' 'posts.id' %">
-                  <img src="../{{ posts.image.url }}" alt="yolo"></img>
+                <a class="db thumbnail w88 center-block" href="{% url 'detail' 'post.id' %">
+                  <img src="../{{ post.image.url }}" alt="yolo"></img>
                 </a>
               </div>
             {% endif %}
             <div class="">
-              <p> {{posts.description}} </p>
+              <p> {{post.description}} </p>
             </div>
             <hr>
             <div style="margin-top: 15px;">
-              {% if posts.numcomments == 0 %}
+              {% if post.numcomments == 0 %}
               {% else %}
                 <div class="center-block text-center morecomments">
-                  <span>{{posts.numcomments}} Comment{% if posts.numcomments != 1 %}s{% endif %}</span>
+                  <span>{{post.numcomments}} Comment{% if post.numcomments != 1 %}s{% endif %}</span>
                 </div>
                 <hr>
               {% endif %}
-              {% for comment in posts.getcomments %}
+              {% for comment in post.getcomments %}
                 <div class="row commentsrow hidden">
                   <h6 class="dib"> <strong>{{ comment.user.first_name}}</strong> </h6>
                   <h6 class="dib fwlighter" style="margin-bottom: 5px;"> {{ comment.description }} </h6>
@@ -56,20 +56,26 @@
                 <form enctype="multipart/form-data" name="commentForm" action="submit_comment">
                   <div style="margin-top: 15px;" class="center-block">
                     <label>{{ user.first_name }}:</label><input name="description" placeholder="Write a comment..." class="w80" style="margin-left: 10px; padding-left: 5px;" type="text" onkeydown="if (event.keyCode == 13) submitComment()"/>
-                    <input style="display: none;" name="post" type="text" value="{{ posts.id }}"/>
+                    <input style="display: none;" name="post" type="text" value="{{ post.id }}"/>
                   </div>
                 </form>
               </div>
                 <div class="row center-block">
                 <!-- Cast a Vote -->
-                <script>
-
-                </script>
-                <form>
-                <input name="flag" />
-                  <button class='btn'>Vote Up</button>
-                  <button class='btn'>Vote Down</button>
-                </form>
+                  <form id= "voteup" enctype="multipart/form-data" action="post_vote" method= "post">
+                    {% csrf_token %}
+                    <input name="post_id" type="hidden" value="{{post.id}}"/>
+                    <input name="user_id" type="hidden" value="{{user.id}}"/>
+                    <input name="flag" type="hidden" value="1"/>
+                    <button type ="submit" class='btn btn-default btn-sm'>Vote Up</button>
+                  </form>
+                  <form id= "votedown" enctype="multipart/form-data" action="post_vote" method="post">
+                    {% csrf_token %}
+                    <input name="post_id" type="hidden" value="{{post.id}}"/>
+                    <input name="user_id" type="hidden" value="{{user.id}}"/>
+                    <input name="flag" type="hidden" value="-1"/>
+                    <button type ="submit" class='btn btn-default btn-sm'>Vote Down</button>
+                  </form>
                 </div>
             </div>
           </div>

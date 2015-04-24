@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Building, Location, Utility, Post, PostComment
+from .models import Building, Location, Utility, Post, PostComment, Votes
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from Connect_FMS.models import UserProfile
@@ -20,4 +20,5 @@ admin.site.register(Post)
 admin.site.register(PostComment)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+admin.site.register(Votes)
 

@@ -1,13 +1,13 @@
 /* adjust body when menu is open */
-body.slide-active {
+/*body.slide-active {
     overflow-x: hidden
-}
+}*/
 /*first child of #page-content so it doesn't shift around*/
-.no-margin-top {
+/*.no-margin-top {
     margin-top: 0px!important
-}
+}*/
 /*wrap the entire page content but not nav inside this div if not a fixed top, don't add any top padding */
-#page-content {
+/*#page-content {
     position: relative;
     padding-top: 70px;
     left: 0;
@@ -15,11 +15,11 @@ body.slide-active {
 #page-content.slide-active {
     padding-top: 0
 }
-
+*/
 
 
 /* put toggle bars on the left :: not using button */
-#slide-nav .navbar-toggle {
+/*#slide-nav .navbar-toggle {
     cursor: pointer;
     position: relative;
     line-height: 0;
@@ -30,26 +30,26 @@ body.slide-active {
     padding: 10px 0 0 0;
     border: 0;
     background: transparent;
-}
+}*/
 /* icon bar prettyup - optional */
-#slide-nav .navbar-toggle > .icon-bar {
+/*#slide-nav .navbar-toggle > .icon-bar {
     width: 100%;
     display: block;
     height: 3px;
     margin: 5px 0 0 0;
-}
-#slide-nav .navbar-toggle.slide-active .icon-bar {
+}*/
+/*#slide-nav .navbar-toggle.slide-active .icon-bar {
     background: orange
 }
 .navbar-header {
     position: relative
-}
+}*/
 /* un fix the navbar when active so that all the menu items are accessible */
-.navbar.navbar-fixed-top.slide-active {
+/*.navbar.navbar-fixed-top.slide-active {
     position: relative
-}
+}*/
 /* screw writing importants and shit, just stick it in max width since these classes are not shared between sizes */
-@media (max-width:767px) { 
+/*@media (max-width:767px) { 
 	#slide-nav .container {
 	    margin: 0!important;
 	    padding: 0!important;
@@ -91,9 +91,9 @@ body.slide-active {
 	}
 	#slide-nav.navbar-inverse #slidemenu {
 	    background: #333
-	}
+	}*/
 	/* this is behind the navigation but the navigation is not inside it so that the navigation is accessible and scrolls*/
-	#navbar-height-col {
+/*	#navbar-height-col {
 	    position: fixed;
 	    top: 0;
 	    height: 100%;
@@ -113,7 +113,7 @@ body.slide-active {
 	    text-align: center;
 	    overflow: hidden;
 	    /*fast clearfixer*/
-	}
+/*	}
 	#slide-nav .navbar-form .form-control {
 	    text-align: center
 	}
@@ -132,3 +132,4 @@ body.slide-active {
 	    left: 0!important
 	}
 }
+*/
