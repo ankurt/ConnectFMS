@@ -52,7 +52,16 @@ Released under the MIT license: http://jsbin.mit-license.org
             {% endif %}
           </li>
           <li><a href="{% url 'feed' %}">Newsfeed</a></li>
-          <li><a href="{% url 'post_form_upload' %}">Create Post</a></li>
+          <li>
+            {% if user.role == 'student' %}
+              <a href="{% url 'post_form_upload' %}">Create Post</a>
+            {% elif user.role == 'fms' %}
+              <a href="{% url 'status_upload' %}">Post Status</a>
+            {% else %}
+              <a href="{% url 'post_form_upload' %}">Create Post</a>
+              <a href="{% url 'status_upload' %}">Post Status</a>
+            {% endif %}
+          </li>
           <li><a href="{% url 'about' %}">About</a></li>
         </ul>   
       </div>
@@ -65,7 +74,8 @@ Released under the MIT license: http://jsbin.mit-license.org
 
 <footer>
   <div class="col-sm-12">
-    <h4 id="footer" class="center-text">Moxi Team</h4>
+    <span>Developed by</span>
+    <span><h4 id="footer" class="center-text">Moxi Team</h4></span>
     <h6 class="center-text">in Association with CBPD</h6>
   </div>
 </footer>

@@ -92,6 +92,7 @@ class StatusForm(forms.ModelForm):
         fields = ('user', 'created_at', 'description', 'utility', 'image')
         widgets = {
             'description': forms.Textarea(),
+            'user': forms.HiddenInput(),
         }
 
 # class CommentForm(forms.ModelForm):

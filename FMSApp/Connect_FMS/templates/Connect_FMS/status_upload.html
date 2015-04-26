@@ -1,0 +1,26 @@
+{% extends 'Connect_FMS/base.html' %}
+{% load bootstrap %}
+
+{% block content %}
+<div id="page-content">
+<div class="fluid-container" >
+    <div class="col-md-4 col-sm-6">
+    <!-- Mobile Version -->
+        <div class="panel panel-default">
+          {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+          <div class="panel-body">
+              <div class="w88 dib">
+              <h5>Post a Status</h5> 
+              <form enctype="multipart/form-data" action='status_upload' method='post'>
+                {% csrf_token %}
+                {{ form }}
+                <input class="btn btn-primary btn-large"  type='submit' value='Submit' />
+              </form>
+              </div>
+          </div>
+        </div> 
+    </div>
+  </div>
+</div>
+
+ {% endblock %}

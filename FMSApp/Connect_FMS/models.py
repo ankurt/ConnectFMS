@@ -130,6 +130,9 @@ class Post(models.Model):
     def getcomments(self):
         return PostComment.objects.filter(post=self.id).all()
 
+    def getresponse(self):
+        return Response.objects.filter(post=self.id).all()
+
     def numvotes(self):
         votes = Votes.objects.filter(post=self.id).all()
         numvote = 0

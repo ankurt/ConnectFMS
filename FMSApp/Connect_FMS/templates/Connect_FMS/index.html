@@ -5,6 +5,8 @@
   <div class="fluid-container" >
     <div class="col-md-4 col-sm-6">
     <!-- Mobile Version -->
+    
+    <!-- Populate newsfeed with posts! -->
       {% for post in posts %}
         <div class="panel panel-default">
           <!-- <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>Profiles</h4></div> -->
@@ -29,9 +31,9 @@
             <div class="">
               <p> {{post.description}} </p>
             </div>
-            
+
+            <!-- Cast a Vote -->        
             <div class="row center-block flr">
-            <!-- Cast a Vote -->
               <form class="dib" id= "voteup" enctype="multipart/form-data" action="post_vote" method= "post">
                 {% csrf_token %}
                 <input name="post_id" type="hidden" value="{{post.id}}"/>
@@ -73,8 +75,12 @@
                 {% endif %}  
               </form>
             </div>
+            <!-- End Casting a Vote -->
+
             <br><br>
             <hr>
+
+            <!-- Comments Section -->
             <div style="margin-top: 15px;">
               {% if post.numcomments == 0 %}
               {% else %}
@@ -103,6 +109,8 @@
                 </form>
               </div>
             </div>
+            <!-- End Comments Section -->
+
           </div>
         </div> 
       {% empty %}

@@ -16,14 +16,17 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 
+# home feed page, passes in all posts, votes, and responses
 @login_required
 def index(request):
     context = {}
     context['posts'] = Post.objects.all()
     context['userVotes'] = Votes.objects.filter(user=request.user)
+    context['statuses'] = Status.objects.all()
+    context['responses'] = Responses.objects.all()
     return render(request,'Connect_FMS/index.html', context)
 
-# create new user and log them in
+# validate and create new user
 @csrf_protect
 def register(request):
     # render Registration form
@@ -149,3 +152,17 @@ def post_form_upload(request):
             Votes.objects.create(user=new_post.user, post=new_post)
             return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/post_form_upload.html', {'form': form})
+
+@login_required
+def status_upload(request):
+    if request.method == 'GET':
+        form = StatusForm()
+    elif request.method == 'POST':
+        form = StatusForm(request.POST, request.FILES)
+        if form.is_valid():
+            new_status = form.save(commit=False)
+            new_status.user = request.user
+            new_post.save()
+            return HttpResponseRedirect(reverse('feed'))
+    return render(request, 'Connect_FMS/status_upload.html', {'form': form})
+
