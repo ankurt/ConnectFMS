@@ -36,7 +36,6 @@
                 <div class="center-block text-center morecomments">
                   <span>{{post.numcomments}} Comment{% if post.numcomments != 1 %}s{% endif %}</span>
                 </div>
-                <hr>
               {% endif %}
               {% for comment in post.getcomments %}
                 <div class="row commentsrow hidden">
@@ -50,10 +49,11 @@
 
               <div>
                 <form enctype="multipart/form-data" name="commentForm" action="submit_comment" method="post"> 
+                  {% csrf_token %}
                   <div style="margin-top: 15px;" class="center-block">
                     <label>{{ user.first_name }}:</label><input name="description" placeholder="Write a comment..." class="w80" style="margin-left: 10px; padding-left: 5px;" type="text" onkeydown="if (event.keyCode == 13) submit"/>
-                    <input style="display: none;" name="post" type="text" value="{{ posts.id }}"/>
-                    <input type="submit" value="OK">
+                    <input style="display: none;" name="post" value="{{ post.id }}"/>
+                    <input style="display: none;" type="submit" value="OK">
                   </div>
                 </form>
               </div>

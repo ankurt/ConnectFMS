@@ -126,8 +126,8 @@ def post_vote(request):
 @login_required
 def submit_comment(request):
     if request.method == 'POST':
-        comment = request.POST.get('description', '')
-        post_id = request.POST.get('post', '')
+        comment = request.POST.get('description')
+        post_id = request.POST.get('post')
         p=Post.objects.get(pk=post_id)
         PostComment.objects.create(user=request.user, post=p, description=comment)
         return HttpResponseRedirect(reverse('feed'))
