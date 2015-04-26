@@ -1,6 +1,7 @@
 {% extends 'Connect_FMS/base.html' %}
-{% block content %}
+{% load bootstrap %}
 
+{% block content %}
 <div id="page-content">
 <div class="fluid-container" >
     <div class="col-md-4 col-sm-6">
@@ -11,8 +12,8 @@
               <div class="w88 dib">
               <h5>Report a problem</h5> 
               <form enctype="multipart/form-data" action='form_upload' method='post'>{% csrf_token %}
-                {{ form.as_p }}
-                <input type='submit' value='Submit' />
+                {{ form | bootstrap}}
+                <input class="btn btn-primary btn-large"  type='submit' value='Submit' />
               </form>
               </div>
           </div>
@@ -20,5 +21,11 @@
     </div>
   </div>
 </div>
+<script type="text/javascript">
+
+$(document).ready(function() {
+  $("#id_location").select2();
+});
+</script>
 
  {% endblock %}

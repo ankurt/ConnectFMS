@@ -57,6 +57,19 @@ hr {
     float: right;
 }
 
+#voteButton {
+    border-style: none;
+    font-size: 130%
+}
+
+#votedUp {
+    color: green;
+}
+
+#votedDown {
+    color: red;
+}
+
 #datetimeofpost {
     color: #AAA;
     font-size: 10px;

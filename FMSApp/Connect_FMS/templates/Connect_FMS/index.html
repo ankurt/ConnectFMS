@@ -29,6 +29,51 @@
             <div class="">
               <p> {{post.description}} </p>
             </div>
+            
+            <div class="row center-block flr">
+            <!-- Cast a Vote -->
+              <form class="dib" id= "voteup" enctype="multipart/form-data" action="post_vote" method= "post">
+                {% csrf_token %}
+                <input name="post_id" type="hidden" value="{{post.id}}"/>
+                <input name="user_id" type="hidden" value="{{user.id}}"/>
+                <input name="flag" type="hidden" value="1"/>
+                {% if userVotes %}
+                  {% for vote in userVotes %}
+                    {% if vote.post_id == post.id %}
+                      {% if vote.vote == 0 or vote.vote == -1 %}
+                        <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-up"></i></button>
+                      {% elif vote.vote == 1 %}
+                        <button id= "voteButton" type ="submit" class='btn btn-default btn-s '><i id="votedUp"class="fa fa-thumbs-up"></i></button>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}  
+                {% if post.numvotes == 0 %}
+                  <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-up"></i></button>
+                {% endif %}  
+              </form>
+              <form class="dib" id= "votedown" enctype="multipart/form-data" action="post_vote" method="post">
+                {% csrf_token %}
+                <input name="post_id" type="hidden" value="{{post.id}}"/>
+                <input name="user_id" type="hidden" value="{{user.id}}"/>
+                <input name="flag" type="hidden" value="-1"/>
+                {% if userVotes %}
+                  {% for vote in userVotes %}
+                    {% if vote.post_id == post.id %}
+                      {% if vote.vote == 0 or vote.vote == 1 %}
+                        <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-down"></i></button>
+                      {% elif vote.vote == -1 %}
+                        <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i id= "votedDown"class="fa fa-thumbs-down"></i></button>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if post.numvotes == 0 %}
+                  <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-down"></i></button>
+                {% endif %}  
+              </form>
+            </div>
+            <br><br>
             <hr>
             <div style="margin-top: 15px;">
               {% if post.numcomments == 0 %}
@@ -57,23 +102,6 @@
                   </div>
                 </form>
               </div>
-                <div class="row center-block">
-                <!-- Cast a Vote -->
-                  <form id= "voteup" enctype="multipart/form-data" action="post_vote" method= "post">
-                    {% csrf_token %}
-                    <input name="post_id" type="hidden" value="{{post.id}}"/>
-                    <input name="user_id" type="hidden" value="{{user.id}}"/>
-                    <input name="flag" type="hidden" value="1"/>
-                    <button type ="submit" class='btn btn-default btn-sm'>Vote Up</button>
-                  </form>
-                  <form id= "votedown" enctype="multipart/form-data" action="post_vote" method="post">
-                    {% csrf_token %}
-                    <input name="post_id" type="hidden" value="{{post.id}}"/>
-                    <input name="user_id" type="hidden" value="{{user.id}}"/>
-                    <input name="flag" type="hidden" value="-1"/>
-                    <button type ="submit" class='btn btn-default btn-sm'>Vote Down</button>
-                  </form>
-                </div>
             </div>
           </div>
         </div> 

@@ -20,6 +20,7 @@ from django.views.decorators.csrf import csrf_protect
 def index(request):
     context = {}
     context['posts'] = Post.objects.all()
+    context['userVotes'] = Votes.objects.filter(user=request.user)
     return render(request,'Connect_FMS/index.html', context)
 
 # create new user and log them in
