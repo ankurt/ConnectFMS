@@ -52,7 +52,7 @@ class UserProfile(models.Model):
         userobject = django.contrib.auth.get_user_model().objects.get(id=self.user)
         permissions = [
             ('Can add post'), ('Can change post'), ('Can delete post'), 
-            ('Can add post comment'), ('Can change post comment'), ('Can delete post comment'),
+            ('Connect_FMS.permission.can_add_post_comment'), ('Can change post comment'), ('Can delete post comment'),
             ('Can add status comment'), ('Can change status comment'), ('Can delete status comment'),
             ('Can add likes'), ('Can change likes'), 
             ('Can add votes'), ('Can change votes'),

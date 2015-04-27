@@ -52,9 +52,11 @@ def register(request):
             # set role to student default in UserProfile subclass
             UserProfile.objects.create(user=user, role='student')
 
+            user.addStudentPermissions()
+
             # automatically log them in
             user = auth.authenticate(username=user.username, password=request.POST.get('password', ''))
-            user.addStudentPermissions()
+
             if user is not None:
                 auth.login(request, user)
                 return render(request, 'Connect_FMS/index.html', {'form': AuthenticationForm()})
