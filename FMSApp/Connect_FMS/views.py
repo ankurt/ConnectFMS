@@ -21,6 +21,10 @@ def index(request):
     context = {}
     context['posts'] = Post.objects.all()
     context['userVotes'] = Votes.objects.filter(user=request.user).all()
+    postids = []
+    for vote in context['userVotes']:
+        postids += [vote.post_id]
+    context['postids'] = postids
     return render(request,'Connect_FMS/index.html', context)
 
 # create new user and log them in
