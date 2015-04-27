@@ -49,7 +49,12 @@
                       {% endif %}
                     {% endif %}
                   {% endfor %}
+                {% else %}
+                  <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-up"></i></button>
                 {% endif %}  
+                {% if post.id not in postids %}
+                  <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-up"></i></button>
+                {% endif %} 
               </form>
               <form class="dib" id= "votedown" enctype="multipart/form-data" action="post_vote" method="post">
                 {% csrf_token %}
@@ -66,7 +71,12 @@
                       {% endif %}
                     {% endif %}
                   {% endfor %}
-                {% endif %}  
+                {% else %}
+                  <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-down"></i></button>
+                {% endif %} 
+                {% if post.id not in postids %}
+                  <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-down"></i></button>
+                {% endif %} 
               </form>
             </div>
             <!-- End Casting a Vote -->
