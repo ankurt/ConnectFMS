@@ -50,9 +50,9 @@ def register(request):
             user.save()
 
             # set role to student default in UserProfile subclass
-            UserProfile.objects.create(user=user, role='student')
+            userprofile = UserProfile.objects.create(user=user, role='student')
 
-            user.addStudentPermissions()
+            userprofile.addStudentPermissions()
 
             # automatically log them in
             user = auth.authenticate(username=user.username, password=request.POST.get('password', ''))
