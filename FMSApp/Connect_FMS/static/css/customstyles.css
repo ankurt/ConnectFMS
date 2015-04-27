@@ -6,6 +6,10 @@ body {
     padding-top: 60px;
 }
 
+.greycolor {
+    color: #aaa;
+}
+
 #footer {
     border: none;
     padding-bottom: 0;

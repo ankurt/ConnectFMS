@@ -15,6 +15,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.decorators import permission_required
 
 # home feed page, passes in all posts, votes, and responses
 @login_required
@@ -23,7 +24,7 @@ def index(request):
     context['posts'] = Post.objects.all()
     context['userVotes'] = Votes.objects.filter(user=request.user)
     context['statuses'] = Status.objects.all()
-    context['responses'] = Responses.objects.all()
+    context['responses'] = Response.objects.all()
     return render(request,'Connect_FMS/index.html', context)
 
 # validate and create new user
@@ -53,6 +54,7 @@ def register(request):
 
             # automatically log them in
             user = auth.authenticate(username=user.username, password=request.POST.get('password', ''))
+            user.addStudentPermissions()
             if user is not None:
                 auth.login(request, user)
                 return render(request, 'Connect_FMS/index.html', {'form': AuthenticationForm()})
@@ -95,10 +97,6 @@ def about(request):
     context = {}
     return render(request, 'Connect_FMS/about.html', context)
 
-# def signup(request):
-#     context = {}
-#     return render(request, 'Connect_FMS/signup.html', context)
-
 @login_required
 def details(request, post_id):
     try:
@@ -109,6 +107,7 @@ def details(request, post_id):
         raise Http404("Post does not exist")
     return render(request, 'Connect_FMS/details.html', context)
 
+@permission_required('Connect_FMS.permission.can_add_vote')
 @login_required
 def post_vote(request):
     if request.method == "POST":
@@ -127,6 +126,7 @@ def post_vote(request):
         return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/index.html')
 
+@permission_required('Connect_FMS.permission.can_add_post_comment')
 @login_required
 def submit_comment(request):
     if request.method == 'POST':
@@ -162,7 +162,9 @@ def status_upload(request):
         if form.is_valid():
             new_status = form.save(commit=False)
             new_status.user = request.user
-            new_post.save()
+            new_status.save()
             return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/status_upload.html', {'form': form})
 
+def create_status(request):
+    return render(request, 'Connect_FMS/index.html')

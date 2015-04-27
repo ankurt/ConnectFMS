@@ -50,13 +50,28 @@ class UserProfile(models.Model):
 
     def addStudentPermissions():
         userobject = django.contrib.auth.get_user_model().objects.get(id=self.user)
-        permissions = [('Can vote'), ('Can PostComment'), ('Can ')]
-        userobject.user_permissions.add('Connect_FMS.can_vote')
+        permissions = [
+            ('Can add post'), ('Can change post'), ('Can delete post'), 
+            ('Can add post comment'), ('Can change post comment'), ('Can delete post comment'),
+            ('Can add status comment'), ('Can change status comment'), ('Can delete status comment'),
+            ('Can add likes'), ('Can change likes'), 
+            ('Can add votes'), ('Can change votes'),
+            ]
+        userobject.user_permissions.add(permissions)
         return
 
+    def addFMSPermissions():
+        userobject = django.contrib.auth.get_user_model().objects.get(id=self.user)
+        permissions = [
+            ('Can add status'), ('Can change status'), ('Can delete status'), 
+            ('Can add post comment'), ('Can change post comment'), ('Can delete post comment'),
+            ('Can add status comment'), ('Can change status comment'), ('Can delete status comment'),
+            ]
+        userobject.user_permissions.add(permissions)
+        return
 
-    class Meta:
-        permissions = ()
+    # class Meta:
+    #     permissions = ()
     # objects = models.Manager() # default manager
     # fms_users = FMSUserManager() # fms users
     # student_users = StudentUserManager() # student users
