@@ -62,7 +62,7 @@ def register(request):
                 return render(request, 'Connect_FMS/index.html', {'form': AuthenticationForm()})
             else:
                 HttpResponse('authentication failed')
-                # return render(request, 'Connect_FMS/login.html', {'form': AuthenticationForm()})
+                return render(request, 'Connect_FMS/login.html', {'form': AuthenticationForm()})
         else:
             print 'Form is not valid'
             return render(request, 'Connect_FMS/signup.html', {'form1': RegistrationForm()})
