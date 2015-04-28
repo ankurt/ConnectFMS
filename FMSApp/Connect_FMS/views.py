@@ -102,6 +102,9 @@ def logout(request):
 
 def about(request):
     context = {}
+    userprof = UserProfile.objects.filter(user=request.user).first()
+    if userprof is not None:
+        context['userprof'] =  userprof.role
     return render(request, 'Connect_FMS/about.html', context)
 
 @login_required
@@ -135,17 +138,17 @@ def post_vote(request):
         return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/index.html')
 
-@permission_required('Connect_FMS.permission.can_add_post_comment')
 @login_required
 def submit_comment(request):
     userprof = UserProfile.objects.filter(user=request.user).first()
-    if userprof.role != 'student' or userprof != 'admin' :
+    if userprof.role != 'student' and userprof != 'admin' :
         return render(request, 'Connect_FMS/index.html')
     if request.method == 'POST':
         comment = request.POST.get('description')
         post_id = request.POST.get('post')
         p=Post.objects.get(pk=post_id)
-        PostComment.objects.create(user=request.user, post=p, description=comment)
+        postcomment = PostComment.objects.create(user=request.user, post=p, description=comment)
+        postcomment.save()
         return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/index.html')
 

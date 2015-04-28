@@ -5,7 +5,14 @@
   <div class="fluid-container" >
     <div class="col-md-4 col-sm-6">
     <!-- Mobile Version -->
-    
+      {% for status in statuses %}
+        <div id="{{status.id}}" style="background-color: #daa" class="panel panel-defalt">
+          <div class="panel-body">
+            <h5>{{status.user.get_full_name}}</h5>
+          </div>
+        </div>
+      {% endfor %}
+
     <!-- Populate newsfeed with posts! -->
       {% for post in posts %}
         <div id = "{{post.id}}" class="panel panel-default">
@@ -49,8 +56,6 @@
                       {% endif %}
                     {% endif %}
                   {% endfor %}
-                {% else %}
-                  <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-up"></i></button>
                 {% endif %}  
                 {% if post.id not in postids %}
                   <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-up"></i></button>
@@ -71,8 +76,6 @@
                       {% endif %}
                     {% endif %}
                   {% endfor %}
-                {% else %}
-                  <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-down"></i></button>
                 {% endif %} 
                 {% if post.id not in postids %}
                   <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-down"></i></button>
