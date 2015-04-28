@@ -52,16 +52,22 @@ Released under the MIT license: http://jsbin.mit-license.org
             {% endif %}
           </li>
           <li><a href="{% url 'feed' %}">Newsfeed</a></li>
-          <li>
-            {% if user.role == 'student' %}
+          {% if userprof == 'student' %}
+            <li>
               <a href="{% url 'post_form_upload' %}">Create Post</a>
-            {% elif user.role == 'fms' %}
+            </li>
+          {% elif userprof == 'fms' %}
+            <li>
               <a href="{% url 'status_upload' %}">Post Status</a>
-            {% else %}
+            </li>
+          {% elif userprof == 'admin' %}
+            <li>
               <a href="{% url 'post_form_upload' %}">Create Post</a>
+            </li>
+            <li>
               <a href="{% url 'status_upload' %}">Post Status</a>
-            {% endif %}
-          </li>
+            </li>
+          {% endif %}
           <li><a href="{% url 'about' %}">About</a></li>
         </ul>   
       </div>
