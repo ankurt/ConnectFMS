@@ -60,7 +60,7 @@ Released under the MIT license: http://jsbin.mit-license.org
             <li>
               <a href="{% url 'status_upload' %}">Post Status</a>
             </li>
-          {% elif userprof == 'admin' or userprof == '' or userprof %}
+          {% elif userprof == 'admin' or userprof %}
             <li>
               <a href="{% url 'post_form_upload' %}">Create Post</a>
             </li>
