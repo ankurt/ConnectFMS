@@ -117,7 +117,7 @@ def details(request, post_id):
 @login_required
 def post_vote(request):
     userprof = UserProfile.objects.filter(user=request.user).first()
-    if userprof.role != 'student' or userprof != 'admin' :
+    if userprof.role != 'student' and userprof != 'admin' :
         return render(request, 'Connect_FMS/index.html')
     if request.method == "POST":
         user_id = request.POST.get('user_id', '')
@@ -152,13 +152,13 @@ def submit_comment(request):
 @login_required
 def post_form_upload(request):
     userprof = UserProfile.objects.filter(user=request.user).first()
-    if userprof.role != 'student' or userprof != 'admin' :
+    if (userprof.role != 'student') and (userprof.role != 'admin') :
         return render(request, 'Connect_FMS/index.html')
     if request.method == 'GET':
         form = PostForm()
     elif request.method == 'POST':
         # A POST request: Handle Form Upload
-        form = PostForm(request.POST, request.FILES) 
+        form = PostForm(request.POST, request.FILES)
         # If data is valid, proceeds to create a new post and redirect the user
         if form.is_valid():
             new_post = form.save(commit=False)
@@ -170,8 +170,8 @@ def post_form_upload(request):
 
 @login_required
 def status_upload(request):
-    userprof = UserProfile.objects.filter(user=request.user)
-    if userprof.role != 'fms' or userprof != 'admin' :
+    userprof = UserProfile.objects.filter(user=request.user).first()
+    if userprof.role != 'fms' and userprof != 'admin' :
         return render(request, 'Connect_FMS/index.html')
     if request.method == 'GET':
         form = StatusForm()
