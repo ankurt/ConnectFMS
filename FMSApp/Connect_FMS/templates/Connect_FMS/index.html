@@ -6,7 +6,7 @@
     <div class="col-md-4 col-sm-6">
     <!-- Mobile Version -->
       {% for post in posts %}
-        <div class="panel panel-default">
+        <div id = "{{post.id}}" class="panel panel-default">
           <!-- <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>Profiles</h4></div> -->
           <div class="panel-body">
             <div class="w88 dib">
@@ -32,7 +32,7 @@
             
             <div class="row center-block flr">
             <!-- Cast a Vote -->
-              <form class="dib" id= "voteup" enctype="multipart/form-data" action="post_vote" method= "post">
+              <form class="dib" id= "voteup" enctype="multipart/form-data" action="post_vote#{{post.id}}" method= "post">
                 {% csrf_token %}
                 <input name="post_id" type="hidden" value="{{post.id}}"/>
                 <input name="user_id" type="hidden" value="{{user.id}}"/>
@@ -54,7 +54,7 @@
                   <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-up"></i></button>
                 {% endif %} 
               </form>
-              <form class="dib" id= "votedown" enctype="multipart/form-data" action="post_vote" method="post">
+              <form class="dib" id= "votedown" enctype="multipart/form-data" action="post_vote#{{post.id}}" method="post">
                 {% csrf_token %}
                 <input name="post_id" type="hidden" value="{{post.id}}"/>
                 <input name="user_id" type="hidden" value="{{user.id}}"/>
@@ -97,7 +97,7 @@
               {% endfor %}
 
               <div>
-                <form enctype="multipart/form-data" name="commentForm" action="submit_comment" method="post"> 
+                <form enctype="multipart/form-data" name="commentForm" action="submit_comment#{{post.id}}" method="post"> 
                   {% csrf_token %}
                   <div style="margin-top: 15px;" class="center-block">
                     <label>{{ user.first_name }}:</label><input name="description" placeholder="Write a comment..." class="w80" style="margin-left: 10px; padding-left: 5px;" type="text" onkeydown="if (event.keyCode == 13) submit"/>
