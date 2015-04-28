@@ -56,8 +56,6 @@ def register(request):
             # set role to student default in UserProfile subclass
             userprofile = UserProfile.objects.create(user=user, role='student')
 
-            userprofile.addStudentPermissions()
-
             # automatically log them in
             user = auth.authenticate(username=user.username, password=request.POST.get('password', ''))
 
@@ -96,7 +94,6 @@ def logout(request):
     reg_form = RegistrationForm()
     context = {}
     context['form'] = login_form
-    context['form1'] = reg_form
     return render(request, 'Connect_FMS/login.html', context)
 
 def about(request):
@@ -116,6 +113,9 @@ def details(request, post_id):
 @permission_required('Connect_FMS.permission.can_add_vote')
 @login_required
 def post_vote(request):
+    userprof = UserProfile.objects.get(user=request.user)
+    if userprof.role != 'student' or userprof != 'admin' :
+        return render(request, 'Connect_FMS/index.html')
     if request.method == "POST":
         user_id = request.POST.get('user_id', '')
         post_id = request.POST.get('post_id', '')
@@ -135,6 +135,9 @@ def post_vote(request):
 @permission_required('Connect_FMS.permission.can_add_post_comment')
 @login_required
 def submit_comment(request):
+    userprof = UserProfile.objects.get(user=request.user)
+    if userprof.role != 'student' or userprof != 'admin' :
+        return render(request, 'Connect_FMS/index.html')
     if request.method == 'POST':
         comment = request.POST.get('description')
         post_id = request.POST.get('post')
@@ -145,6 +148,9 @@ def submit_comment(request):
 
 @login_required
 def post_form_upload(request):
+    userprof = UserProfile.objects.get(user=request.user)
+    if userprof.role != 'student' or userprof != 'admin' :
+        return render(request, 'Connect_FMS/index.html')
     if request.method == 'GET':
         form = PostForm()
     elif request.method == 'POST':
@@ -161,6 +167,9 @@ def post_form_upload(request):
 
 @login_required
 def status_upload(request):
+    userprof = UserProfile.objects.get(user=request.user)
+    if userprof.role != 'fms' or userprof != 'admin' :
+        return render(request, 'Connect_FMS/index.html')
     if request.method == 'GET':
         form = StatusForm()
     elif request.method == 'POST':
