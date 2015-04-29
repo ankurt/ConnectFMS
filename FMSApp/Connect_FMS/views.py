@@ -23,8 +23,18 @@ def index(request):
     context = {}
     context['posts'] = Post.objects.all()
     context['userVotes'] = Votes.objects.filter(user=request.user)
-    context['statuses'] = Status.objects.all()
-    context['responses'] = Response.objects.all()
+    allstatuses = Status.objects.all()
+    statuses = []
+    responses = []
+    for status in allstatuses:
+        response = Response.objects.filter(status=status).all()
+        if response is None:
+            statuses += [status]
+        else:
+            for singleresponse in response:
+                responses += [singleresponse]
+    context['statuses'] = statuses
+    context['responses'] = responses
     userprof = UserProfile.objects.filter(user=request.user).first()
     if userprof is not None:
         context['userprof'] =  userprof.role
@@ -198,11 +208,13 @@ def response_upload(request):
         form = StatusForm()
     elif request.method == 'POST':
         form = StatusForm(request.POST, request.FILES)
-        post = Post.objects.get(pk=request.POST.get('post'))
+        post_id = request.POST.get('post')
+        post = Post.objects.get(pk=post_id)
         if form.is_valid():
             new_status = form.save(commit=False)
             new_status.user = request.user
             new_status.save()
-            Response.objects.create(status=new_status, post=post)
+            response = Response.objects.create(status=new_status, post=post)
+            response.save()
             return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/index.html')

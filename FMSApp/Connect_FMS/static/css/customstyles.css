@@ -123,9 +123,21 @@ hr {
     width: 50%;
 }
 
+.morecomments:hover {
+    cursor: pointer;
+}
+
 .torcolor {
     color: #256F5C;
     background-color: #256F5C;
+}
+
+.bggray {
+    background-color: #ecf0f1;
+}
+
+.borderorcolor{
+    border: solid 1px #256F5C;
 }
 
 .orcolor {

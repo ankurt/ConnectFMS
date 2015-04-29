@@ -9,6 +9,7 @@
         <h5>Most Recent</h5>
       </div>
     <!-- Mobile Version -->
+    {{ statuses|length }}
       {% for status in statuses %}
         <div id="{{status.id}}" style="border: solid #ada none;" class="panel panel-defalt">
           <div style="border: solid #ada;" class="panel-body">
@@ -71,7 +72,7 @@
                   <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-up"></i></button>
                 {% endif %} 
               </form>
-              <form class="dib" id= "votedown" enctype="multipart/form-data" action="post_vote#{{post.id}}" method="post">
+              <form class="dib" id= "votedown" enctype="multipart/form-data" action="post_vote#post{{post.id}}" method="post">
                 {% csrf_token %}
                 <input name="post_id" type="hidden" value="{{post.id}}"/>
                 <input name="user_id" type="hidden" value="{{user.id}}"/>
@@ -97,12 +98,25 @@
             <!-- End Casting a Vote -->
 
 
-            <hr>
+
             <!-- Comments Section -->
-            <div style="margin-top: 15px;">
+            <div class="bggray" style="margin-top: 15px;">
+              {% if responses|length == 0 %}
+              {% else %}
+                {% for response in responses %}
+                  {% if response.post_id == post.id %}
+                    <div class="panel-body borderorcolor">
+                      <h6>FMS</h6>
+                      <p id="datetimeofpost" class="ofh">{{ response.status.created_at|date:"g:i A"}} on {{response.status.created_at|date:"l, F j" }}</p>
+                      <hr>
+                      <p>{{ response.status.description }}</p>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
               {% if post.numcomments == 0 %}
               {% else %}
-                <div class="center-block text-center morecomments">
+                <div class="panel-body center-block text-center morecomments">
                   <span>{{post.numcomments}} Comment{% if post.numcomments != 1 %}s{% endif %}</span>
                 </div>
               {% endif %}
@@ -117,7 +131,7 @@
               {% endfor %}
             {% if userprof == 'student' %}
               <div>
-                <form enctype="multipart/form-data" name="commentForm" action="submit_comment#{{post.id}}" method="post"> 
+                <form enctype="multipart/form-data" name="commentForm" action="submit_comment#post{{post.id}}" method="post"> 
                   {% csrf_token %}
                   <div style="margin-top: 15px;" class="center-block">
                     <label>{{ user.first_name }}:</label><input name="description" placeholder="Write a comment..." class="w80" style="margin-left: 10px; padding-left: 5px;" type="text" onkeydown="if (event.keyCode == 13) submit"/>
@@ -135,11 +149,10 @@
                 <div class="panel-body">
                     <div class="w88 dib">
                     <h5>Respond</h5> 
-                    <form enctype="multipart/form-data" action='response_upload' method='post'>
+                    <form enctype="multipart/form-data" action='response_upload#post{{post.id}}' method='post'>
                       {% csrf_token %}
                       {{ statusform }}
                       <input style="display: none;" name="post" value="{{post.id}}"/>
-                      <input style="display: none;" name="post" value="{{post.utility}}"/>
                       <input class="btn btn-primary btn-large"  type='submit' value='Submit' />
                     </form>
                     </div>
@@ -161,7 +174,7 @@
  <script>
 $(document).ready(function(){
   $(".morecomments").click(function(){
-    var comment = $(".hidden");
+    var comment = $(".morecomments").getElementById();
     comment.toggleClass("hidden");
     $(this).toggleClass("hidden");
   });
