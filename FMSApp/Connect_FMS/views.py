@@ -27,11 +27,13 @@ def index(request):
     statuses = []
     responses = []
     responseids = []
+    responsepostids = []
     for status in allstatuses:
         response = Response.objects.filter(status=status).all()
         for singleresponse in response:
             responses += [singleresponse]
             responseids += [singleresponse.status.id]
+            responsepostids += [singleresponse.post.id]
         if status.id not in responseids:
             statuses += [status]
     context['statuses'] = statuses
@@ -45,6 +47,7 @@ def index(request):
     context['postids'] = postids
     form = StatusForm()
     context['statusform'] = form
+    context['responsepostids'] = responsepostids
     return render(request,'Connect_FMS/index.html', context)
 
 # validate and create new user
@@ -115,10 +118,13 @@ def logout(request):
 
 def about(request):
     context = {}
-    userprof = UserProfile.objects.filter(user=request.user).first()
-    if userprof is not None:
-        context['userprof'] =  userprof.role
-    return render(request, 'Connect_FMS/about.html', context)
+    try:
+        userprof = UserProfile.objects.filter(user=request.user).first()
+        if userprof is not None:
+            context['userprof'] =  userprof.role
+        return render(request, 'Connect_FMS/about.html', context)
+    except:
+        return render(request, 'Connect_FMS/about.html', context)
 
 @login_required
 def details(request, post_id):

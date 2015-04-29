@@ -107,15 +107,14 @@
 
             <!-- Comments Section -->
             <div class="bggray" style="margin-top: 15px;">
-              {% if responses|length == 0 %}
+              {% if post.id not in responsepostids %}
               {% else %}
-                <div class="panel-body bgcolor">
+                <div style="margin-bottom: 0;" class="panel-body bgcolor">
                 <h5>FMS Responses</h5>
                 {% for response in responses %}
                   {% if response.post_id == post.id %}
                     <p id="datetimeofpost" class="ofh">{{ response.status.created_at|date:"g:i A"}} on {{response.status.created_at|date:"l, F j" }}</p>
                     <p>{{ response.status.description }}</p>
-                    <hr>
                   {% endif %}
                 {% endfor %}
               </div>
@@ -152,6 +151,7 @@
             <!-- End Comments Section -->
           {% elif userprof == 'fms' %}
     <!-- Mobile Version -->
+              <hr>
               <div>
                 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
                 <div class="panel-body">
