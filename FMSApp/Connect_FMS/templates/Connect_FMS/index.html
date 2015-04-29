@@ -11,6 +11,7 @@
         <h5>Most Recent</h5>
       </div>
     <!-- Mobile Version -->
+    <div>
       {% for status in statuses %}
         <div id="{{status.id}}" class="panel panel-defalt">
           <div style="background-color: #FFF5E0;" class="panel-body">
@@ -21,7 +22,38 @@
               <p> {{status.description}} </p>
             </div>
           </div>
+        {% if status.numcomments == 0 %}
+        {% else %}
+          <div data-postid="statuscomment{{status.id}}" class="panel-body bggray center-block text-center morecomments">
+            <span>{{status.numcomments}} Comment{% if status.numcomments != 1 %}s{% endif %}</span>
+          </div>
+        {% endif %}
+        <div id="statuscomment{{status.id}}" class="bggray row commentsrow hidden commentdivbg">
+        <br>
+        <p><strong> Student Comments</strong> </p>
+        {% for comment in status.getcomments %}
+            <h6 class="dib"> <strong>{{ comment.user.first_name}}</strong> </h6>
+            <h6 class="dib fwlighter" style="margin-bottom: 5px;"> {{ comment.description }} </h6>
+            <p id="datetimeofpost" class="ofh">
+              {{ comment.created_at|date:"g:i A"}} on {{comment.created_at|date:"l, F j" }}
+            </p>
+        {% endfor %}
         </div>
+      {% if userprof == 'student' %}
+        <div class="bggray" style="padding-top: 10px">
+          <form enctype="multipart/form-data" name="commentForm" action="submit_statuscomment#status{{status.id}}" method="post"> 
+            {% csrf_token %}
+            <div style="margin-top: 15px;" class="center-block">
+              <label style="padding-left: 10px;">{{ user.first_name }}:</label><input name="description" placeholder="Write a comment..." class="w88" style="margin-left: 10px; padding-left: 5px; margin-bottom: 10px;" type="text" onkeydown="if (event.keyCode == 13) submit"/>
+              <input style="display: none;" name="status" value="{{ status.id }}"/>
+              <input style="display: none;" type="submit" value="OK">
+            </div>
+          </form>
+        </div>
+      </div>
+      {% else %}
+      </div>
+      {% endif %}
       {% endfor %}
 
     <!-- Populate newsfeed with posts! -->
@@ -121,11 +153,11 @@
               {% endif %}
               {% if post.numcomments == 0 %}
               {% else %}
-                <div data-postid="comment{{post.id}}" class="panel-body center-block text-center morecomments">
+                <div data-postid="postcomment{{post.id}}" class="panel-body center-block text-center morecomments">
                   <span>{{post.numcomments}} Comment{% if post.numcomments != 1 %}s{% endif %}</span>
                 </div>
               {% endif %}
-              <div id="comment{{post.id}}" class="row commentsrow hidden commentdivbg">
+              <div id="postcomment{{post.id}}" class="row commentsrow hidden commentdivbg">
               <br>
               <p><strong> Student Comments</strong> </p>
               {% for comment in post.getcomments %}
@@ -138,7 +170,7 @@
               </div>
             {% if userprof == 'student' %}
               <div>
-                <form enctype="multipart/form-data" name="commentForm" action="submit_comment#post{{post.id}}" method="post"> 
+                <form enctype="multipart/form-data" name="commentForm" action="submit_postcomment#post{{post.id}}" method="post"> 
                   {% csrf_token %}
                   <div style="margin-top: 15px;" class="center-block">
                     <label style="padding-left: 10px;">{{ user.first_name }}:</label><input name="description" placeholder="Write a comment..." class="w88" style="margin-left: 10px; padding-left: 5px; margin-bottom: 10px;" type="text" onkeydown="if (event.keyCode == 13) submit"/>

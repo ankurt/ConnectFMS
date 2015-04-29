@@ -44,17 +44,10 @@ body {
     padding-bottom: 0;
 }
 
-/*#aboutapp {
-    float:left;
-}
-
-#aboutTeam {
-    float: right;
-}*/
-
 .commentsrow {
     margin-right: auto;
-    margin-left: 15px;
+    margin-left:0px;
+    padding-left: 15px;
 }
 
 hr {
@@ -122,6 +115,8 @@ hr {
 .commentbtn {
     width: 50%;
 }
+
+
 
 .morecomments:hover {
     cursor: pointer;

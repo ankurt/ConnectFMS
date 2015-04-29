@@ -158,7 +158,7 @@ def post_vote(request):
     return render(request, 'Connect_FMS/index.html')
 
 @login_required
-def submit_comment(request):
+def submit_postcomment(request):
     userprof = UserProfile.objects.filter(user=request.user).first()
     if userprof.role != 'student' and userprof != 'admin' :
         return render(request, 'Connect_FMS/index.html')
@@ -168,6 +168,20 @@ def submit_comment(request):
         p=Post.objects.get(pk=post_id)
         postcomment = PostComment.objects.create(user=request.user, post=p, description=comment)
         postcomment.save()
+        return HttpResponseRedirect(reverse('feed'))
+    return render(request, 'Connect_FMS/index.html')
+
+@login_required
+def submit_statuscomment(request):
+    userprof = UserProfile.objects.filter(user=request.user).first()
+    if userprof.role != 'student' and userprof != 'admin' :
+        return render(request, 'Connect_FMS/index.html')
+    if request.method == 'POST':
+        comment = request.POST.get('description')
+        status_id = request.POST.get('status')
+        s=Status.objects.get(pk=status_id)
+        statuscomment = StatusComment.objects.create(user=request.user, status=s, description=comment)
+        statuscomment.save()
         return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/index.html')
 

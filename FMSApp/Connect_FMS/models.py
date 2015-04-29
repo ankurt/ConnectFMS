@@ -183,6 +183,12 @@ class Status(models.Model):
     class Meta:
         ordering = ["-created_at"]
 
+    def getcomments(self):
+        return StatusComment.objects.filter(status=self.id).all()
+
+    def numcomments(self):
+        return StatusComment.objects.filter(status=self.id).count()
+
     # def like(status):
     #     status.likes+= 1
     #     status.save(update_fields=["likes"])
