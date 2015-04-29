@@ -1,7 +1,7 @@
 {% extends "Connect_FMS/base.html" %}
 
 {% block content %}
-{% load boostrap %}
+{% load bootstrap %}
 
 
 
@@ -9,8 +9,8 @@
 <!-- User creating an account for the first time  -->
 <div id="page-content">
     <div class="container">
-        <h3>Login</h3>
-        <div class="col-sm-12 col-lg-12">
+        <div class="col-sm-3">
+            <h3>Login</h3>
             <div class="row">
                 <form action='login' method='post'>{% csrf_token %}
                     {{ form | bootstrap }}

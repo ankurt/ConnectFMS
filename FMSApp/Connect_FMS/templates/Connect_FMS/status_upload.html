@@ -13,8 +13,8 @@
               <h5>Post a Status</h5> 
               <form enctype="multipart/form-data" action='status_upload' method='post'>
                 {% csrf_token %}
-                {{ form }}
-                <input class="btn btn-primary btn-large"  type='submit' value='Submit' />
+                {{ form | bootstrap }}
+                <input class="btn btn-primary"  type='submit' value='Submit' />
               </form>
               </div>
           </div>

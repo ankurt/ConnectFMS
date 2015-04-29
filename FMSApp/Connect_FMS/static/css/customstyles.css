@@ -75,7 +75,7 @@ hr {
 }
 
 #votedDown {
-    color: red;
+    color: #CC0000;
 }
 
 #datetimeofpost {
@@ -136,8 +136,8 @@ hr {
     background-color: #ecf0f1;
 }
 
-.borderorcolor{
-    background-color: #A8E4A0;
+.bgcolor{
+    background-color: #EBFFEB;
 }
 
 .orcolor {
