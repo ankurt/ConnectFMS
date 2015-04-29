@@ -137,7 +137,7 @@ hr {
 }
 
 .borderorcolor{
-    border: solid 1px #256F5C;
+    background-color: #A8E4A0;
 }
 
 .orcolor {
@@ -156,6 +156,10 @@ textarea{
     width: 75px;
     height: auto;
     margin-bottom: 5px;
+}
+
+#respond {
+    color: #256F5C;
 }
 
 #aboutTeam p {
