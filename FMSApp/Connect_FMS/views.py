@@ -32,6 +32,8 @@ def index(request):
     for vote in context['userVotes']:
         postids += [vote.post_id]
     context['postids'] = postids
+    form = StatusForm()
+    context['statusform'] = form
     return render(request,'Connect_FMS/index.html', context)
 
 # validate and create new user
@@ -187,5 +189,20 @@ def status_upload(request):
             return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/status_upload.html', {'form': form})
 
-def create_status(request):
+@login_required
+def response_upload(request):
+    userprof = UserProfile.objects.filter(user=request.user).first()
+    if userprof.role != 'fms' and userprof != 'admin' :
+        return render(request, 'Connect_FMS/index.html')
+    if request.method == 'GET':
+        form = StatusForm()
+    elif request.method == 'POST':
+        form = StatusForm(request.POST, request.FILES)
+        post = Post.objects.get(pk=request.POST.get('post'))
+        if form.is_valid():
+            new_status = form.save(commit=False)
+            new_status.user = request.user
+            new_status.save()
+            Response.objects.create(status=new_status, post=post)
+            return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/index.html')

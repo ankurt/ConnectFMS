@@ -10,6 +10,10 @@ body {
     color: #aaa;
 }
 
+.panel {
+    border: none;
+}
+
 #footer {
     border: none;
     padding-bottom: 0;
@@ -85,6 +89,18 @@ hr {
 
 .w10 {
     width: 10%;
+}
+
+.w30 {
+    width: 30%;
+}
+
+.w68 {
+    width: 68%;
+}
+
+.w70 {
+    width: 70%;
 }
 
 .w88 {

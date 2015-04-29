@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     url(r'^signup', views.register, name='signup'),
     url(r'^feed/submit_comment', views.submit_comment, name='submit_comment'),
     url(r'^status_upload', views.status_upload, name='status_upload'),
-    url(r'^create_response', views.create_status, name='create_response'),
+    url(r'^feed/response_upload', views.response_upload, name='response_upload'),
 )
 
 urlpatterns += staticfiles_urlpatterns()
