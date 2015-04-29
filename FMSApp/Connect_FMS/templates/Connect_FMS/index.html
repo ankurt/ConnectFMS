@@ -25,6 +25,11 @@
 
     <!-- Populate newsfeed with posts! -->
       {% for post in posts %}
+      {% if post.hoursago < 1 %}
+        <div>
+          <h5>1 Hour Ago</h5>
+        </div>
+      {% endif %}
         <div id = "post{{post.id}}" class="panel panel-default">
           <!-- <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>Profiles</h4></div> -->
           <div class="panel-body">
@@ -143,6 +148,7 @@
             </div>
             <!-- End Comments Section -->
           {% elif userprof == 'fms' %}
+      }
     <!-- Mobile Version -->
               <div>
                 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
