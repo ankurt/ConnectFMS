@@ -124,8 +124,9 @@
                   <span>{{post.numcomments}} Comment{% if post.numcomments != 1 %}s{% endif %}</span>
                 </div>
               {% endif %}
+              <div id="comment{{post.id}}" class="row commentsrow hidden">
               {% for comment in post.getcomments %}
-                <div id="comment{{post.id}}" class="row commentsrow hidden">
+                <div>
                   <h6 class="dib"> <strong>{{ comment.user.first_name}}</strong> </h6>
                   <h6 class="dib fwlighter" style="margin-bottom: 5px;"> {{ comment.description }} </h6>
                   <p id="datetimeofpost" class="ofh">
@@ -133,6 +134,7 @@
                   </p>
                 </div>
               {% endfor %}
+              </div>
             {% if userprof == 'student' %}
               <div>
                 <form enctype="multipart/form-data" name="commentForm" action="submit_comment#post{{post.id}}" method="post"> 
@@ -178,11 +180,12 @@
  <script>
 $(document).ready(function(){
   $(".morecomments").click(function(){
-    var comment = $(".morecomments");
     var postid = $(this).attr("data-postid");
-    $("#comment" + postid).removeClass("hidden");
-    $(this).removeClass("hidden");
-    comment.toggleClass("hidden");
+    $(".commentsrow").addClass("hidden");
+    $("#" + postid).removeClass("hidden");
+    $(".morecomments").removeClass("hidden")
+    $(this).addClass("hidden");
+    // comment.toggleClass("hidden");
   });
 });
 </script>
