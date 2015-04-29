@@ -26,13 +26,14 @@ def index(request):
     allstatuses = Status.objects.all()
     statuses = []
     responses = []
+    responseids = []
     for status in allstatuses:
         response = Response.objects.filter(status=status).all()
-        if response is None:
+        for singleresponse in response:
+            responses += [singleresponse]
+            responseids += [singleresponse.status.id]
+        if status.id not in responseids:
             statuses += [status]
-        else:
-            for singleresponse in response:
-                responses += [singleresponse]
     context['statuses'] = statuses
     context['responses'] = responses
     userprof = UserProfile.objects.filter(user=request.user).first()
@@ -216,5 +217,7 @@ def response_upload(request):
             new_status.save()
             response = Response.objects.create(status=new_status, post=post)
             response.save()
+            return HttpResponseRedirect(reverse('feed'))
+        else:
             return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/index.html')
