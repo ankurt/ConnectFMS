@@ -159,7 +159,7 @@
               {% endif %}
               <div id="postcomment{{post.id}}" class="row commentsrow hidden commentdivbg">
               <br>
-              <p><strong> Student Comments</strong> </p>
+              <p><em>Student Comments</em> </p>
               {% for comment in post.getcomments %}
                   <h6 class="dib"> <strong>{{ comment.user.first_name}}</strong> </h6>
                   <h6 class="dib fwlighter" style="margin-bottom: 5px;"> {{ comment.description }} </h6>

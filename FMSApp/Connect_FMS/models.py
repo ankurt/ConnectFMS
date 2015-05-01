@@ -24,21 +24,6 @@ STATUS_CHOICES = (
 STATES_CHOICES = (('AL', 'Alabama'), ('AK', 'Alaska'), ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'), ('CO', 'Colorado'), ('CT', 'Connectict'), ('DE', 'Delaware'), ('DC', 'District of Columbia '), ('FL', 'Florida'), ('GA', 'Georgia'), ('HI', 'Hawaii'), ('ID', 'Idaho'), ('IL', 'Illinois'), ('IN', 'Indiana'), ('IA', 'Iowa'), ('KS', 'Kansas'), ('KY', 'Kentucky'), ('LA', 'Louisiana'), ('ME', 'Maine'), ('MD', 'Maryland'), ('MA', 'Massachusetts'), ('MI', 'Michigan'), ('MN', 'Minnesota'), ('MS', 'Mississippi'), ('MO', 'Missouri'), ('MT', 'Montana'), ('NE', 'Nebraska'), ('NV', 'Nevada'), ('NH', 'New Hampshire'), ('NJ', 'New Jersey'), ('NM', 'New Mexico'), ('NY', 'New York'), ('NC', 'North Carolina'), ('ND', 'North Dakota'), ('OH', 'Ohio'), ('OK', 'Oklahoma'), ('OR', 'Oregon'), ('PA', 'Pennsylvania'), ('RI', 'Rhode Island'), ('SC', 'South Carolina'), ('SD', 'South Dakota'), ('TN', 'Tennessee'), ('TX', 'Texas'), ('UT', 'Utah'), ('VT', 'Vermont'), ('VA', 'Virginia'), ('WA', 'Washington'), ('WV', 'West Virginia'), ('WI', 'Wisconsin '), ('WY', 'Wyoming'))
 
 
-
-# class FMSUserManager(models.Manager):
-#     def get_queryset(self):
-#         return super(FMSUserManager, self).get_queryset().filter(role='fms').order_by('last_name', 'first_name')
-
-# class StudentUserManager(models.Manager):
-#     def get_queryset(self):
-#         return super(StudentUserManager, self).get_queryset().filter(role='student').order_by('last_name', 'first_name')
-
-# class AdminUserManager(models.Manager):
-#     def get_queryset(self):
-#         return super(AdminUserManager, self).get_queryset().filter(role='admin').order_by('last_name', 'first_name')
-
-
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     role = models.CharField(
@@ -70,12 +55,6 @@ class UserProfile(models.Model):
         userobject.user_permissions.add(permissions)
         return
 
-    # class Meta:
-    #     permissions = ()
-    # objects = models.Manager() # default manager
-    # fms_users = FMSUserManager() # fms users
-    # student_users = StudentUserManager() # student users
-    # admin_users = AdminUserManager() # student users
 
 class Building(models.Model):
     name = models.CharField(max_length = 50, blank = False)
@@ -96,19 +75,18 @@ class Building(models.Model):
     class Meta:
         ordering = ["name"]
 
+
 class Location(models.Model):
     name = models.CharField(max_length = 50, blank = False)
     building = models.ForeignKey(Building, null = True, blank = True)
     description = models.CharField(max_length=600, blank = True)
-    # latitude = models.IntegerField(default=0)
-    # latitude = models.IntegerField(default=0)
 
     def __str__(self):
         return self.building.name + " " + self.name
 
-    # 
     class Meta:
         ordering = ["building__name"]
+
 
 class Utility(models.Model):
     name = models.CharField(max_length = 30, blank = False)
@@ -169,8 +147,6 @@ class Votes(models.Model):
     user = models.ForeignKey(User)
     post = models.ForeignKey(Post)
 
-# class VotesUser(Votes):
-
 
 class Status(models.Model):
     user = models.ForeignKey(User)
@@ -217,7 +193,6 @@ class Comment(PolymorphicModel):
 
     class Meta:
         ordering = ["created_at"]
-
 
 class StatusComment(Comment):
     status = models.ForeignKey(Status)

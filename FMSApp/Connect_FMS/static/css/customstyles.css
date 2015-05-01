@@ -1,3 +1,10 @@
+@media screen and (min-width: 768px) {
+  /* do not show it on big screens */
+  .navbar-header ul#posticon { 
+    display: none;
+     }   
+}
+
 .center-text {
     text-align: center;
 }
@@ -116,8 +123,6 @@ hr {
     width: 50%;
 }
 
-
-
 .morecomments:hover {
     cursor: pointer;
 }
@@ -167,3 +172,10 @@ img {
     width:100%;
     max-width: 500px;
 }
+
+#writepost {
+    color: white;
+    font-size: 175%;
+    padding-top: 5px;
+}
+

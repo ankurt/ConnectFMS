@@ -41,6 +41,24 @@ Released under the MIT license: http://jsbin.mit-license.org
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand orcolor" href="/Connect_FMS">Connect FMS</a>
+        <ul class= "nav pull-right" id="posticon">
+          {% if userprof == 'student' %}
+            <li>
+              <a href="{% url 'post_form_upload' %}"><i id="writepost" class="fa fa-pencil-square-o"></i></a>
+            </li>
+          {% elif userprof == 'fms' %}
+            <li>
+              <a href="{% url 'status_upload' %}"><i id="writepost" class="fa fa-pencil-square-o"></i></a>
+            </li>
+          {% elif userprof == 'admin' or userprof %}
+            <li>
+              <a href="{% url 'post_form_upload' %}"><i id="writepost" class="fa fa-pencil-square-o"></i></a>
+            </li>
+            <li>
+              <a href="{% url 'status_upload' %}"><i id="writepost" class="fa fa-pencil-square-o"></i></a>
+            </li>
+          {% endif %}
+        </ul>
       </div>
       <div class= "collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
