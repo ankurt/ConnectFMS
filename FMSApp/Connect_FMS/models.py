@@ -31,7 +31,7 @@ class UserProfile(models.Model):
         blank = False, 
         choices = ROLE_CHOICES,
         default = 'student')
-    image = models.ImageField(upload_to = "images/profilepics/%Y/%m/%d", blank = True)
+    image = models.FileField(upload_to = "images/profilepics/%Y/%m/%d", blank = True)
 
     def addStudentPermissions():
         userobject = django.contrib.auth.get_user_model().objects.get(id=self.user)
@@ -109,7 +109,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add = True, editable = False)
     description = models.CharField(max_length = 200, blank = False)
     utility = models.ForeignKey(Utility)
-    image = models.ImageField(upload_to = 'images/posts/%Y/%m/%d', blank = True, null = True)
+    image = models.FileField(upload_to = 'images/posts/%Y/%m/%d', blank = True, null = True)
     objects = models.Manager() # default manager
     FMS_posts = FMSPostManager() # posts for FMS to view
 
@@ -152,7 +152,7 @@ class Status(models.Model):
     user = models.ForeignKey(User)
     description = models.CharField(max_length = 600, blank = False)
     created_at = models.DateTimeField(auto_now_add = True, editable = False)
-    image = models.ImageField(upload_to = 'images/statuspics/%Y/%m/%d', blank = True, null = True)
+    image = models.FileField(upload_to = 'images/statuspics/%Y/%m/%d', blank = True, null = True)
     utility = models.ForeignKey(Utility)
     numlikes = models.IntegerField(default = 0)
 
