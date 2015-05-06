@@ -1,0 +1,26 @@
+{% extends "Connect_FMS/base.html" %}
+
+{% block content %}
+{% load bootstrap %}
+
+
+<!-- Form for user creating an account for the first time  -->
+<div id="page-content">
+    <div class="container">
+        <div class="col-sm-3">
+            <h3>Login</h3>
+            <div class="row">
+                <form action='login' method='post'>{% csrf_token %}
+                    {{ form | bootstrap }}
+                     <button type="submit" class="btn btn-default btn-sm">Submit</button>
+                </form>
+            <br><br>
+            <p> New User? Sign up <a href="{% url 'signup' %}">here</a>! </p>
+            </div>
+        </div> 
+    </div>
+</div>
+
+
+{% endblock %}
+

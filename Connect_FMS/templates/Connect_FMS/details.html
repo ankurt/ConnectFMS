@@ -1,0 +1,51 @@
+{% extends 'Connect_FMS/base.html' %}
+{% block content %}
+
+<!-- Detail view of posts -->
+<div id="page-content">
+<div class="fluid-container" >
+    <div class="col-md-4 col-sm-6">
+        <div class="panel panel-default">
+          <div class="panel-body">
+              <div class="w88 dib">
+                <h5 class="noborder nopadbot media-heading nomargbot">{{singlepost.user.first_name}} {{singlepost.user.last_name}}</h5>
+                <span id="datetimeofsinglepost" class="ofh"> {{singlepost.created_at|date:"g:i A"}} on {{singlepost.created_at|date:"l, F j"}}</span>
+              </div>
+              <div class="w10 dib">
+                <p> {{singlepost.votes}} </p>
+              </div>
+            <hr>
+            <p class="ofh"> {{singlepost.description}}</p>
+            <div class="row">
+              <a class="db thumbnail w88 center-block" href="#">
+                <img class="img-responsive center-block" src="{{singlepost.image}}">
+              </a>
+            </div>
+            <div class="row">
+              <p>
+                <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-comment"></span> Comments</a>
+                 <ul>
+                	{%for comment in post.status%}
+                	<li><p>{{ comment}}</p></li>
+                            {%endfor%}
+               	 </ul>
+              </p>
+            </div>
+          </div>
+            <div class="row">
+              <p>
+                <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-comment"></span> Comments</a>
+                 <ul>
+                	{%for comment in post.comments%}
+                	<li><p>{{comment}}</p></li>
+                  {% endfor %}
+               	 </ul>
+              </p>
+            </div>
+          </div>
+        </div> 
+    </div>
+  </div>
+</div>
+
+ {% endblock %}

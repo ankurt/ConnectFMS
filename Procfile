@@ -1,0 +1,1 @@
+web: gunicorn FMSApp.wsgi --log-file -

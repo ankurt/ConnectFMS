@@ -1,0 +1,181 @@
+@media screen and (min-width: 768px) {
+  /* do not show it on big screens */
+  .navbar-header ul#posticon { 
+    display: none;
+     }   
+}
+
+.center-text {
+    text-align: center;
+}
+
+body {
+    padding-top: 60px;
+}
+
+.greycolor {
+    color: #aaa;
+}
+
+.panel {
+    border: none;
+}
+
+#footer {
+    border: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.ofh {
+    overflow: ellipsis;
+}
+
+.dib {
+    display: inline-block;
+}
+
+.db {
+    display: block;
+}
+
+.noborder{
+    border: none;
+}
+
+.nomargbot {
+    margin-bottom: 0;
+}
+
+.nopadbot {
+    padding-bottom: 0;
+}
+
+.commentsrow {
+    margin-right: auto;
+    margin-left:0px;
+    padding-left: 15px;
+}
+
+hr {
+    margin: 5px 0px;
+}
+
+.flr {
+    float: right;
+}
+
+#voteButton {
+    border-style: none;
+    font-size: 130%
+}
+
+#votedUp {
+    color: green;
+}
+
+#votedDown {
+    color: #CC0000;
+}
+
+#datetimeofpost {
+    color: #AAA;
+    font-size: 10px;
+}
+
+.fixed {
+    position: fixed;
+}
+
+.w10 {
+    width: 10%;
+}
+
+.w30 {
+    width: 30%;
+}
+
+.w68 {
+    width: 68%;
+}
+
+.w70 {
+    width: 70%;
+}
+
+.w88 {
+    width: 88%;
+}
+
+.w60 {
+    width: 60%;
+}
+
+.w80 {
+    width: 80%;
+}
+
+.w100 {
+    width: 100%;
+}
+
+.commentbtn {
+    width: 50%;
+}
+
+.morecomments:hover {
+    cursor: pointer;
+}
+
+.torcolor {
+    color: #256F5C;
+    background-color: #256F5C;
+}
+
+.bggray {
+    background-color: #ecf0f1;
+}
+
+.bgcolor{
+    background-color: #EBFFEB;
+}
+
+.orcolor {
+    color: #FFA500 !important;
+}
+
+.fwlighter {
+    font-weight: lighter;
+}
+
+textarea{
+    width: 100%;
+}
+
+#aboutTeam img{
+    width: 75px;
+    height: auto;
+    margin-bottom: 5px;
+}
+
+#respond {
+    color: #256F5C;
+}
+
+#aboutTeam p {
+    text-align: center;
+    font-size: 80%;
+    text-decoration: none;
+}
+
+img {
+    width:100%;
+    max-width: 500px;
+}
+
+#writepost {
+    color: white;
+    font-size: 175%;
+    padding-top: 5px;
+}
+
