@@ -90,6 +90,7 @@ def register(request):
             return render(request, 'Connect_FMS/signup.html', {'form1': RegistrationForm()})
     return render(request, 'Connect_FMS/signup.html', {'form1': reg_form})
 
+# login action
 def login(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect( 'feed/')
@@ -108,6 +109,7 @@ def login(request):
             return HttpResponseRedirect('login.html')
     return render(request, 'Connect_FMS/login.html', {'form':login_form})
 
+# logout action
 def logout(request):
     auth.logout(request)
     login_form = AuthenticationForm()
@@ -116,6 +118,7 @@ def logout(request):
     context['form'] = login_form
     return render(request, 'Connect_FMS/login.html', context)
 
+# about page view
 def about(request):
     context = {}
     try:
@@ -126,6 +129,7 @@ def about(request):
     except:
         return render(request, 'Connect_FMS/about.html', context)
 
+# details page view
 @login_required
 def details(request, post_id):
     try:
@@ -136,6 +140,7 @@ def details(request, post_id):
         raise Http404("Post does not exist")
     return render(request, 'Connect_FMS/details.html', context)
 
+# casting vote form
 @login_required
 def post_vote(request):
     userprof = UserProfile.objects.filter(user=request.user).first()
@@ -157,6 +162,7 @@ def post_vote(request):
         return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/index.html')
 
+# submit comment to post
 @login_required
 def submit_postcomment(request):
     userprof = UserProfile.objects.filter(user=request.user).first()
@@ -171,6 +177,7 @@ def submit_postcomment(request):
         return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/index.html')
 
+# submit comment to status 
 @login_required
 def submit_statuscomment(request):
     userprof = UserProfile.objects.filter(user=request.user).first()
@@ -185,6 +192,7 @@ def submit_statuscomment(request):
         return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/index.html')
 
+# submit post form 
 @login_required
 def post_form_upload(request):
     userprof = UserProfile.objects.filter(user=request.user).first()
@@ -204,6 +212,7 @@ def post_form_upload(request):
             return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/post_form_upload.html', {'form': form})
 
+# submit status form
 @login_required
 def status_upload(request):
     userprof = UserProfile.objects.filter(user=request.user).first()
@@ -220,6 +229,7 @@ def status_upload(request):
             return HttpResponseRedirect(reverse('feed'))
     return render(request, 'Connect_FMS/status_upload.html', {'form': form})
 
+# submit response form
 @login_required
 def response_upload(request):
     userprof = UserProfile.objects.filter(user=request.user).first()

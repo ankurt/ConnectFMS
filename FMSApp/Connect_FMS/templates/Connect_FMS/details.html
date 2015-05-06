@@ -1,12 +1,11 @@
 {% extends 'Connect_FMS/base.html' %}
 {% block content %}
 
+<!-- Detail view of posts -->
 <div id="page-content">
 <div class="fluid-container" >
     <div class="col-md-4 col-sm-6">
-    <!-- Mobile Version -->
         <div class="panel panel-default">
-          <!-- <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>Profiles</h4></div> -->
           <div class="panel-body">
               <div class="w88 dib">
                 <h5 class="noborder nopadbot media-heading nomargbot">{{singlepost.user.first_name}} {{singlepost.user.last_name}}</h5>
@@ -26,10 +25,10 @@
               <p>
                 <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-comment"></span> Comments</a>
                  <ul>
-    	{%for comment in post.status%}
-    	<li><p>{{ comment}}</p></li>
-                {%endfor%}
-   	 </ul>
+                	{%for comment in post.status%}
+                	<li><p>{{ comment}}</p></li>
+                            {%endfor%}
+               	 </ul>
               </p>
             </div>
           </div>
@@ -37,10 +36,10 @@
               <p>
                 <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-comment"></span> Comments</a>
                  <ul>
-    	{%for comment in post.comments%}
-    	<li><p>{{comment}}</p></li>
-      {% endfor %}
-   	 </ul>
+                	{%for comment in post.comments%}
+                	<li><p>{{comment}}</p></li>
+                  {% endfor %}
+               	 </ul>
               </p>
             </div>
           </div>

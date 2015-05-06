@@ -186,6 +186,8 @@ class Response(models.Model):
     created_at = models.DateTimeField(auto_now_add = True, editable = False)
 
 
+# Polymorphic Comment model
+# StatusComment and PostComment inherit from Comment model
 class Comment(PolymorphicModel):
     user = models.ForeignKey(User)
     description = models.CharField(max_length = 600)

@@ -12,6 +12,7 @@
       </div>
     <!-- Mobile Version -->
     <div>
+      <!-- Populate newsfeed with statuses -->
       {% for status in statuses %}
         <div id="{{status.id}}" class="panel panel-defalt">
           <div style="background-color: #FFF5E0;" class="panel-body">
@@ -22,6 +23,7 @@
               <p> {{status.description}} </p>
             </div>
           </div>
+        <!-- Display comments for status if there are any -->
         {% if status.numcomments == 0 %}
         {% else %}
           <div data-postid="statuscomment{{status.id}}" class="panel-body bggray center-block text-center morecomments">
@@ -39,6 +41,7 @@
             </p>
         {% endfor %}
         </div>
+      <!-- If user is a student, display comment form for status-->
       {% if userprof == 'student' %}
         <div class="bggray" style="padding-top: 10px">
           <form enctype="multipart/form-data" name="commentForm" action="submit_statuscomment#status{{status.id}}" method="post"> 
@@ -58,11 +61,6 @@
 
     <!-- Populate newsfeed with posts! -->
       {% for post in posts %}
-<!--       {% if post.hoursago < 1 %}
-        <div>
-          <h5>1 Hour Ago</h5>
-        </div>
-      {% endif %} -->
         <div id = "post{{post.id}}" class="panel panel-default">
           <!-- <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>Profiles</h4></div> -->
           <div class="panel-body">
@@ -70,6 +68,7 @@
               <h5 class="noborder nopadbot media-heading nomargbot">{{post.user.get_full_name}}</h5>
               <span id="datetimeofpost" class="ofh"> {{post.created_at|date:"g:i A"}} on {{post.created_at|date:"l, F j"}}</span>
             </div>
+            <!-- Dispaly number of votes for a post -->
             <div class="w40 dib flr">
               <p> Current Votes: {{post.numvotes}} </p>
             </div>
@@ -78,7 +77,7 @@
             {% if not post.image %}
             {% else %}
               <div class="row">
-                <a class="db thumbnail w88 center-block" href="{% url 'detail' 'post.id' %">
+                <a class="db thumbnail w88 center-block">
                   <img src="../{{ post.image.url }}" alt="yolo"></img>
                 </a>
               </div>
@@ -90,42 +89,52 @@
             <!-- Cast a Vote -->        
           {% if userprof == 'student' %}
             <div class="row center-block flr">
+              <!-- to display thumbs up vote button -->
               <form class="dib" id= "voteup" enctype="multipart/form-data" action="post_vote#post{{post.id}}" method= "post">
                 {% csrf_token %}
                 <input name="post_id" type="hidden" value="{{post.id}}"/>
                 <input name="user_id" type="hidden" value="{{user.id}}"/>
                 <input name="flag" type="hidden" value="1"/>
+                <!-- if user has cast any votes on any posts -->
                 {% if userVotes %}
                   {% for vote in userVotes %}
+                    <!-- if the user didn't vost or voted down show the thumbs up as grey -->
                     {% if vote.post_id == post.id %}
                       {% if vote.vote == 0 or vote.vote == -1 %}
                         <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-up"></i></button>
+                      <!-- if the user voted up show the thumbs up as green -->
                       {% elif vote.vote == 1 %}
                         <button id= "voteButton" type ="submit" class='btn btn-default btn-s '><i id="votedUp"class="fa fa-thumbs-up"></i></button>
                       {% endif %}
                     {% endif %}
                   {% endfor %}
                 {% endif %}  
+                <!-- if user has not cast a vote for the post -->
                 {% if post.id not in postids %}
                   <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-up"></i></button>
                 {% endif %} 
               </form>
+              <!-- to display thumbs down vote button -->
               <form class="dib" id= "votedown" enctype="multipart/form-data" action="post_vote#post{{post.id}}" method="post">
                 {% csrf_token %}
                 <input name="post_id" type="hidden" value="{{post.id}}"/>
                 <input name="user_id" type="hidden" value="{{user.id}}"/>
                 <input name="flag" type="hidden" value="-1"/>
+                <!-- if user has cast any votes on any posts -->
                 {% if userVotes %}
                   {% for vote in userVotes %}
                     {% if vote.post_id == post.id %}
+                      <!-- if the user didn't vost or voted up show the thumbs up as grey -->
                       {% if vote.vote == 0 or vote.vote == 1 %}
                         <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-down"></i></button>
+                        <!-- if the user voted down show the thumbs up as red -->
                       {% elif vote.vote == -1 %}
                         <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i id= "votedDown"class="fa fa-thumbs-down"></i></button>
                       {% endif %}
                     {% endif %}
                   {% endfor %}
                 {% endif %} 
+                <!-- if user has not cast a vote for the post -->
                 {% if post.id not in postids %}
                   <button id= "voteButton" type ="submit" class='btn btn-default btn-s'><i class="fa fa-thumbs-down"></i></button>
                 {% endif %} 
@@ -135,10 +144,9 @@
           {% endif %}
             <!-- End Casting a Vote -->
 
-
-
             <!-- Comments Section -->
             <div class="bggray" style="margin-top: 15px;">
+              <!-- if there are FMS responses to a post, place them below the description of the post -->
               {% if post.id not in responsepostids %}
               {% else %}
                 <div style="margin-bottom: 0;" class="panel-body bgcolor">
@@ -151,6 +159,7 @@
                 {% endfor %}
               </div>
               {% endif %}
+              <!-- put student comments below FMS responses -->
               {% if post.numcomments == 0 %}
               {% else %}
                 <div data-postid="postcomment{{post.id}}" class="panel-body center-block text-center morecomments">
@@ -168,21 +177,25 @@
                   </p>
               {% endfor %}
               </div>
+            <!-- End Comments Section -->
+
+            <!-- Comment/Response Forms -->
+            <!--  if student is the current user display the commment form below the post -->
             {% if userprof == 'student' %}
               <div>
                 <form enctype="multipart/form-data" name="commentForm" action="submit_postcomment#post{{post.id}}" method="post"> 
                   {% csrf_token %}
                   <div style="margin-top: 15px;" class="center-block">
-                    <label style="padding-left: 10px;">{{ user.first_name }}:</label><input name="description" placeholder="Write a comment..." class="w88" style="margin-left: 10px; padding-left: 5px; margin-bottom: 10px;" type="text" onkeydown="if (event.keyCode == 13) submit"/>
+                    <label style="padding-left: 10px; padding-top: 10px;">{{ user.first_name }}:</label><input name="description" placeholder="Write a comment..." class="w88" style="margin-left: 10px; padding-left: 5px; margin-bottom: 10px;" type="text" onkeydown="if (event.keyCode == 13) submit"/>
                     <input style="display: none;" name="post" value="{{ post.id }}"/>
                     <input style="display: none;" type="submit" value="OK">
                   </div>
                 </form>
               </div>
             </div>
-            <!-- End Comments Section -->
+            
+           <!--  if fms is the current user display the response form below the post -->
           {% elif userprof == 'fms' %}
-    <!-- Mobile Version -->
               <hr>
               <div>
                 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
@@ -200,7 +213,7 @@
               </div> 
             </div>
           {% endif %}
-
+          <!-- End Comment/Response Forms -->
           </div>
         </div> 
       {% empty %}

@@ -5,9 +5,6 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Building, Location, Utility, Post, Status, Comment
 from django.contrib.auth.models import User
 
-# class LoginForm(AuthenticationForm):
-#     class Meta:
-#         model = User
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required = True)
@@ -65,10 +62,8 @@ class UtilityForm(forms.ModelForm):
 
 
 class PostForm(forms.ModelForm):
-    # user = forms.ModelChoiceField(queryset = User.objects.all())#, widget = forms.HiddenInput)
     location = forms.ModelChoiceField(queryset = Location.objects.all())
     utility = forms.ModelChoiceField(queryset = Utility.objects.all())
-
 
     class Meta:
         model = Post
@@ -81,8 +76,6 @@ class PostForm(forms.ModelForm):
 
 
 class StatusForm(forms.ModelForm):
-    # user = forms.ModelChoiceField(queryset = User.objects.all())
-    # created_at = forms.DateTimeField(widget = forms.HiddenInput())
     utility = forms.ModelChoiceField(queryset = Utility.objects.all())
 
     class Meta:
@@ -93,18 +86,3 @@ class StatusForm(forms.ModelForm):
             'description': forms.Textarea(),
             'user': forms.HiddenInput(),
         }
-
-# class CommentForm(forms.ModelForm):
-#     class Meta:
-#         model = Comment
-#         fields = ('description')
-
-#     def __init__(self, *args, **kwargs):
-#         self.type_of_post_id = kwargs.pop('type_of_post_id')   # the post instance
-#         super().__init__(*args, **kwargs)
-
-#     def save(self):
-#         comment = super().save(commit=False)
-#         comment.type_of_post_id = self.type_of_post_id
-#         comment.save()
-#         return comment
